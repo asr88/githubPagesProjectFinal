@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solventa · Registrar socio — F2.1</title>
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="console">
+
+  <aside class="console-sidebar">
+    <a href="../index.html" class="brand" style="text-decoration:none;"><img src="../assets/logo-mark-inverse.svg" alt="" width="24" height="24"><span>Solventa</span></a>
+    <nav class="console-nav">
+      <a href="registrar-socio.html" class="current">Socios</a>
+      <a href="nuevo-prospecto.html">Prospectos</a>
+      <a href="seguimiento-ventas.html">Seguimiento</a>
+      <a href="../e5-polizas/polizas.html">Pólizas</a>
+    </nav>
+    <div class="foot">operaciones · vigilado por la sfc</div>
+  </aside>
+
+  <div class="console-main">
+    <div class="console-topbar">
+      <div><div class="crumb">socios · f2.1</div><h1>Registrar socio de distribución</h1></div>
+      <a href="socios.html" class="btn btn-secondary btn-sm">Ver socios existentes</a>
+    </div>
+
+    <div class="console-content" style="max-width:720px;">
+      <form onsubmit="location.href='socios.html'; return false;">
+        <div class="card">
+          <div class="card-header"><div class="kicker">datos del socio</div></div>
+          <div class="card-body" style="display:flex; flex-direction:column; gap:var(--space-9);">
+            <div class="grid-2">
+              <div class="field"><label>Razón social</label><input class="input" placeholder="Bancolombia S.A." required></div>
+              <div class="field"><label>NIT</label><input class="input" placeholder="890.903.938-8" required></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label>Tipo de canal</label>
+                <select class="input"><option>Banco</option><option>E-commerce</option><option>Fintech</option></select>
+              </div>
+              <div class="field"><label>Contacto técnico (correo)</label><input class="input" type="email" placeholder="integraciones@banco.com" required></div>
+            </div>
+            <div class="field"><label>Alcance de integración</label><textarea class="input" style="height:80px; padding-top:var(--space-4);" placeholder="Cotización y venta asistida de ramo viaje en canal digital."></textarea></div>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:var(--space-9);">El socio queda en estado <strong>pendiente de activación</strong> hasta que operaciones lo apruebe. Solo después puede consumir la API de integración.</div>
+
+        <div style="display:flex; gap:var(--space-7); margin-top:var(--space-10);">
+          <a href="socios.html" class="btn btn-secondary" style="flex:1;">Cancelar</a>
+          <button type="submit" class="btn btn-primary" style="flex:1;">Registrar socio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solventa · Prototipo navegable</title>
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .hero { background: var(--surface-inverse); color: var(--text-on-inverse); padding: var(--space-24) var(--gutter); }
+  .hero-inner { max-width: var(--content-max); margin: 0 auto; }
+  .hero .brand { display: flex; align-items: center; gap: var(--space-5); }
+  .hero .brand span { font-family: var(--font-display); font-weight: 700; font-size: var(--size-h4); color: var(--slv-white); }
+  .hero h1 { color: var(--slv-white); font-size: var(--size-h1-min); margin-top: var(--space-14); max-width: 22ch; }
+  .hero p { color: var(--text-on-inverse-muted); font-size: var(--size-body); line-height: 1.55; max-width: 60ch; margin-top: var(--space-7); }
+  main { max-width: var(--content-max); margin: 0 auto; padding: var(--space-24) var(--gutter); }
+  .epic { border: var(--border-width) solid var(--line); margin-bottom: var(--space-14); }
+  .epic-head { padding: var(--space-10) var(--space-12); border-bottom: var(--border-width) solid var(--line); background: var(--surface-raised); }
+  .epic-head .tag { font: var(--text-style-kicker); color: var(--text-primary); }
+  .epic-head h2 { font-size: var(--size-h3); margin-top: var(--space-3); }
+  .epic-head p { color: var(--text-muted); font-size: var(--size-body-sm); margin-top: var(--space-3); max-width: 70ch; }
+  .epic-body { padding: var(--space-10) var(--space-12); display: flex; flex-wrap: wrap; gap: var(--space-7); }
+  .hu-link { border: var(--border-width) solid var(--line); padding: var(--space-8) var(--space-9); flex: 1 1 260px; }
+  .hu-link .id { font: var(--text-style-kicker); color: var(--text-subtle); }
+  .hu-link .name { font: var(--text-style-ui); color: var(--text-body); margin-top: var(--space-2); }
+  .hu-link a { display: inline-block; margin-top: var(--space-5); }
+  .hu-link.disabled { opacity: 0.55; }
+  footer { border-top: var(--border-width) solid var(--line); padding: var(--space-14) var(--gutter) var(--space-24); text-align: center; }
+  footer p { font: var(--text-style-kicker); color: var(--text-subtle); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="brand"><img src="assets/logo-mark-inverse.svg" alt="" width="26" height="26"><span>Solventa</span></div>
+    <h1>Prototipo navegable — Onboarding, cotización y ciclo de vida de pólizas</h1>
+    <p>Proyecto integrador MISW4501 · Grupo 3. Maquetas HTML estáticas, navegables entre sí, construidas sobre el manual de marca y el design system de Solventa. Cubren las cinco épicas del backlog: E1–E5.</p>
+  </div>
+</div>
+
+<main>
+
+  <div class="epic">
+    <div class="epic-head">
+      <div class="tag">épica E1 · web</div>
+      <h2>Onboarding, cotización y adquisición de pólizas</h2>
+      <p>Flujo del cliente de principio a fin: se registra, cotiza un ramo y adquiere la póliza con firma digital.</p>
+    </div>
+    <div class="epic-body">
+      <div class="hu-link"><div class="id">F1.1</div><div class="name">Registro inicial + consentimiento</div><a href="e1-onboarding/registro.html">Ver flujo →</a></div>
+      <div class="hu-link"><div class="id">F1.2</div><div class="name">Cotización de un ramo (Open Finance)</div><a href="e1-onboarding/cotizar.html">Ver flujo →</a></div>
+      <div class="hu-link"><div class="id">F1.3</div><div class="name">Adquisición: condiciones, firma, emisión</div><a href="e1-onboarding/condiciones.html">Ver flujo →</a></div>
+    </div>
+  </div>
+
+  <div class="epic">
+    <div class="epic-head">
+      <div class="tag">épica E2 · web</div>
+      <h2>Onboarding de socios y venta asistida</h2>
+      <p>Consola para operaciones: alta y credenciales de socios de distribución, y venta asistida desde canales de terceros.</p>
+    </div>
+    <div class="epic-body">
+      <div class="hu-link"><div class="id">F2.1</div><div class="name">Onboarding de socios y credenciales</div><a href="e2-socios/registrar-socio.html">Ver flujo →</a></div>
+      <div class="hu-link"><div class="id">F2.2</div><div class="name">Venta asistida desde terceros</div><a href="e2-socios/nuevo-prospecto.html">Ver flujo →</a></div>
+    </div>
+  </div>
+
+  <div class="epic">
+    <div class="epic-head">
+      <div class="tag">épica E3 · móvil</div>
+      <h2>Acceso seguro y autogestión en movilidad</h2>
+      <p>Onboarding digital con biometría, consentimiento y billetera de pólizas con modo offline. Prototipado previamente.</p>
+    </div>
+    <div class="epic-body">
+      <div class="hu-link"><div class="id">F3.1</div><div class="name">Onboarding digital, biometría y consentimiento</div><a href="../Prototipo onboarding Solventa F3.1/site/index.html">Ver flujo →</a></div>
+      <div class="hu-link"><div class="id">F3.2</div><div class="name">Billetera de pólizas, modo offline</div><a href="../Billetera%20offline%20de%20Solventa/Billetera%20Offline.dc.html">Ver flujo →</a></div>
+    </div>
+  </div>
+
+  <div class="epic">
+    <div class="epic-head">
+      <div class="tag">épica E4 · móvil</div>
+      <h2>Siniestros y respuesta inmediata</h2>
+      <p>Reporte de siniestro con evidencia multimedia, asistencia en sitio, seguimiento y pago paramétrico. Prototipado previamente.</p>
+    </div>
+    <div class="epic-body">
+      <div class="hu-link"><div class="id">F4.1 / F4.2</div><div class="name">Reporte y seguimiento de siniestro</div><a href="../Siniestros%20m%C3%B3viles%20en%20app/App%20Solventa.dc.html">Ver flujo →</a></div>
+    </div>
+  </div>
+
+  <div class="epic">
+    <div class="epic-head">
+      <div class="tag">épica E5 · web</div>
+      <h2>Gestión del ciclo de vida de la póliza</h2>
+      <p>Consola de operaciones: renovar, modificar y cancelar pólizas vigentes, con trazabilidad completa de cada cambio.</p>
+    </div>
+    <div class="epic-body">
+      <div class="hu-link"><div class="id">F5.1</div><div class="name">Ciclo de vida de pólizas</div><a href="e5-polizas/polizas.html">Ver flujo →</a></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>vigilado por la superintendencia financiera · prototipo estático, sin backend · MISW4501 grupo 3</p>
+</footer>
+
+</body>
+</html>
