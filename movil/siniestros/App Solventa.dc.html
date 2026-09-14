@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-sunken)}
+a{color:var(--text-primary)}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="display:flex; gap:32px; align-items:flex-start; justify-content:center; padding:24px; flex-wrap:wrap; background:var(--surface-sunken); min-height:100%; box-sizing:border-box;">
+
+  <div style="position:relative; width:390px; height:712px; background:var(--surface-base); border:var(--border-width) solid var(--line-strong); display:flex; flex-direction:column; overflow:hidden; flex:0 0 auto;">
+
+    <div style="display:flex; justify-content:space-between; padding:8px 16px; font-family:var(--font-mono); font-size:11px; color:var(--ink-55); background:var(--surface-raised);">
+      <span>9:41</span><span>5G · 100%</span>
+    </div>
+
+    <x-import component-from-global-scope="SolventaDesignSystem_0139be.TopBar" dense="{{ true }}" kicker="{{ topKicker }}" title="{{ topTitle }}" back="{{ backNode }}" hint-size="100%,56px"></x-import>
+
+    <div style="flex:1; overflow:auto;">
+
+      <sc-if value="{{ isWallet }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-6);">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">hola, ana</div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.1; margin-top:2px;">Tus pólizas</div>
+            </div>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="auto" title="pago automático · hoy 14:02" hint-size="100%,96px">Aprobamos $180.000 por el retraso del vuelo AV204. Llega antes de las 6pm.</x-import>
+          <sc-for list="{{ policies }}" as="p" hint-placeholder-count="3">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.PolicyCard" ramo="{{ p.ramo }}" number="{{ p.number }}" premium="{{ p.premium }}" status="{{ p.status }}" status-tone="{{ p.statusTone }}" footer="{{ p.footer }}" hint-size="100%,120px"></x-import>
+          </sc-for>
+          <div style="display:flex; align-items:center; gap:var(--space-3); color:var(--ink-50); font-family:var(--font-mono); font-size:var(--size-mono-sm);">
+            <i data-lucide="wifi-off"></i> disponibles sin conexión
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ goClaims }}" hint-size="100%,48px">Ir a mis siniestros</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ stepRegistrar }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-8); align-content:start;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ claimSteps }}" current="{{ 0 }}" hint-size="100%,40px"></x-import>
+          <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.12;">¿Qué pasó?</div>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--space-4);">
+            <sc-for list="{{ tipos }}" as="t" hint-placeholder-count="3">
+              <button onClick="{{ t.onClick }}" style="min-height:44px; padding:10px 14px; font-family:var(--font-body); font-size:var(--size-body-sm); font-weight:500; cursor:pointer; border-radius:var(--radius-none); background:{{ t.bg }}; color:{{ t.fg }}; border:var(--border-width) solid {{ t.border }};">{{ t.label }}</button>
+            </sc-for>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Cuéntanos brevemente" hint="Con una o dos frases basta." hint-size="100%,90px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" default-value="Se me cayó el celular y se rompió la pantalla" hint-size="100%,48px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="¿Cuándo ocurrió?" hint-size="100%,90px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" mono="{{ true }}" default-value="13/09/2026" hint-size="100%,48px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ goEvidencia }}" hint-size="100%,48px">Continuar con la evidencia</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ stepEvidencia }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:start; min-height:560px;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ claimSteps }}" current="{{ 1 }}" hint-size="100%,40px"></x-import>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.12;">Foto del daño</div>
+            <div style="font-size:var(--size-body-sm); color:var(--ink-72); margin-top:var(--space-3);">La ubicación se adjunta automáticamente.</div>
+          </div>
+          <div style="position:relative; background:var(--surface-sunken); border:var(--border); min-height:240px; display:flex; align-items:center; justify-content:center; color:var(--ink-50); font-family:var(--font-mono); font-size:var(--size-mono-sm);">
+            <span>{{ camLabel }}</span>
+            <div style="position:absolute; top:12px; left:12px; width:20px; height:20px; border-top:2px solid var(--ink-50); border-left:2px solid var(--ink-50);"></div>
+            <div style="position:absolute; bottom:12px; right:12px; width:20px; height:20px; border-bottom:2px solid var(--ink-50); border-right:2px solid var(--ink-50);"></div>
+            <div style="position:absolute; bottom:10px; left:10px; background:var(--surface-inverse); color:var(--text-on-inverse); font-family:var(--font-mono); font-size:var(--size-mono-sm); padding:3px 7px; display:flex; align-items:center; gap:6px;">
+              <i data-lucide="map-pin"></i> Bogotá, Colombia
+            </div>
+          </div>
+          <div style="display:flex; justify-content:center;">
+            <button onClick="{{ tomarFoto }}" aria-label="Tomar foto" style="width:56px; height:56px; border-radius:50%; border:2.5px solid var(--ink-90); background:transparent; cursor:pointer;"></button>
+          </div>
+          <div style="display:grid; gap:var(--space-4);">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" disabled="{{ sinFoto }}" onClick="{{ goAsistencia }}" hint-size="100%,48px">Adjuntar evidencia y continuar</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ goRegistrar }}" hint-size="100%,48px">Volver</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ stepAsistencia }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:start; min-height:560px;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ claimSteps }}" current="{{ 2 }}" hint-size="100%,40px"></x-import>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.12;">¿Necesitas ayuda ahora?</div>
+            <div style="font-size:var(--size-body-sm); color:var(--ink-72); margin-top:var(--space-3);">Tenemos un centro autorizado a 1.2 km.</div>
+          </div>
+          <div style="background:var(--surface-sunken); border:var(--border); min-height:180px; display:flex; align-items:center; justify-content:center; color:var(--ink-50); font-family:var(--font-mono); font-size:var(--size-mono-sm); gap:8px;">
+            <i data-lucide="map"></i> Mapa con ubicación del prestador
+          </div>
+          <div style="border:var(--border); background:var(--surface-card); padding:var(--space-7); display:flex; align-items:center; justify-content:space-between; gap:var(--space-5);">
+            <div>
+              <div style="font-size:var(--size-body-sm); font-weight:500;">Centro autorizado Chapinero</div>
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50); margin-top:2px;">1,2 km · llega en 25 min</div>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="active" hint-size="auto,24px">Disponible</x-import>
+          </div>
+          <div style="display:grid; gap:var(--space-4);">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ pedirAsistencia }}" hint-size="100%,48px">Solicitar asistencia</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ soloReportar }}" hint-size="100%,48px">Solo reportar, sin asistencia</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ stepEstado }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-8); align-content:start;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--space-5);">
+              <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.12;">Tu siniestro</div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="review" hint-size="auto,24px">En evaluación</x-import>
+            </div>
+            <div style="font-family:var(--font-mono); font-size:var(--size-mono); color:var(--ink-50); margin-top:6px;">#SIN-2026-2210</div>
+          </div>
+          <sc-if value="{{ conAsistencia }}" hint-placeholder-val="{{ false }}">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="asistencia en sitio" hint-size="100%,96px">Confirmamos tu visita al centro autorizado Chapinero. Llega en 25 minutos.</x-import>
+          </sc-if>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Card" kicker="seguimiento" title="Línea de tiempo" padding="var(--space-8)" hint-size="100%,260px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Timeline" events="{{ claimEvents }}" hint-size="100%,180px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ claimDetails }}" hint-size="100%,140px"></x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ nuevoSiniestro }}" hint-size="100%,48px">Reportar otro siniestro</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isPerfil }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:start;">
+          <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.12;">Ana Restrepo</div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ perfilItems }}" hint-size="100%,160px"></x-import>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <x-import component-from-global-scope="SolventaDesignSystem_0139be.TabBar" items="{{ tabItems }}" value="{{ tab }}" onChange="{{ setTab }}" hint-size="100%,64px"></x-import>
+
+    <sc-if value="{{ showLock }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; inset:0; background:var(--surface-inverse); color:var(--text-on-inverse); display:flex; flex-direction:column; padding:var(--space-9);">
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--paper-50); display:flex; justify-content:space-between;">
+          <span>viernes 13 sep</span><span>5G · 100%</span>
+        </div>
+        <div style="font-family:var(--font-display); font-weight:600; font-size:54px; text-align:center; margin-top:var(--space-9); color:#fff;">9:41</div>
+        <button onClick="{{ abrirPago }}" style="margin-top:auto; margin-bottom:auto; text-align:left; cursor:pointer; background:rgba(245,247,244,0.10); border:var(--border-width) solid var(--paper-20); padding:var(--space-7); display:grid; gap:var(--space-3); color:inherit; font-family:var(--font-body);">
+          <div style="display:flex; align-items:center; gap:var(--space-3); font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--paper-72);">
+            <span style="width:14px; height:14px; background:var(--slv-ambar); display:inline-block;"></span> Solventa · ahora
+          </div>
+          <div style="font-family:var(--font-display); font-weight:600; font-size:17px; color:#fff; line-height:1.2;">Tu vuelo se retrasó — ya te pagamos</div>
+          <div style="font-size:var(--size-body-sm); color:var(--paper-72); line-height:1.45;">$180.000 COP por retraso de más de 3 horas. Sin que tengas que reportarlo.</div>
+        </button>
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--paper-50); text-align:center;">toca la notificación para abrir</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showPago }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; inset:0; background:var(--surface-base); display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:space-between; padding:8px 16px; font-family:var(--font-mono); font-size:11px; color:var(--ink-55); background:var(--surface-raised);">
+          <span>9:41</span><span>5G · 100%</span>
+        </div>
+        <div style="flex:1; overflow:auto; padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--status-active-bg); color:var(--status-active-ink); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="check"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:30px; line-height:1.1;">Pago realizado</div>
+            <div style="font-size:var(--size-body-sm); color:var(--ink-72); margin-top:var(--space-4);">$180.000 COP por retraso de vuelo AV204.</div>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="auto" hint-size="auto,24px">Detectado y pagado automáticamente</x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="auto" title="por qué lo pagamos solos" hint-size="100%,110px">La aerolínea reportó un retraso de 3h 40m en el vuelo AV204. Supera el umbral de 3h de tu póliza, así que no necesitamos que reportes nada.</x-import>
+          <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">a tu cuenta terminada en 4471 · hoy 9:41</div>
+          <div style="display:grid; gap:var(--space-4);">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Ver comprobante</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ cerrarDemo }}" hint-size="100%,48px">Volver a la app</x-import>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ showPanel }}" hint-placeholder-val="{{ true }}">
+    <div style="width:320px; padding-top:8px; display:grid; gap:var(--space-6); align-content:start;">
+      <div>
+        <div style="font:var(--text-style-kicker); color:var(--text-primary);">recorrido</div>
+        <div style="font-family:var(--font-display); font-weight:600; font-size:22px; margin-top:4px; line-height:1.15;">Siniestros en la app</div>
+        <p style="font-size:var(--size-body-sm); color:var(--ink-72); max-width:40ch; line-height:1.55;">La pestaña Siniestros abre en el estado del siniestro si hay uno activo, y en el registro si no hay ninguno. Las cuatro pantallas del flujo asistido se recorren con los botones reales de cada pantalla.</p>
+      </div>
+      <div style="display:grid; gap:var(--space-4);">
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">asistido · f4.1</div>
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" onClick="{{ goRegistrarTab }}" hint-size="100%,40px">1 · Registrar un siniestro</x-import>
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" onClick="{{ goEvidenciaTab }}" hint-size="100%,40px">2 · Adjuntar evidencia</x-import>
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" onClick="{{ goAsistenciaTab }}" hint-size="100%,40px">3 · Solicitar asistencia en sitio</x-import>
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" onClick="{{ goEstadoTab }}" hint-size="100%,40px">4 · Estado del siniestro</x-import>
+      </div>
+      <div style="display:grid; gap:var(--space-4); border-top:var(--border); padding-top:var(--space-6);">
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">paramétrico · f4.2</div>
+        <p style="font-size:var(--size-body-sm); color:var(--ink-72); max-width:40ch; line-height:1.55; margin:0;">Este journey no cuelga de ningún botón de la pestaña: el cliente no hace nada. Simúlalo desde aquí.</p>
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="accent" onClick="{{ simularPush }}" hint-size="100%,40px">Simular notificación push</x-import>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:800,&quot;height&quot;:790},&quot;claimActivo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Estado inicial&quot;},&quot;mostrarPanel&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo&quot;}}">
+class Component extends DCLogic {
+  state = { tab: 'wallet', step: null, hasClaim: null, foto: false, asistencia: false, tipo: 'Daño al dispositivo', overlay: null };
+
+  componentDidMount() { this.icons(); }
+  componentDidUpdate() { this.icons(); }
+  icons() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 18, height: 18, 'stroke-width': 1.75 } }); }
+
+  hasClaim() { return this.state.hasClaim ?? (this.props.claimActivo ?? false); }
+
+  entryStep() { return this.hasClaim() ? 'estado' : 'registrar'; }
+
+  step() { return this.state.step ?? this.entryStep(); }
+
+  set(patch) { this.setState(patch); }
+
+  renderVals() {
+    const tab = this.state.tab;
+    const step = this.step();
+    const claims = tab === 'claims' && !this.state.overlay;
+    const titles = {
+      registrar: ['siniestro', 'Registrar'],
+      evidencia: ['siniestro', 'Evidencia'],
+      asistencia: ['siniestro', 'Asistencia'],
+      estado: ['siniestro', 'Estado'],
+    };
+    let topKicker = 'billetera', topTitle = 'Solventa';
+    if (tab === 'claims') { topKicker = titles[step][0]; topTitle = titles[step][1]; }
+    if (tab === 'perfil') { topKicker = 'cuenta'; topTitle = 'Perfil'; }
+
+    const DS = window.SolventaDesignSystem_0139be || {};
+    const icon = (n) => React.createElement('i', { 'data-lucide': n });
+    const backTo = (s) => React.createElement(DS.IconButton, { label: 'Volver', onClick: () => this.set({ step: s }) }, icon('arrow-left'));
+    const backNode = (claims && (step === 'evidencia' || step === 'asistencia'))
+      ? backTo(step === 'evidencia' ? 'registrar' : 'evidencia') : null;
+
+    const tipos = ['Daño al dispositivo', 'Robo', 'Gasto médico'].map((label) => {
+      const sel = this.state.tipo === label;
+      return {
+        label,
+        onClick: () => this.set({ tipo: label }),
+        bg: sel ? 'var(--action-primary)' : 'transparent',
+        fg: sel ? 'var(--text-on-inverse)' : 'var(--ink-80)',
+        border: sel ? 'var(--action-primary)' : 'var(--line-strong)',
+      };
+    });
+
+    return {
+      tab, topKicker, topTitle, backNode,
+      showPanel: this.props.mostrarPanel ?? true,
+      isWallet: tab === 'wallet' && !this.state.overlay,
+      isPerfil: tab === 'perfil' && !this.state.overlay,
+      stepRegistrar: claims && step === 'registrar',
+      stepEvidencia: claims && step === 'evidencia',
+      stepAsistencia: claims && step === 'asistencia',
+      stepEstado: claims && step === 'estado',
+      showLock: this.state.overlay === 'lock',
+      showPago: this.state.overlay === 'pago',
+      claimSteps: ['Qué pasó', 'Evidencia', 'Asistencia'],
+      camLabel: this.state.foto ? 'foto adjunta · IMG_0431.jpg' : 'encuadra el daño',
+      sinFoto: !this.state.foto,
+      conAsistencia: this.state.asistencia,
+      tipos,
+      tabItems: [
+        { value: 'wallet', label: 'Pólizas', icon: icon('wallet') },
+        { value: 'claims', label: 'Siniestros', icon: icon('file-text') },
+        { value: 'perfil', label: 'Perfil', icon: icon('user') },
+      ],
+      policies: [
+        { ramo: 'Seguro de viaje', number: '#SLV-2026-08341', premium: '$52.000 COP', status: 'Activa', statusTone: 'active', footer: 'Vigente hasta el 12 mar 2027' },
+        { ramo: 'Seguro de hogar', number: '#SLV-2026-08340', premium: '$118.400 COP', status: 'Activa', statusTone: 'active', footer: 'Renovación automática activada' },
+        { ramo: 'Seguro de dispositivos', number: '#SLV-2026-08338', premium: '$28.900 COP', status: 'Activa', statusTone: 'active', footer: 'Cubre pantalla y robo' },
+      ],
+      claimEvents: [
+        { title: 'Reportado', detail: this.state.tipo, time: 'hoy 10:14 am', tone: 'done' },
+        { title: 'En evaluación', detail: 'Un perito está revisando tu evidencia', time: 'desde hoy 10:16 am', tone: 'pending' },
+        { title: 'Pago', detail: 'Pendiente', tone: 'pending' },
+      ],
+      claimDetails: [
+        { label: 'Póliza', value: '#SLV-2026-08338', mono: true },
+        { label: 'Tipo', value: this.state.tipo },
+        { label: 'Evidencia', value: '1 foto · Bogotá, Colombia' },
+        { label: 'Asistencia', value: this.state.asistencia ? 'Solicitada' : 'No solicitada' },
+      ],
+      perfilItems: [
+        { label: 'Documento', value: 'CC 1.018.442.117', mono: true },
+        { label: 'Celular', value: '+57 310 442 1177', mono: true },
+        { label: 'Cuenta de pago', value: 'Terminada en 4471', mono: true },
+        { label: 'Cliente desde', value: '12 mar 2026', mono: true },
+      ],
+      setTab: (v) => this.set({ tab: v, step: null }),
+      goClaims: () => this.set({ tab: 'claims', step: null }),
+      goRegistrar: () => this.set({ step: 'registrar' }),
+      goEvidencia: () => this.set({ step: 'evidencia' }),
+      goAsistencia: () => this.set({ step: 'asistencia' }),
+      tomarFoto: () => this.set({ foto: true }),
+      pedirAsistencia: () => this.set({ step: 'estado', asistencia: true, hasClaim: true }),
+      soloReportar: () => this.set({ step: 'estado', asistencia: false, hasClaim: true }),
+      nuevoSiniestro: () => this.set({ step: 'registrar', foto: false, asistencia: false, hasClaim: false }),
+      goRegistrarTab: () => this.set({ tab: 'claims', step: 'registrar', overlay: null }),
+      goEvidenciaTab: () => this.set({ tab: 'claims', step: 'evidencia', overlay: null }),
+      goAsistenciaTab: () => this.set({ tab: 'claims', step: 'asistencia', overlay: null }),
+      goEstadoTab: () => this.set({ tab: 'claims', step: 'estado', hasClaim: true, overlay: null }),
+      simularPush: () => this.set({ overlay: 'lock' }),
+      abrirPago: () => this.set({ overlay: 'pago' }),
+      cerrarDemo: () => this.set({ overlay: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

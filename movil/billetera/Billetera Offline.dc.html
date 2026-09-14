@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--surface-base); color: var(--text-body); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+  a { color: var(--text-primary); text-decoration: none; }
+  a:hover { color: var(--action-primary-hover); text-decoration: underline; }
+  @keyframes slv-fill { from { width: 0%; } to { width: 100%; } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 32px 24px 48px;">
+
+  <div style="width: 375px; height: 760px; border: 1.5px solid var(--slv-ink); border-radius: 22px; background: var(--surface-base); overflow: hidden; display: flex; flex-direction: column;">
+
+    <div style="flex: 0 0 auto; height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-62);">
+      <span>9:41</span>
+      <span style="display: flex; align-items: center; gap: 6px;">
+        <sc-if value="{{ isOffline }}" hint-placeholder-val="{{ false }}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"><path d="M2 2l20 20"></path><path d="M8.5 16.5a5 5 0 0 1 7 0"></path><path d="M5 12.9a10 10 0 0 1 5.2-2.7"></path><path d="M16.7 11.5A10 10 0 0 1 19 12.9"></path><path d="M2 8.8a16 16 0 0 1 6-3.6"></path><path d="M13.5 5.2A16 16 0 0 1 22 8.8"></path><path d="M12 20h.01"></path></svg>
+          <span>sin red</span>
+        </sc-if>
+        <sc-if value="{{ isOnline }}" hint-placeholder-val="{{ true }}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"><path d="M5 12.55a11 11 0 0 1 14 0"></path><path d="M8.5 16.4a6 6 0 0 1 7 0"></path><path d="M2 8.8a16 16 0 0 1 20 0"></path><path d="M12 20h.01"></path></svg>
+          <span>5G</span>
+        </sc-if>
+      </span>
+    </div>
+
+    <sc-if value="{{ isWallet }}" hint-placeholder-val="{{ true }}">
+      <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.TopBar" dense="{{ true }}" kicker="{{ greeting }}" title="Tus pólizas" hint-size="100%,62px"></x-import>
+
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 16px;">
+          <sc-if value="{{ isOffline }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; gap: 10px; align-items: flex-start; background: var(--surface-sunken); border: 1px solid var(--line); padding: 12px; margin-bottom: 14px; transition: var(--transition-control);">
+              <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--ink-50); margin-top: 5px; flex: 0 0 auto;"></span>
+              <span>
+                <span style="display: block; font-size: 13px; line-height: 1.4; color: var(--ink-80);">Sin conexión — estás viendo tu última versión guardada.</span>
+                <span style="display: block; font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-55); margin-top: 4px;">guardado 12 mar 2026 · 09:41</span>
+              </span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isOnline }}" hint-placeholder-val="{{ true }}">
+            <div style="font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-50); margin-bottom: 14px;">actualizado hace un momento</div>
+          </sc-if>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.PolicyCard" ramo="Seguro de viaje" number="#SLV-2026-08341" status="Activa" status-tone="active" footer="Credencial disponible sin conexión" onClick="{{ openTravel }}" hint-size="100%,120px"></x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.PolicyCard" ramo="Protección de dispositivo" number="#SLV-2026-05120" status="Activa" status-tone="active" footer="Credencial disponible sin conexión" onClick="{{ openDevice }}" hint-size="100%,120px"></x-import>
+          </div>
+
+          <sc-if value="{{ isOffline }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: 16px; font-size: 13px; line-height: 1.45; color: var(--ink-62); max-width: 34ch;">Todo lo que ves aquí funciona sin internet, incluida la credencial digital.</div>
+          </sc-if>
+        </div>
+
+        <div style="flex: 0 0 auto; padding: 12px 16px 16px;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="lg" full="{{ true }}" onClick="{{ openTravel }}" hint-size="100%,44px">Ver credencial digital</x-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCredential }}" hint-placeholder-val="{{ false }}">
+      <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.TopBar" dense="{{ true }}" title="{{ credRamo }}" back="{{ backButton }}" hint-size="100%,62px"></x-import>
+
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 16px;">
+          <div style="font-size: 13px; line-height: 1.45; color: var(--ink-62);">Comprobante de cobertura — válido sin conexión.</div>
+
+          <div style="margin-top: 14px; background: var(--action-primary); color: var(--slv-white); padding: 20px 18px;">
+            <div style="font-family: var(--font-mono); font-size: 11.5px; color: rgba(255,255,255,0.72);">póliza activa</div>
+            <div style="font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; margin-top: 6px;">{{ credRamo }}</div>
+            <div style="font-family: var(--font-mono); font-size: 12.5px; color: rgba(255,255,255,0.82); margin-top: 12px;">{{ credNumber }}</div>
+            <div style="font-size: 13px; color: rgba(255,255,255,0.82); margin-top: 2px;">Vigente: {{ credDates }}</div>
+            <div style="margin-top: 16px; background: var(--slv-white); padding: 8px; width: fit-content;">{{ qr }}</div>
+            <div style="font-family: var(--font-mono); font-size: 11.5px; color: rgba(255,255,255,0.72); margin-top: 10px;">titular: {{ holder }}</div>
+          </div>
+
+          <div style="margin-top: 14px;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="guardado en tu teléfono" hint-size="100%,96px">Guardamos esta credencial en tu teléfono. Un perito o un hospital puede leer el código aunque no tengas señal.</x-import>
+          </div>
+        </div>
+
+        <div style="flex: 0 0 auto; padding: 12px 16px 16px;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="primary" size="lg" full="{{ true }}" hint-size="100%,44px">Compartir con perito</x-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSyncing }}" hint-placeholder-val="{{ false }}">
+      <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 24px;">
+        <div style="display: flex; gap: 7px; margin-bottom: 16px;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--slv-ambar);"></span>
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--slv-ambar); opacity: 0.6;"></span>
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--slv-ambar); opacity: 0.3;"></span>
+        </div>
+        <div style="font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em;">Sincronizando cambios…</div>
+        <div style="font-size: 15px; line-height: 1.5; color: var(--ink-62); margin-top: 6px; max-width: 26ch;">Recuperamos la conexión. Estamos actualizando tu billetera.</div>
+        <div style="margin-top: 20px; height: 2px; background: var(--ink-14);">
+          <div style="height: 2px; background: var(--slv-ambar); animation: slv-fill {{ syncSecs }} linear forwards;"></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isUpdated }}" hint-placeholder-val="{{ false }}">
+      <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 24px;">
+          <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--surface-success-soft); color: var(--text-success); display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M20 6L9 17l-5-5"></path></svg>
+          </div>
+          <div style="font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em;">Tu billetera está al día</div>
+          <div style="margin-top: 10px;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="auto" hint-size="auto,24px">Sincronizado automáticamente</x-import>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-55); margin-top: 12px;">2 pólizas verificadas · 12 mar 2026 · 09:41</div>
+        </div>
+        <div style="flex: 0 0 auto; padding: 12px 16px 16px;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="primary" size="lg" full="{{ true }}" onClick="{{ goWallet }}" hint-size="100%,44px">Ver pólizas</x-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}">
+      <x-import component-from-global-scope="SolventaDesignSystem_0139be.TabBar" items="{{ tabs }}" value="wallet" hint-size="100%,56px"></x-import>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ showControls }}" hint-placeholder-val="{{ true }}">
+    <div style="width: 375px; border: 1px solid var(--line); background: var(--surface-card); padding: 14px 16px;">
+      <div style="font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-50);">controles del prototipo</div>
+      <div style="font-size: 13px; line-height: 1.45; color: var(--ink-72); margin-top: 6px;">{{ controlHint }}</div>
+      <div style="display: flex; gap: 8px; margin-top: 12px;">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" disabled="{{ isOffline }}" onClick="{{ goOffline }}" hint-size="auto,32px">Simular pérdida de conexión</x-import>
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="ghost" size="sm" onClick="{{ reset }}" hint-size="auto,32px">Reiniciar</x-import>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:440,&quot;height&quot;:940},&quot;holderName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Camila&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;reconnectDelayMs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:5000,&quot;min&quot;:2000,&quot;max&quot;:15000,&quot;step&quot;:500,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulación de red&quot;},&quot;syncDurationMs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2200,&quot;min&quot;:800,&quot;max&quot;:5000,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulación de red&quot;},&quot;showControls&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Simulación de red&quot;}}">
+const POLICIES = {
+  viaje: { ramo: 'Seguro de viaje', number: '#SLV-2026-08341', dates: '01 ago — 31 dic 2026' },
+  dispositivo: { ramo: 'Protección de dispositivo', number: '#SLV-2026-05120', dates: '15 ene — 14 ene 2027' },
+};
+
+function tabIcon(children) {
+  return React.createElement('svg', {
+    width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none',
+    stroke: 'currentColor', strokeWidth: 1.75, strokeLinecap: 'square',
+  }, children.map((d, i) => React.createElement('path', { key: i, d })));
+}
+
+class Component extends DCLogic {
+  state = { view: 'wallet', online: true, policy: 'viaje' };
+
+  componentWillUnmount() { this.clear(); }
+
+  clear() { [this.t1, this.t2].forEach(clearTimeout); }
+
+  goWallet = () => this.setState({ view: 'wallet' });
+
+  open = (policy) => this.setState({ view: 'credential', policy });
+
+  goOffline = () => {
+    this.clear();
+    this.setState({ view: 'wallet', online: false });
+    this.t1 = setTimeout(this.reconnect, this.props.reconnectDelayMs ?? 5000);
+  };
+
+  reconnect = () => {
+    this.setState({ online: true, view: 'syncing' });
+    this.t2 = setTimeout(() => this.setState({ view: 'updated' }), this.props.syncDurationMs ?? 2200);
+  };
+
+  reset = () => { this.clear(); this.setState({ view: 'wallet', online: true, policy: 'viaje' }); };
+
+  qr(seedStr) {
+    const n = 21;
+    let s = 2166136261;
+    for (let i = 0; i < seedStr.length; i++) s = (s * 31 + seedStr.charCodeAt(i)) >>> 0;
+    const rnd = () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
+    const inBox = (r, c, R, C) => r >= R && r < R + 7 && c >= C && c < C + 7;
+    const cells = [];
+    for (let r = 0; r < n; r++) {
+      for (let c = 0; c < n; c++) {
+        let on;
+        if (inBox(r, c, 0, 0) || inBox(r, c, 0, n - 7) || inBox(r, c, n - 7, 0)) {
+          const lr = r < 7 ? r : r - (n - 7);
+          const lc = c < 7 ? c : c - (n - 7);
+          on = Math.max(Math.abs(lr - 3), Math.abs(lc - 3)) !== 2;
+        } else {
+          on = rnd() > 0.5;
+        }
+        cells.push(React.createElement('div', { key: r + '-' + c, style: { background: on ? '#101B2D' : 'transparent' } }));
+      }
+    }
+    return React.createElement('div', {
+      role: 'img', 'aria-label': 'Código de la credencial ' + seedStr,
+      style: { display: 'grid', gridTemplateColumns: 'repeat(' + n + ', 5px)', gridAutoRows: '5px' },
+    }, cells);
+  }
+
+  renderVals() {
+    const { view, online, policy } = this.state;
+    const p = POLICIES[policy];
+    const offline = !online;
+    return {
+      isWallet: view === 'wallet',
+      isCredential: view === 'credential',
+      isSyncing: view === 'syncing',
+      isUpdated: view === 'updated',
+      showTabs: view === 'wallet' || view === 'credential',
+      isOnline: online,
+      isOffline: offline,
+      greeting: 'hola, ' + (this.props.holderName ?? 'Camila'),
+      holder: this.props.holderName ?? 'Camila',
+      credRamo: p.ramo,
+      credNumber: p.number,
+      credDates: p.dates,
+      qr: this.qr(p.number),
+      syncSecs: ((this.props.syncDurationMs ?? 2200) / 1000) + 's',
+      showControls: this.props.showControls ?? true,
+      controlHint: offline
+        ? 'Sin conexión. La red vuelve sola en unos segundos y la billetera se sincroniza sin que toques nada.'
+        : 'La billetera funciona igual sin red. Corta la conexión para verlo, y espera: la reconexión y la sincronización ocurren solas.',
+      openTravel: () => this.open('viaje'),
+      openDevice: () => this.open('dispositivo'),
+      goWallet: this.goWallet,
+      goOffline: this.goOffline,
+      reset: this.reset,
+      backButton: React.createElement('button', {
+        onClick: this.goWallet, 'aria-label': 'Volver a tus pólizas',
+        style: { width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 0, padding: 0, cursor: 'pointer', color: 'var(--text-body)' },
+      }, React.createElement('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.75, strokeLinecap: 'square' },
+        React.createElement('path', { d: 'M19 12H5' }), React.createElement('path', { d: 'M11 18l-6-6 6-6' }))),
+      tabs: [
+        { value: 'wallet', label: 'Pólizas', icon: tabIcon(['M3 7h18v11H3z', 'M3 11h7', 'M16 11h5']) },
+        { value: 'claims', label: 'Siniestros', icon: tabIcon(['M6 3h8l4 4v14H6z', 'M9 12h6', 'M9 16h4']) },
+        { value: 'profile', label: 'Perfil', icon: tabIcon(['M4 20a8 8 0 0 1 16 0', 'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z']) },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

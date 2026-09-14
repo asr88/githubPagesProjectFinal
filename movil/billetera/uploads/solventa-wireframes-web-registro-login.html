@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solventa — Web: Registro y Login (wireframes)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ink:#101B2D; --paper:#F5F7F4;
+    --primary:#1B3A6B; --primary-dim:#DCE4EF;
+    --accent:#F2A93B; --accent-ink:#7A4E0A;
+    --line: rgba(16,27,45,0.14); --line-strong: rgba(16,27,45,0.30);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans', sans-serif; -webkit-font-smoothing:antialiased;}
+  h1,h2{font-family:'Space Grotesk', sans-serif; font-weight:600; margin:0; letter-spacing:-0.01em;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px;}
+
+  header.top{background:var(--ink); color:var(--paper); padding:44px 0 34px;}
+  header.top .kicker{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--accent); margin-bottom:10px;}
+  header.top h1{font-size:clamp(26px,5vw,36px); color:#fff; max-width:20ch; line-height:1.1;}
+  header.top p{max-width:56ch; color:rgba(245,247,244,0.7); margin-top:14px; font-size:15px;}
+  header.top .tags{margin-top:20px; display:flex; gap:8px; flex-wrap:wrap;}
+  header.top .tag{font-family:'IBM Plex Mono', monospace; font-size:11.5px; border:1px solid rgba(245,247,244,0.3); color:rgba(245,247,244,0.85); padding:4px 9px;}
+
+  main{padding:40px 0 70px;}
+  .flow-note{max-width:70ch; font-size:14.5px; color:rgba(16,27,45,0.65); padding:14px 16px; border-left:3px solid var(--primary); background:var(--primary-dim); margin-bottom:36px;}
+
+  .slot{margin-bottom:52px;}
+  .slot .step-label{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--primary); margin-bottom:6px;}
+  .slot .step-title{font-family:'Space Grotesk'; font-weight:600; font-size:18px; margin-bottom:16px;}
+
+  .browser{
+    border:1.5px solid var(--ink);
+    background:var(--paper);
+    overflow:hidden;
+  }
+  .browser .chrome{
+    background:#fff; border-bottom:1px solid var(--line);
+    padding:8px 12px; display:flex; align-items:center; gap:8px;
+  }
+  .browser .chrome .dot{width:7px; height:7px; border-radius:50%; background:var(--line-strong);}
+  .browser .chrome .addr{
+    flex:1; font-family:'IBM Plex Mono', monospace; font-size:11px; color:rgba(16,27,45,0.45);
+    background:var(--paper); border:1px solid var(--line); padding:3px 8px; margin-left:10px;
+  }
+
+  .page{display:grid; grid-template-columns:1fr; min-height:420px;}
+  @media(min-width:720px){ .page{grid-template-columns:1fr 1fr;} }
+
+  .side{
+    background:var(--ink); color:#fff;
+    padding:32px 28px; display:flex; flex-direction:column;
+  }
+  .side .mark{display:flex; align-items:center; gap:8px; font-family:'Space Grotesk'; font-weight:700; font-size:16px;}
+  .side .mark .dot{width:8px; height:8px; background:var(--accent); border-radius:50%;}
+  .side .claim{font-family:'Space Grotesk'; font-weight:600; font-size:clamp(20px,3vw,26px); line-height:1.15; max-width:14ch; margin-top:auto;}
+  .side .sub{font-size:13px; color:rgba(245,247,244,0.6); margin-top:12px; max-width:26ch;}
+
+  .form{padding:32px 28px; display:flex; flex-direction:column;}
+  .form .eyebrow{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--primary);}
+  .form h2{font-size:22px; margin-top:8px;}
+  .form .hint{font-size:13.5px; color:rgba(16,27,45,0.6); margin-top:6px;}
+
+  .field{margin-top:18px;}
+  .field label{display:block; font-size:12.5px; font-weight:600; margin-bottom:6px;}
+  .field .input{
+    border:1px solid var(--line-strong); padding:10px 12px; font-size:14px; color:rgba(16,27,45,0.45);
+  }
+
+  .check-row{display:flex; align-items:center; gap:8px; margin-top:16px; font-size:12.5px; color:rgba(16,27,45,0.7);}
+  .check-row .box{width:14px; height:14px; border:1.5px solid var(--primary); flex:0 0 auto;}
+
+  .btn{font-family:'IBM Plex Sans'; font-weight:600; font-size:14px; text-align:center; padding:12px 18px; margin-top:22px; width:fit-content;}
+  .btn.primary{background:var(--primary); color:#fff;}
+
+  .switch{font-size:13px; color:rgba(16,27,45,0.65); margin-top:16px;}
+  .switch b{color:var(--primary);}
+
+  footer{padding:0 0 60px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:rgba(16,27,45,0.45);}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Wireframes web · Referencia</div>
+    <h1>Registro y acceso — cliente web</h1>
+    <p>El caso de negocio define que el registro inicial del cliente ocurre en web; el acceso móvil viene después. Estas dos pantallas son el punto de entrada de todo el journey — comparten el sistema visual, con la densidad y estructura propias del canal web (ver "Web vs. móvil" en el manual de marca).</p>
+    <div class="tags"><span class="tag">Épica E1</span><span class="tag">v0.1 — borrador</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="flow-note">
+    El panel oscuro de la izquierda no es decoración: en web usamos ese espacio para reforzar confianza (marca, propuesta de valor) porque el usuario llega sin contexto previo, a diferencia del móvil donde ya es cliente.
+  </div>
+
+  <div class="slot">
+    <div class="step-label">Pantalla 1</div>
+    <div class="step-title">Registro</div>
+    <div class="browser">
+      <div class="chrome"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="addr">solventa.co/registro</div></div>
+      <div class="page">
+        <div class="side">
+          <div class="mark"><span class="dot"></span>Solventa</div>
+          <div class="claim">Cotiza, contrata y gestiona todo en un solo lugar</div>
+          <div class="sub">Tu cuenta web te da acceso completo. Podrás usar la app móvil después, con el mismo usuario.</div>
+        </div>
+        <div class="form">
+          <div class="eyebrow">Crear cuenta</div>
+          <h2>Empecemos</h2>
+          <div class="hint">Solo necesitas tu correo — verificamos tu identidad más adelante, cuando emitas tu primera póliza.</div>
+          <div class="field"><label>Correo electrónico</label><div class="input">nombre@correo.com</div></div>
+          <div class="field"><label>Contraseña</label><div class="input">••••••••</div></div>
+          <div class="check-row"><div class="box"></div>Acepto los términos y la política de datos</div>
+          <div class="btn primary">Crear cuenta</div>
+          <div class="switch">¿Ya tienes cuenta? <b>Inicia sesión</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slot" style="margin-bottom:0;">
+    <div class="step-label">Pantalla 2</div>
+    <div class="step-title">Inicio de sesión</div>
+    <div class="browser">
+      <div class="chrome"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="addr">solventa.co/login</div></div>
+      <div class="page">
+        <div class="side">
+          <div class="mark"><span class="dot"></span>Solventa</div>
+          <div class="claim">Tus pólizas, siempre a la mano</div>
+          <div class="sub">Consulta coberturas, gestiona siniestros y revisa tu historial de pagos.</div>
+        </div>
+        <div class="form">
+          <div class="eyebrow">Bienvenido de nuevo</div>
+          <h2>Inicia sesión</h2>
+          <div class="field"><label>Correo electrónico</label><div class="input">nombre@correo.com</div></div>
+          <div class="field"><label>Contraseña</label><div class="input">••••••••</div></div>
+          <div class="switch" style="margin-top:8px;"><b>¿Olvidaste tu contraseña?</b></div>
+          <div class="btn primary">Iniciar sesión</div>
+          <div class="switch">¿No tienes cuenta? <b>Regístrate</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="wrap">
+  Nota: la verificación KYC/biométrica (F3.1) no ocurre aquí — el caso de negocio y la HA12 la ubican en el canal móvil. Web solo crea la cuenta; la identidad se verifica cuando el cliente pasa a móvil o emite su primera póliza. Confirmar este supuesto con el equipo. Documento vivo — Proyecto Solventa, MISW4501, Grupo 3.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solventa — F4.1/F4.2 Siniestros móvil (wireframes)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root{
+    --ink:#101B2D; --paper:#F5F7F4; --paper-dim:#EDF0EC;
+    --primary:#1B3A6B; --primary-dim:#DCE4EF;
+    --accent:#F2A93B; --accent-ink:#7A4E0A; --accent-bg:#FBEAC9;
+    --success:#1E8F6F; --success-bg:#E1F1EA; --success-ink:#125C46;
+    --alert:#E85D4C; --alert-bg:#FBE7E3; --alert-ink:#A73A2B;
+    --line: rgba(16,27,45,0.14); --line-strong: rgba(16,27,45,0.30);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans', sans-serif; -webkit-font-smoothing:antialiased;}
+  h1,h2{font-family:'Space Grotesk', sans-serif; font-weight:600; margin:0; letter-spacing:-0.01em;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px;}
+  header.top{background:var(--ink); color:var(--paper); padding:44px 0 34px;}
+  header.top .kicker{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--accent); margin-bottom:10px;}
+  header.top h1{font-size:clamp(26px,5vw,36px); color:#fff; max-width:20ch; line-height:1.1;}
+  header.top p{max-width:56ch; color:rgba(245,247,244,0.7); margin-top:14px; font-size:15px;}
+  header.top .tags{margin-top:20px; display:flex; gap:8px; flex-wrap:wrap;}
+  header.top .tag{font-family:'IBM Plex Mono', monospace; font-size:11.5px; border:1px solid rgba(245,247,244,0.3); color:rgba(245,247,244,0.85); padding:4px 9px;}
+  main{padding:40px 0 70px;}
+  .flow-note{max-width:70ch; font-size:14.5px; color:rgba(16,27,45,0.65); padding:14px 16px; border-left:3px solid var(--primary); background:var(--primary-dim); margin-bottom:16px;}
+  .section-divider{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--primary); text-transform:lowercase; margin:44px 0 18px; padding-top:20px; border-top:1px solid var(--line);}
+  .section-divider:first-of-type{border-top:none; margin-top:8px;}
+  .screens{display:grid; grid-template-columns:1fr; gap:44px 28px;}
+  @media(min-width:760px){ .screens{grid-template-columns:1fr 1fr;} }
+  @media(min-width:1080px){ .screens{grid-template-columns:1fr 1fr 1fr;} }
+  .slot{display:flex; flex-direction:column; align-items:flex-start;}
+  .slot .step-label{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--primary); margin-bottom:6px;}
+  .slot .step-title{font-family:'Space Grotesk'; font-weight:600; font-size:16px; margin-bottom:14px;}
+  .phone{width:100%; max-width:272px; aspect-ratio:9/19.5; border:1.5px solid var(--ink); border-radius:22px; background:var(--paper); display:flex; flex-direction:column; overflow:hidden; position:relative;}
+  .phone .bar-top{height:22px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+  .phone .bar-top .notch{width:52px; height:5px; background:var(--ink); border-radius:3px; opacity:.55;}
+  .phone .bar-bottom{height:18px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+  .phone .bar-bottom .home{width:84px; height:3px; background:var(--ink); border-radius:2px; opacity:.35;}
+  .screen{flex:1; padding:14px 14px 12px; display:flex; flex-direction:column; min-height:0;}
+  .screen.dark{background:var(--ink); color:var(--paper);}
+  .s-title{font-family:'Space Grotesk'; font-weight:600; font-size:16px; line-height:1.18; margin-bottom:4px;}
+  .screen.dark .s-title{color:#fff;}
+  .s-body{font-size:11.5px; line-height:1.4; color:rgba(16,27,45,0.65); max-width:28ch;}
+  .screen.dark .s-body{color:rgba(245,247,244,0.68);}
+  .spacer{flex:1;}
+  .s-progress{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(16,27,45,0.5); margin-bottom:8px;}
+
+  .chip-row{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
+  .chip-opt{font-size:10px; font-weight:600; border:1px solid var(--line-strong); padding:5px 9px;}
+  .chip-opt.sel{background:var(--primary); color:#fff; border-color:var(--primary);}
+
+  .field{margin-top:10px;}
+  .field label{display:block; font-size:10px; font-weight:600; margin-bottom:3px;}
+  .field .input{border:1px solid var(--line-strong); padding:6px 8px; font-size:11px; color:rgba(16,27,45,0.45);}
+
+  .cam-view{flex:1; background:var(--paper-dim); border:1px solid var(--line); margin:10px 0; display:flex; align-items:center; justify-content:center; min-height:90px; position:relative;}
+  .cam-view .corner{width:14px; height:14px; border:2px solid var(--ink); opacity:.4; position:absolute;}
+  .cam-view .corner.tl{top:8px; left:8px; border-right:none; border-bottom:none;}
+  .cam-view .corner.br{bottom:8px; right:8px; border-left:none; border-top:none;}
+  .geo-tag{position:absolute; bottom:6px; left:6px; font-family:'IBM Plex Mono', monospace; font-size:8.5px; background:var(--ink); color:#fff; padding:2px 5px; opacity:.85;}
+  .shutter{align-self:center; width:42px; height:42px; border-radius:50%; border:2.5px solid var(--ink);}
+
+  .s-btn{font-family:'IBM Plex Sans'; font-weight:600; font-size:11.5px; text-align:center; padding:10px 12px; width:100%;}
+  .s-btn.primary{background:var(--primary); color:#fff;}
+  .s-btn.secondary{background:transparent; border:1px solid var(--line-strong); color:var(--ink); margin-top:7px;}
+
+  .timeline{margin-top:12px; display:flex; flex-direction:column; gap:10px;}
+  .timeline .item{display:flex; gap:7px; font-size:10.5px;}
+  .timeline .item .dot{width:6px; height:6px; border-radius:50%; margin-top:4px; flex:0 0 auto;}
+  .timeline .item.done .dot{background:var(--success);}
+  .timeline .item.now .dot{background:var(--accent);}
+  .timeline .item.pending .dot{background:var(--line-strong);}
+  .timeline .item b{display:block; font-weight:600; font-size:11px;}
+
+  .lock-screen{background:var(--ink); flex:1; padding:20px 14px; display:flex; flex-direction:column;}
+  .lock-time{color:#fff; font-family:'Space Grotesk'; font-weight:600; font-size:26px; text-align:center; opacity:.9;}
+  .push{margin-top:auto; margin-bottom:auto; background:rgba(245,247,244,0.1); border:1px solid rgba(245,247,244,0.2); padding:12px; backdrop-filter:blur(2px);}
+  .push .app{display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono', monospace; font-size:9.5px; color:rgba(245,247,244,0.6); margin-bottom:6px;}
+  .push .app .dot{width:12px; height:12px; background:var(--accent); border-radius:3px;}
+  .push .title{color:#fff; font-family:'Space Grotesk'; font-weight:600; font-size:12.5px;}
+  .push .body{color:rgba(245,247,244,0.75); font-size:11px; margin-top:3px;}
+
+  .result{margin:auto 0; text-align:left;}
+  .result-icon{width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:12px; font-size:16px; font-weight:700;}
+  .result-icon.ok{background:var(--success-bg); color:var(--success-ink);}
+  .badge-auto{display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:600; background:var(--accent-bg); color:var(--accent-ink); padding:4px 8px; margin-top:8px;}
+  .badge-auto::before{content:''; width:5px; height:5px; border-radius:50%; background:var(--accent);}
+
+  footer{padding:0 0 60px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:rgba(16,27,45,0.45);}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Wireframes móvil · F4.1 / F4.2</div>
+    <h1>Siniestros: asistido y paramétrico</h1>
+    <p>Dos formas muy distintas de vivir un siniestro: una que el cliente reporta activamente (F4.1), y otra que Solventa resuelve sola antes de que el cliente haga nada (F4.2). El sistema visual es el mismo; el ritmo de cada flujo no.</p>
+    <div class="tags"><span class="tag">Épica E4</span><span class="tag">Dominio: Sergio</span><span class="tag">v0.1 — borrador</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="flow-note">
+    Esta épica (E4) es dominio de Sergio, no el mío original — la incluyo porque quedaste a cargo de todos los mockups. Vale la pena que él revise que el lenguaje de cada tipo de siniestro sea el correcto antes de darla por cerrada.
+  </div>
+
+  <div class="section-divider">Siniestro asistido — F4.1</div>
+  <div class="screens">
+
+    <div class="slot">
+      <div class="step-label">HU4.1.1</div>
+      <div class="step-title">Registrar un siniestro</div>
+      <div class="phone">
+        <div class="bar-top"><div class="notch"></div></div>
+        <div class="screen">
+          <div class="s-title">¿Qué pasó?</div>
+          <div class="chip-row">
+            <span class="chip-opt sel">Daño al dispositivo</span>
+            <span class="chip-opt">Robo</span>
+            <span class="chip-opt">Gasto médico</span>
+          </div>
+          <div class="field"><label>Cuéntanos brevemente</label><div class="input">Se me cayó el celular y se rompió la pantalla</div></div>
+          <div class="spacer"></div>
+          <div class="s-btn primary">Continuar</div>
+        </div>
+        <div class="bar-bottom"><div class="home"></div></div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <div class="step-label">HU4.1.2</div>
+      <div class="step-title">Adjuntar evidencia</div>
+      <div class="phone">
+        <div class="bar-top"><div class="notch"></div></div>
+        <div class="screen">
+          <div class="s-title" style="font-size:14px;">Foto del daño</div>
+          <div class="s-body">La ubicación se adjunta automáticamente.</div>
+          <div class="cam-view">
+            <div class="corner tl"></div><div class="corner br"></div>
+            <div class="geo-tag">Bogotá, Colombia</div>
+          </div>
+          <div class="shutter"></div>
+        </div>
+        <div class="bar-bottom"><div class="home"></div></div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <div class="step-label">HU4.1.3</div>
+      <div class="step-title">Solicitar asistencia en sitio</div>
+      <div class="phone">
+        <div class="bar-top"><div class="notch"></div></div>
+        <div class="screen">
+          <div class="s-title">¿Necesitas ayuda ahora?</div>
+          <div class="s-body">Tenemos un centro autorizado a 1.2 km.</div>
+          <div class="cam-view" style="min-height:70px;">Mapa con ubicación del prestador</div>
+          <div class="spacer"></div>
+          <div class="s-btn primary">Solicitar asistencia</div>
+          <div class="s-btn secondary">Solo reportar, sin asistencia</div>
+        </div>
+        <div class="bar-bottom"><div class="home"></div></div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <div class="step-label">HU4.2.1</div>
+      <div class="step-title">Estado del siniestro</div>
+      <div class="phone">
+        <div class="bar-top"><div class="notch"></div></div>
+        <div class="screen">
+          <div class="s-title">Tu siniestro</div>
+          <div class="s-body">#SIN-2026-2210</div>
+          <div class="timeline">
+            <div class="item done"><div class="dot"></div><div><b>Reportado</b>Hoy, 10:14 am</div></div>
+            <div class="item now"><div class="dot"></div><div><b>En evaluación</b>Un perito lo está revisando</div></div>
+            <div class="item pending"><div class="dot"></div><div style="color:rgba(16,27,45,0.4);"><b>Pago</b>Pendiente</div></div>
+          </div>
+        </div>
+        <div class="bar-bottom"><div class="home"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-divider">Siniestro paramétrico — F4.2</div>
+  <div class="screens">
+
+    <div class="slot">
+      <div class="step-label">HU4.2.2</div>
+      <div class="step-title">Notificación push</div>
+      <div class="phone">
+        <div class="bar-top"><div class="notch"></div></div>
+        <div class="lock-screen">
+          <div class="lock-time">9:41</div>
+          <div class="push">
+            <div class="app"><span class="dot"></span>Solventa</div>
+            <div class="title">Tu vuelo se retrasó — ya te pagamos</div>
+            <div class="body">$180.000 COP por retraso de más de 3 horas. Sin que tengas que reportarlo.</div>
+          </div>
+        </div>
+        <div class="bar-bottom"><div class="home"></div></div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <div class="step-label">HU4.2.3</div>
+      <div class="step-title">Pago automático confirmado</div>
+      <div class="phone">
+        <div class="bar-top"><div class="notch"></div></div>
+        <div class="screen">
+          <div class="result">
+            <div class="result-icon ok">✓</div>
+            <div class="s-title">Pago realizado</div>
+            <div class="s-body" style="margin-top:6px;">$180.000 COP por retraso de vuelo AV204.</div>
+            <div class="badge-auto">Detectado y pagado automáticamente</div>
+          </div>
+          <div class="spacer"></div>
+          <div class="s-btn primary">Ver comprobante</div>
+        </div>
+        <div class="bar-bottom"><div class="home"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer class="wrap">
+  Nota de continuidad de marca: en el paramétrico nunca aparece un botón "Reportar" — el punto de este journey es que el cliente no hace nada. Si en algún wireframe futuro aparece un CTA de reporte aquí, es un error de coherencia con F4.2. Documento vivo — Proyecto Solventa, MISW4501, Grupo 3.
+</footer>
+
+</body>
+</html>
