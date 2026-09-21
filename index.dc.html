@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-base)}
+a{color:var(--text-primary);text-decoration:none}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="max-width:920px; margin:0 auto; padding:80px 24px; display:grid; gap:var(--space-10);">
+
+  <div style="display:grid; gap:var(--space-4);">
+    <div style="font:var(--text-style-kicker); color:var(--text-primary);">prototipo navegable</div>
+    <h1 style="font-family:var(--font-display); font-weight:600; font-size:54px; line-height:1.06; letter-spacing:-0.01em; margin:0;">Solventa</h1>
+    <p style="font-size:19px; line-height:1.5; color:var(--ink-72); max-width:52ch; margin:0; text-wrap:pretty;">Protección que decide sola cuando puede, y que explica por qué cuando importa.</p>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:var(--space-6);">
+    <a href="movil/index.dc.html" style="border:var(--border); background:var(--surface-card); padding:var(--space-9); display:grid; gap:var(--space-5); align-content:start; min-height:220px;" style-hover="border-color:var(--ink-28)">
+      <i data-lucide="smartphone" style="color:var(--action-primary)"></i>
+      <div>
+        <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.15;">App móvil</div>
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50); margin-top:4px;">momentos de verdad</div>
+      </div>
+      <p style="margin:0; font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55;">Activación del teléfono, biometría, pólizas sin conexión y los dos journeys de siniestro.</p>
+      <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--action-primary); display:flex; align-items:center; gap:6px; margin-top:auto;">32 pantallas <i data-lucide="arrow-right"></i></div>
+    </a>
+    <a href="web/index.dc.html" style="border:var(--border); background:var(--surface-card); padding:var(--space-9); display:grid; gap:var(--space-5); align-content:start; min-height:220px;" style-hover="border-color:var(--ink-28)">
+      <i data-lucide="monitor" style="color:var(--action-primary)"></i>
+      <div>
+        <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.15;">Consola web</div>
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50); margin-top:4px;">gestión completa</div>
+      </div>
+      <p style="margin:0; font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55;">Acceso y registro, adquisición, ciclo de vida de pólizas y el back-office donde el perito decide.</p>
+      <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--action-primary); display:flex; align-items:center; gap:6px; margin-top:auto;">29 pantallas <i data-lucide="arrow-right"></i></div>
+    </a>
+  </div>
+
+  <div style="border-top:var(--border); padding-top:var(--space-7); display:grid; gap:var(--space-4);">
+    <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">acuerdos del prototipo</div>
+    <ul style="margin:0; padding-left:1.1em; display:grid; gap:var(--space-3); font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; max-width:60ch;">
+      <li>El acceso es con usuario y contraseña. El código de un solo uso queda solo para confirmar el correo en el registro.</li>
+      <li>Todas las pantallas leen los datos de ejemplo de <code style="font-family:var(--font-mono); font-size:13px;">datos.js</code>. Ahí se cambia el cliente, las pólizas y los montos, no en cada pantalla.</li>
+      <li>El sistema de diseño vive en <code style="font-family:var(--font-mono); font-size:13px;">_ds/</code> y es uno solo para los dos canales.</li>
+    </ul>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 22, height: 22, 'stroke-width': 1.75 } }); }
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="../datos.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-sunken)}
+a{color:var(--text-primary)}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="display:flex; gap:32px; align-items:flex-start; justify-content:center; padding:24px; flex-wrap:wrap; background:var(--surface-sunken); min-height:100%; box-sizing:border-box;">
+
+  <div style="position:relative; width:390px; height:712px; background:var(--surface-base); border:var(--border-width) solid var(--line-strong); display:flex; flex-direction:column; overflow:hidden; flex:0 0 auto;">
+
+    <div style="display:flex; justify-content:space-between; padding:8px 16px; font-family:var(--font-mono); font-size:11px; color:var(--ink-55); background:var(--surface-raised);">
+      <span>9:41</span><span>5G · 100%</span>
+    </div>
+
+    <div style="flex:1; overflow:auto;">
+
+      <sc-if value="{{ vBloqueo }}" hint-placeholder-val="{{ true }}">
+        <div style="min-height:648px; display:grid; gap:var(--space-8); align-content:center; justify-items:center; padding:var(--space-9); text-align:center; box-sizing:border-box;">
+          <div style="font:var(--text-style-kicker); color:var(--text-primary);">solventa</div>
+          <div style="width:72px; height:72px; border:var(--border-width) solid var(--line-strong); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="fingerprint" style="width:32px; height:32px;"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.12;">Confirma que eres tú</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0; max-width:30ch;">Pon el dedo en el sensor para abrir tus pólizas.</p>
+          </div>
+          <div style="display:grid; gap:var(--space-4); width:100%;">
+            <a href="./app-solventa.dc.html#billetera" style="text-decoration:none;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Confirmar huella</x-import>
+            </a>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ fallar }}" hint-size="100%,48px">Simular huella no reconocida</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="ghost" onClick="{{ irContrasena }}" hint-size="100%,40px">Usar contraseña</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vFallida }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:648px; display:grid; gap:var(--space-7); align-content:center; justify-items:center; padding:var(--space-9); text-align:center; box-sizing:border-box;">
+          <div style="width:72px; height:72px; border:var(--border-width) solid var(--status-rejected-ink); background:var(--status-rejected-bg); color:var(--status-rejected-ink); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="fingerprint" style="width:32px; height:32px;"></i>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="rejected" hint-size="auto,24px">{{ etiquetaIntento }}</x-import>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.12;">No reconocimos tu huella</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0; max-width:32ch;">Limpia el sensor y vuelve a intentarlo, o entra con tu contraseña.</p>
+          </div>
+          <div style="display:grid; gap:var(--space-4); width:100%;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ fallar }}" hint-size="100%,48px">Intentar de nuevo</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ irContrasena }}" hint-size="100%,48px">Usar contraseña</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vBloqueoTemporal }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:648px; box-sizing:border-box;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--status-rejected-bg); color:var(--status-rejected-ink); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="lock"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12;">Bloqueamos la biometría por 5 minutos</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Fallaron los 3 intentos de huella. Mientras tanto puedes entrar con tu contraseña.</p>
+          </div>
+          <div style="border:var(--border); background:var(--surface-sunken); padding:var(--space-7); display:flex; align-items:baseline; justify-content:space-between;">
+            <span style="font-size:var(--size-body-sm); color:var(--ink-72);">Se desbloquea en</span>
+            <span style="font-family:var(--font-mono); font-size:24px; font-variant-numeric:tabular-nums;">{{ cuentaRegresiva }}</span>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Contraseña" hint-size="100%,88px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" type="{{ tipoClave }}" default-value="tucontraseña" hint-size="100%,48px"></x-import>
+          </x-import>
+          <button onClick="{{ toggleClave }}" style="justify-self:start; background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary); margin-top:calc(var(--space-5) * -1);">{{ etiquetaVerClave }}</button>
+          <a href="./app-solventa.dc.html#billetera" style="text-decoration:none;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Entrar con contraseña</x-import>
+          </a>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vContrasena }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:648px; box-sizing:border-box;">
+          <div>
+            <div style="font:var(--text-style-kicker); color:var(--text-primary);">solventa</div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1; margin-top:var(--space-3);">Entra con tu contraseña</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">La misma de tu cuenta web.</p>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Correo" hint-size="100%,88px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" mono="{{ true }}" type="email" default-value="{{ correo }}" hint-size="100%,48px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Contraseña" hint-size="100%,88px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" type="{{ tipoClave }}" default-value="tucontraseña" hint-size="100%,48px"></x-import>
+          </x-import>
+          <div style="display:flex; justify-content:space-between; gap:var(--space-4); margin-top:calc(var(--space-5) * -1);">
+            <button onClick="{{ toggleClave }}" style="background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary);">{{ etiquetaVerClave }}</button>
+            <button style="background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary);">Olvidé mi contraseña</button>
+          </div>
+          <a href="./app-solventa.dc.html#billetera" style="text-decoration:none;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Entrar</x-import>
+          </a>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ irBloqueo }}" hint-size="100%,48px">Usar huella</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vCambioBio }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:648px; box-sizing:border-box;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--surface-sunken); color:var(--ink-80); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="shield-alert"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12;">Detectamos un cambio en la biometría de tu teléfono</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Se agregó o se borró una huella. Por seguridad desactivamos el acceso biométrico. Confirma con tu contraseña para volver a activarlo.</p>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Contraseña" hint-size="100%,88px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" type="{{ tipoClave }}" default-value="tucontraseña" hint-size="100%,48px"></x-import>
+          </x-import>
+          <button onClick="{{ toggleClave }}" style="justify-self:start; background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary); margin-top:calc(var(--space-5) * -1);">{{ etiquetaVerClave }}</button>
+          <div style="display:grid; gap:var(--space-4);">
+            <a href="./app-solventa.dc.html#billetera" style="text-decoration:none;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Volver a activar</x-import>
+            </a>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ irContrasena }}" hint-size="100%,48px">Seguir con contraseña</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+
+  <div style="width:320px; padding-top:8px; display:grid; gap:var(--space-6); align-content:start;">
+    <div>
+      <div style="font:var(--text-style-kicker); color:var(--text-primary);">recorrido</div>
+      <div style="font-family:var(--font-display); font-weight:600; font-size:22px; margin-top:4px; line-height:1.15;">Acceso recurrente</div>
+      <p style="font-size:var(--size-body-sm); color:var(--ink-72); max-width:40ch; line-height:1.55;">Lo que ve el cliente cada vez que abre la app. Tres intentos de huella; al tercero, bloqueo de cinco minutos con la contraseña a mano.</p>
+    </div>
+    <div style="display:grid; gap:var(--space-4);">
+      <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">pantallas</div>
+      <sc-for list="{{ atajos }}" as="a" hint-placeholder-count="5">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" size="sm" onClick="{{ a.onClick }}" hint-size="100%,32px">{{ a.label }}</x-import>
+      </sc-for>
+    </div>
+    <div style="border-top:var(--border); padding-top:var(--space-6); display:grid; gap:var(--space-3); font-size:var(--size-body-sm);">
+      <a href="./index.dc.html" style="display:inline-flex; align-items:center; gap:6px;"><i data-lucide="arrow-left"></i> Mapa de navegación móvil</a>
+      <a href="./onboarding.dc.html" style="display:inline-flex; align-items:center; gap:6px;">Activación del teléfono <i data-lucide="arrow-right"></i></a>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:800,&quot;height&quot;:790}}">
+class Component extends DCLogic {
+  state = { vista: 'bloqueo', intento: 1, verClave: false, restante: 300 };
+
+  componentDidMount() {
+    const h = (location.hash || '').replace('#', '');
+    const validas = ['bloqueo', 'fallida', 'bloqueo-temporal', 'contrasena', 'cambio-biometria'];
+    if (validas.indexOf(h) !== -1) this.setState({ vista: h });
+    this.timer = setInterval(() => {
+      if (this.state.vista === 'bloqueo-temporal' && this.state.restante > 0) {
+        this.setState({ restante: this.state.restante - 1 });
+      }
+    }, 1000);
+    this.icons();
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  componentDidUpdate() { this.icons(); }
+  icons() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 18, height: 18, 'stroke-width': 1.75 } }); }
+
+  datos() { return window.SOLVENTA_DATOS || { cliente: {}, onboarding: {} }; }
+  ir(v) { this.setState({ vista: v }); }
+
+  renderVals() {
+    const D = this.datos();
+    const max = (D.onboarding || {}).maxIntentos || 3;
+    const v = this.state.vista;
+    const m = Math.floor(this.state.restante / 60);
+    const s = this.state.restante % 60;
+    const atajo = (label, vista) => ({ label, onClick: () => this.ir(vista) });
+
+    return {
+      vBloqueo: v === 'bloqueo',
+      vFallida: v === 'fallida',
+      vBloqueoTemporal: v === 'bloqueo-temporal',
+      vContrasena: v === 'contrasena',
+      vCambioBio: v === 'cambio-biometria',
+
+      correo: (D.cliente || {}).correo,
+      etiquetaIntento: 'Intento ' + this.state.intento + ' de ' + max,
+      cuentaRegresiva: m + ':' + (s < 10 ? '0' + s : s),
+      tipoClave: this.state.verClave ? 'text' : 'password',
+      etiquetaVerClave: this.state.verClave ? 'Ocultar contraseña' : 'Ver contraseña',
+      toggleClave: () => this.setState({ verClave: !this.state.verClave }),
+
+      fallar: () => {
+        const n = this.state.intento + 1;
+        if (n > max) return this.setState({ vista: 'bloqueo-temporal', restante: 300, intento: max });
+        this.setState({ vista: 'fallida', intento: n });
+      },
+      irBloqueo: () => this.setState({ vista: 'bloqueo', intento: 1 }),
+      irContrasena: () => this.ir('contrasena'),
+
+      atajos: [
+        atajo('1 · Bloqueo de la app', 'bloqueo'),
+        atajo('2 · Biometría fallida', 'fallida'),
+        atajo('3 · Bloqueo temporal', 'bloqueo-temporal'),
+        atajo('Ingreso con contraseña', 'contrasena'),
+        atajo('Cambio de biometría', 'cambio-biometria'),
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

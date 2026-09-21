@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="../datos.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-sunken)}
+a{color:var(--text-primary)}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="padding:24px; display:grid; gap:24px; justify-items:start; background:var(--surface-sunken); min-height:100%; box-sizing:border-box;">
+
+  <div style="position:relative; width:1180px; height:820px; background:var(--surface-base); border:var(--border-width) solid var(--line-strong); display:flex; overflow:hidden; flex:0 0 auto;">
+
+    <x-import component-from-global-scope="SolventaDesignSystem_0139be.SideNav" items="{{ navItems }}" value="{{ seccion }}" onChange="{{ setSeccion }}" brand="Solventa" footer="{{ analista }}" hint-size="236px,100%"></x-import>
+
+    <div style="flex:1; display:flex; flex-direction:column; min-width:0;">
+      <x-import component-from-global-scope="SolventaDesignSystem_0139be.TopBar" kicker="{{ topKicker }}" title="{{ topTitle }}" actions="{{ topActions }}" hint-size="100%,64px"></x-import>
+
+      <div style="flex:1; overflow:auto;">
+
+        <sc-if value="{{ vResumen }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-8); align-content:start;">
+            <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-6);">
+              <sc-for list="{{ indicadores }}" as="k" hint-placeholder-count="4">
+                <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8);">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.StatBlock" label="{{ k.label }}" value="{{ k.value }}" meta="{{ k.meta }}" tone="{{ k.tone }}" hint-size="100%,88px"></x-import>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:grid; gap:var(--space-5);">
+              <div style="display:flex; align-items:baseline; justify-content:space-between;">
+                <div style="font-family:var(--font-display); font-weight:600; font-size:19px;">Siniestros que necesitan decisión</div>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" onClick="{{ irSiniestros }}" hint-size="auto,32px">Ver todos</x-import>
+              </div>
+              <div style="border:var(--border); background:var(--surface-card);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsPendientes }}" rows="{{ filasPendientes }}" onRowClick="{{ abrirSiniestro }}" hint-size="100%,160px"></x-import>
+              </div>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="auto" title="decididos por el sistema hoy" hint-size="100%,96px">14 pagos paramétricos por $2.480.000, sin intervención de un analista. El más reciente fue el retraso del vuelo AV204.</x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vCartera }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:var(--space-6);">
+              <div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Cartera de pólizas</div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50); margin-top:6px;">{{ conteoCartera }}</div>
+              </div>
+              <div style="display:flex; gap:var(--space-4); align-items:center;">
+                <div style="width:180px;">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" size="sm" options="{{ filtrosPoliza }}" value="{{ filtroPoliza }}" onChange="{{ setFiltroPoliza }}" hint-size="100%,32px"></x-import>
+                </div>
+                <div style="width:260px;">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="sm" value="{{ busqueda }}" onChange="{{ setBusqueda }}" placeholder="Buscar por número o cliente" hint-size="100%,32px"></x-import>
+                </div>
+              </div>
+            </div>
+            <sc-if value="{{ carteraVacia }}" hint-placeholder-val="{{ false }}">
+              <div style="border:var(--border); border-style:dashed; padding:var(--space-10); display:grid; gap:var(--space-4); justify-items:center; text-align:center;">
+                <div style="font-size:var(--size-body-sm); font-weight:500;">No hay pólizas con ese filtro</div>
+                <div style="font-size:13px; color:var(--ink-62);">Cambia el estado o borra la búsqueda.</div>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" onClick="{{ limpiarFiltros }}" hint-size="auto,32px">Quitar filtros</x-import>
+              </div>
+            </sc-if>
+            <sc-if value="{{ carteraConDatos }}" hint-placeholder-val="{{ true }}">
+              <div style="border:var(--border); background:var(--surface-card);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsCartera }}" rows="{{ filasCartera }}" onRowClick="{{ abrirPoliza }}" hint-size="100%,220px"></x-import>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vPoliza }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:820px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--space-6);">
+              <div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">{{ polRamo }}</div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono); color:var(--ink-50); margin-top:6px;">{{ polId }}</div>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="{{ polTono }}" hint-size="auto,24px">{{ polEstado }}</x-import>
+            </div>
+            <sc-if value="{{ polBloqueada }}" hint-placeholder-val="{{ false }}">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="alert" title="póliza sin acciones disponibles" hint-size="100%,96px">{{ polMotivoBloqueo }}</x-import>
+            </sc-if>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ polItems }}" hint-size="100%,220px"></x-import>
+
+            <div style="border-top:var(--border); padding-top:var(--space-7); display:grid; gap:var(--space-5);">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">acciones del analista</div>
+              <div style="display:flex; gap:var(--space-4); flex-wrap:wrap;">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" disabled="{{ noRenovar }}" onClick="{{ irRenovar }}" hint-size="auto,40px">Renovar</x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" disabled="{{ noModificar }}" onClick="{{ irModificar }}" hint-size="auto,40px">Modificar condiciones</x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="danger" disabled="{{ noCancelar }}" onClick="{{ irCancelar }}" hint-size="auto,40px">Cancelar póliza</x-import>
+              </div>
+              <sc-for list="{{ motivosBloqueo }}" as="m" hint-placeholder-count="1">
+                <div style="display:flex; align-items:flex-start; gap:var(--space-3); font-size:13px; color:var(--ink-62); line-height:1.5;">
+                  <i data-lucide="info"></i><span>{{ m }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Card" kicker="historial" title="Eventos de la póliza" padding="{{ cero }}" hint-size="100%,260px">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsHistorial }}" rows="{{ filasHistorial }}" hint-size="100%,220px"></x-import>
+            </x-import>
+            <div style="font-size:13px; color:var(--ink-55);">Del más reciente al más antiguo. Solo lectura.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vRenovar }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:620px;">
+            <div>
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ polId }}</div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1; margin-top:var(--space-3);">Renovar la póliza</div>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ renovarItems }}" hint-size="100%,160px"></x-import>
+            <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8); display:grid; gap:var(--space-5);">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">validaciones</div>
+              <sc-for list="{{ validaciones }}" as="v" hint-placeholder-count="3">
+                <div style="display:flex; align-items:flex-start; gap:var(--space-4);">
+                  <span style="width:16px; height:16px; flex:0 0 auto; margin-top:2px; display:inline-flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:11px; background:{{ v.bg }}; color:{{ v.fg }}; border:var(--border-width) solid {{ v.borde }};">{{ v.glifo }}</span>
+                  <div style="display:grid; gap:2px;">
+                    <div style="font-size:var(--size-body-sm);">{{ v.regla }}</div>
+                    <div style="font-size:13px; color:var(--slv-coral);">{{ v.detalle }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Switch" label="Renovar automáticamente el próximo año" checked="{{ autoRenovar }}" onChange="{{ setAutoRenovar }}" hint-size="100%,28px"></x-import>
+            <div style="display:flex; gap:var(--space-4); align-items:center; flex-wrap:wrap;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" disabled="{{ noPuedeRenovar }}" onClick="{{ confirmarRenovar }}" hint-size="auto,48px">Confirmar renovación</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irPoliza }}" hint-size="auto,48px">Volver</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ simularFalloRenovar }}" hint-size="auto,48px">Simular error</x-import>
+            </div>
+            <sc-if value="{{ noPuedeRenovar }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:13px; color:var(--ink-62);">No podemos renovar mientras una validación no se cumpla.</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vModificar }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:680px;">
+            <div>
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ polId }}</div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1; margin-top:var(--space-3);">Modificar condiciones</div>
+            </div>
+            <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8); display:grid; gap:var(--space-6);">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">modificables</div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Cobertura máxima" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" value="{{ nuevaMaxima }}" onChange="{{ setNuevaMaxima }}" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Deducible" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" value="{{ nuevoDeducible }}" onChange="{{ setNuevoDeducible }}" hint-size="100%,40px"></x-import>
+              </x-import>
+            </div>
+            <div style="border:var(--border); background:var(--surface-sunken); padding:var(--space-8); display:grid; gap:var(--space-6);">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">no modificables</div>
+              <sc-for list="{{ bloqueados }}" as="b" hint-placeholder-count="3">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="{{ b.label }}" hint="{{ b.motivo }}" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" value="{{ b.valor }}" disabled="{{ true }}" readOnly="{{ true }}" hint-size="100%,40px"></x-import>
+                </x-import>
+              </sc-for>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Motivo del cambio" hint="Obligatorio. Queda en el historial y en la auditoría." hint-size="100%,84px">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" value="{{ motivoCambio }}" onChange="{{ setMotivoCambio }}" invalid="{{ sinMotivo }}" placeholder="Por qué se modifica" hint-size="100%,40px"></x-import>
+            </x-import>
+            <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8); display:grid; gap:var(--space-5);">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">antes y después</div>
+              <sc-for list="{{ diffs }}" as="d" hint-placeholder-count="2">
+                <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:var(--space-5); align-items:baseline;">
+                  <div style="display:grid; gap:2px;">
+                    <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ d.label }}</div>
+                    <div style="font-family:var(--font-mono); font-size:var(--size-body-sm); color:var(--ink-55); text-decoration:line-through;">{{ d.antes }}</div>
+                  </div>
+                  <i data-lucide="arrow-right"></i>
+                  <div style="font-family:var(--font-mono); font-size:var(--size-body-sm); font-weight:500; align-self:end;">{{ d.despues }}</div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ sinCambios }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size:13px; color:var(--ink-55);">Todavía no cambiaste ningún valor.</div>
+              </sc-if>
+            </div>
+            <div style="display:flex; gap:var(--space-4); flex-wrap:wrap;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" disabled="{{ noPuedeModificar }}" onClick="{{ confirmarModificar }}" hint-size="auto,48px">Guardar cambios</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irPoliza }}" hint-size="auto,48px">Volver</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ simularFalloModificar }}" hint-size="auto,48px">Simular error</x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vCancelar }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:560px;">
+            <div>
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ polId }}</div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1; margin-top:var(--space-3);">Cancelar la póliza</div>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Causal de la cancelación" hint="Obligatoria. No hay opción preseleccionada." hint-size="100%,150px">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.RadioGroup" options="{{ causales }}" value="{{ causal }}" onChange="{{ setCausal }}" hint-size="100%,110px"></x-import>
+            </x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ cancelarItems }}" hint-size="100%,120px"></x-import>
+            <div style="display:flex; gap:var(--space-4); flex-wrap:wrap;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="danger" disabled="{{ sinCausal }}" onClick="{{ abrirDialogo }}" hint-size="auto,48px">Cancelar la póliza</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irPoliza }}" hint-size="auto,48px">No cancelar</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ simularFalloCancelar }}" hint-size="auto,48px">Simular error</x-import>
+            </div>
+            <sc-if value="{{ sinCausal }}" hint-placeholder-val="{{ true }}">
+              <div style="font-size:13px; color:var(--ink-62);">Elige una causal para continuar.</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vResultado }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:560px;">
+            <div style="width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:{{ resBg }}; color:{{ resFg }};">
+              <i data-lucide="{{ resIcono }}"></i>
+            </div>
+            <div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:30px; line-height:1.1;">{{ resTitulo }}</div>
+              <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">{{ resTexto }}</p>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ resItems }}" hint-size="100%,120px"></x-import>
+            <sc-if value="{{ resOk }}" hint-placeholder-val="{{ true }}">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="notificación al cliente" hint-size="100%,88px">Notificamos al cliente por correo a {{ correoCliente }}. El cambio ya aparece en su app.</x-import>
+            </sc-if>
+            <div style="display:flex; gap:var(--space-4);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" onClick="{{ irPoliza }}" hint-size="auto,48px">Ver la póliza</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irCartera }}" hint-size="auto,48px">Volver a la cartera</x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vSiniestros }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:var(--space-6);">
+              <div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Siniestros</div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50); margin-top:6px;">{{ conteoSiniestros }}</div>
+              </div>
+              <div style="display:flex; gap:var(--space-4); align-items:center;">
+                <div style="width:180px;">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" size="sm" options="{{ filtrosEstado }}" value="{{ filtroEstado }}" onChange="{{ setFiltroEstado }}" hint-size="100%,32px"></x-import>
+                </div>
+                <div style="width:160px;">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" size="sm" options="{{ filtrosCanal }}" value="{{ filtroCanal }}" onChange="{{ setFiltroCanal }}" hint-size="100%,32px"></x-import>
+                </div>
+              </div>
+            </div>
+            <div style="border:var(--border); background:var(--surface-card); overflow-x:auto;">
+              <div style="min-width:1180px;">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsSiniestros }}" rows="{{ filasSiniestros }}" onRowClick="{{ abrirSiniestro }}" hint-size="100%,240px"></x-import>
+              </div>
+            </div>
+            <div style="font-size:13px; color:var(--ink-55);">Los días abiertos se cuentan contra el SLA de 5 días hábiles. Los paramétricos se cierran solos el mismo día.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vSiniestro }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; grid-template-columns:1fr 320px; gap:var(--space-9); align-content:start; align-items:start;">
+            <div style="display:grid; gap:var(--space-7); min-width:0;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--space-6);">
+                <div>
+                  <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">{{ sinTipo }}</div>
+                  <div style="font-family:var(--font-mono); font-size:var(--size-mono); color:var(--ink-50); margin-top:6px;">{{ sinId }}</div>
+                </div>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="{{ sinTono }}" hint-size="auto,24px">{{ sinEstado }}</x-import>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ sinItems }}" hint-size="100%,220px"></x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Card" kicker="seguimiento" title="Línea de tiempo" padding="var(--space-8)" hint-size="100%,220px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Timeline" events="{{ sinEventos }}" hint-size="100%,160px"></x-import>
+              </x-import>
+            </div>
+
+            <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8); display:grid; gap:var(--space-6); position:sticky; top:0;">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">evaluación del perito</div>
+              <sc-if value="{{ sinDecidido }}" hint-placeholder-val="{{ false }}">
+                <div style="display:grid; gap:var(--space-4);">
+                  <div style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55;">{{ sinResuelto }}</div>
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" onClick="{{ irSiniestros }}" hint-size="100%,40px">Volver al listado</x-import>
+                </div>
+              </sc-if>
+              <sc-if value="{{ sinPendiente }}" hint-placeholder-val="{{ true }}">
+                <div style="display:grid; gap:var(--space-6);">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Monto a reconocer" hint-size="100%,84px">
+                    <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="{{ sinEstimado }}" hint-size="100%,40px"></x-import>
+                  </x-import>
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Nota interna" hint="Queda en la auditoría." hint-size="100%,84px">
+                    <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" placeholder="Qué sustenta la decisión" hint-size="100%,40px"></x-import>
+                  </x-import>
+                  <div style="display:grid; gap:var(--space-4);">
+                    <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" onClick="{{ aprobar }}" hint-size="100%,40px">Aprobar y pagar</x-import>
+                    <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" onClick="{{ pedirEvidencia }}" hint-size="100%,40px">Pedir más evidencia</x-import>
+                    <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="danger" onClick="{{ rechazar }}" hint-size="100%,40px">Rechazar</x-import>
+                  </div>
+                  <div style="font-size:13px; color:var(--ink-55); line-height:1.5;">El cliente ve el cambio de estado en la app, con el motivo que escribas aquí.</div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vAuditoria }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start;">
+            <div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Auditoría</div>
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50); margin-top:6px;">{{ conteoAuditoria }}</div>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5); align-items:end;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Tipo de evento" hint-size="100%,72px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" size="sm" options="{{ tiposAuditoria }}" value="{{ filtroTipo }}" onChange="{{ setFiltroTipo }}" hint-size="100%,32px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Usuario" hint-size="100%,72px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" size="sm" options="{{ usuariosAuditoria }}" value="{{ filtroUsuario }}" onChange="{{ setFiltroUsuario }}" hint-size="100%,32px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Póliza" hint-size="100%,72px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" size="sm" options="{{ polizasAuditoria }}" value="{{ filtroPolizaAud }}" onChange="{{ setFiltroPolizaAud }}" hint-size="100%,32px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Periodo" hint-size="100%,72px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" size="sm" options="{{ periodos }}" value="{{ filtroPeriodo }}" onChange="{{ setFiltroPeriodo }}" hint-size="100%,32px"></x-import>
+              </x-import>
+            </div>
+            <sc-if value="{{ auditVacia }}" hint-placeholder-val="{{ false }}">
+              <div style="border:var(--border); border-style:dashed; padding:var(--space-10); display:grid; gap:var(--space-4); justify-items:center; text-align:center;">
+                <div style="font-size:var(--size-body-sm); font-weight:500;">No hay eventos con esos filtros</div>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" onClick="{{ limpiarAuditoria }}" hint-size="auto,32px">Quitar filtros</x-import>
+              </div>
+            </sc-if>
+            <sc-if value="{{ auditConDatos }}" hint-placeholder-val="{{ true }}">
+              <div style="border:var(--border); background:var(--surface-card);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsAuditoria }}" rows="{{ filasAuditoria }}" onRowClick="{{ abrirDesdeAuditoria }}" hint-size="100%,260px"></x-import>
+              </div>
+            </sc-if>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="registro inmutable" hint-size="100%,88px">Los registros de auditoría no se pueden modificar ni borrar. Haz clic en una fila para abrir la póliza.</x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vReportes }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-8); align-content:start; max-width:860px;">
+            <div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Reporte regulatorio</div>
+              <p style="font-size:var(--size-body-sm); color:var(--ink-72); margin:var(--space-4) 0 0; max-width:56ch; line-height:1.55;">Eventos de póliza del periodo, en CSV, con el formato que pide el regulador.</p>
+            </div>
+            <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8); display:grid; gap:var(--space-6);">
+              <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:var(--space-6); align-items:end;">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Desde" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" value="{{ desde }}" onChange="{{ setDesde }}" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Hasta" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" value="{{ hasta }}" onChange="{{ setHasta }}" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" onClick="{{ generarReporte }}" hint-size="auto,40px">Generar reporte</x-import>
+              </div>
+              <div style="font-size:13px; color:var(--ink-55);">Prueba con 01/01/2027 para ver el estado sin datos.</div>
+            </div>
+
+            <sc-if value="{{ reporteVacio }}" hint-placeholder-val="{{ false }}">
+              <div style="border:var(--border); border-style:dashed; padding:var(--space-10); display:grid; gap:var(--space-4); justify-items:center; text-align:center;">
+                <div style="font-size:var(--size-body-sm); font-weight:500;">No hay eventos en este periodo</div>
+                <div style="font-size:13px; color:var(--ink-62);">Elige otro rango de fechas.</div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ reporteListo }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid; gap:var(--space-6);">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:var(--space-6);">
+                  <div style="font-family:var(--font-display); font-weight:600; font-size:19px;">Resumen previo</div>
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" icon="{{ iconoDescarga }}" onClick="{{ descargar }}" hint-size="auto,40px">Descargar CSV</x-import>
+                </div>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ resumenReporte }}" hint-size="100%,120px"></x-import>
+                <div style="border:var(--border); background:var(--surface-card);">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsReporte }}" rows="{{ filasReporte }}" hint-size="100%,180px"></x-import>
+                </div>
+              </div>
+            </sc-if>
+
+            <div style="display:grid; gap:var(--space-5); border-top:var(--border); padding-top:var(--space-7);">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">reportes generados</div>
+              <div style="border:var(--border); background:var(--surface-card);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsHistReportes }}" rows="{{ filasHistReportes }}" hint-size="100%,140px"></x-import>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vReaseguro }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-8); align-content:start; max-width:860px;">
+            <div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Reporte para reaseguradoras</div>
+              <p style="font-size:var(--size-body-sm); color:var(--ink-72); margin:var(--space-4) 0 0; max-width:56ch; line-height:1.55;">Se descarga en CSV y se marca como enviado a mano. No se envía solo.</p>
+            </div>
+            <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8); display:grid; grid-template-columns:1fr 1fr auto; gap:var(--space-6); align-items:end;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Reaseguradora" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" options="{{ reaseguradoras }}" value="{{ reaseguradora }}" onChange="{{ setReaseguradora }}" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Periodo" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" options="{{ periodosReaseguro }}" value="{{ periodoReaseguro }}" onChange="{{ setPeriodoReaseguro }}" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" onClick="{{ generarReaseguro }}" hint-size="auto,40px">Generar</x-import>
+            </div>
+
+            <sc-if value="{{ reaseguroListo }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid; gap:var(--space-6);">
+                <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-6);">
+                  <sc-for list="{{ resumenReaseguro }}" as="r" hint-placeholder-count="4">
+                    <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8);">
+                      <x-import component-from-global-scope="SolventaDesignSystem_0139be.StatBlock" label="{{ r.label }}" value="{{ r.value }}" hint-size="100%,72px"></x-import>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex; gap:var(--space-4); flex-wrap:wrap; align-items:center;">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" icon="{{ iconoDescarga }}" onClick="{{ descargar }}" hint-size="auto,40px">Descargar CSV</x-import>
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" onClick="{{ marcarEnviado }}" hint-size="auto,40px">Marcar como enviado</x-import>
+                </div>
+                <sc-if value="{{ marcado }}" hint-placeholder-val="{{ false }}">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="marcado como enviado" hint-size="100%,88px">{{ textoMarcado }}</x-import>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <div style="display:grid; gap:var(--space-5); border-top:var(--border); padding-top:var(--space-7);">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">historial de envíos</div>
+              <div style="border:var(--border); background:var(--surface-card);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsHistReaseguro }}" rows="{{ filasHistReaseguro }}" hint-size="100%,120px"></x-import>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+
+    <x-import component-from-global-scope="SolventaDesignSystem_0139be.Dialog" open="{{ dialogoAbierto }}" kicker="acción irreversible" title="¿Cancelar esta póliza?" onClose="{{ cerrarDialogo }}" footer="{{ pieDialogo }}" hint-size="420px,220px">
+      <div style="display:grid; gap:var(--space-4); font-size:var(--size-body-sm); line-height:1.55; color:var(--ink-72);">
+        <div>La cobertura de {{ polId }} termina el {{ hoy }} y no se puede revertir. El cliente deja de estar protegido desde ese momento.</div>
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">causal: {{ causal }}</div>
+      </div>
+    </x-import>
+
+    <sc-if value="{{ toastAbierto }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; right:var(--space-8); bottom:var(--space-8); max-width:380px;">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Toast" tone="success" message="{{ toastTexto }}" onClose="{{ cerrarToast }}" hint-size="340px,64px"></x-import>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <div style="width:1180px; display:grid; gap:var(--space-4);">
+    <div style="border-top:var(--border); padding-top:var(--space-6); display:flex; align-items:baseline; justify-content:space-between;">
+      <div style="font-family:var(--font-display); font-weight:600; font-size:19px;">Ir a cualquier pantalla</div>
+      <a href="./index.dc.html" style="font-family:var(--font-mono); font-size:var(--size-mono-sm);">mapa del canal web</a>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:var(--space-4);">
+      <sc-for list="{{ atajos }}" as="a" hint-placeholder-count="8">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" onClick="{{ a.onClick }}" hint-size="auto,32px">{{ a.label }}</x-import>
+      </sc-for>
+    </div>
+    <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">estados de póliza · elige una y mira cómo cambian las acciones</div>
+    <div style="display:flex; flex-wrap:wrap; gap:var(--space-4);">
+      <sc-for list="{{ atajosPoliza }}" as="a" hint-placeholder-count="5">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="ghost" size="sm" onClick="{{ a.onClick }}" hint-size="auto,32px">{{ a.label }}</x-import>
+      </sc-for>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:1060}}">
+class Component extends DCLogic {
+  state = {
+    vista: 'resumen', sinIdx: 0, polIdx: 0,
+    filtroEstado: 'Todos los estados', filtroCanal: 'Todos los canales',
+    filtroPoliza: 'Todos los estados', busqueda: '',
+    filtroTipo: 'Todos los tipos', filtroUsuario: 'Todos los usuarios',
+    filtroPolizaAud: 'Todas las pólizas', filtroPeriodo: 'Últimos 7 días',
+    autoRenovar: true, motivoCambio: '', nuevaMaxima: null, nuevoDeducible: null,
+    causal: '', dialogo: false, resultado: null, accion: null,
+    desde: '01/09/2026', hasta: '20/09/2026', reporte: null,
+    reaseguradora: 'Munich Re', periodoReaseguro: '1 – 31 ago 2026', marcado: false,
+    toast: null,
+  };
+
+  componentDidMount() {
+    const h = (location.hash || '').replace('#', '');
+    const validas = ['resumen', 'cartera', 'poliza', 'renovar', 'modificar', 'cancelar', 'resultado', 'siniestros', 'siniestro', 'auditoria', 'reportes', 'reaseguro'];
+    if (validas.indexOf(h) !== -1) this.setState({ vista: h });
+    this.icons();
+  }
+  componentDidUpdate() { this.icons(); }
+  icons() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 16, height: 16, 'stroke-width': 1.75 } }); }
+
+  datos() { return window.SOLVENTA_DATOS || { polizas: [], siniestros: [], historial: [], operador: { indicadores: [], auditoria: [] }, reglasEstado: {} }; }
+  ir(v) { this.setState({ vista: v }); }
+  val(e) { return e && e.target ? e.target.value : e; }
+
+  renderVals() {
+    const D = this.datos();
+    const O = D.operador || { indicadores: [], auditoria: [] };
+    const S = D.siniestros || [];
+    const P = D.polizas || [];
+    const v = this.state.vista;
+    const DS = window.SolventaDesignSystem_0139be || {};
+    const icon = (n) => React.createElement('i', { 'data-lucide': n });
+
+    const titulos = {
+      resumen: ['operación', 'Resumen'],
+      cartera: ['operación', 'Cartera de pólizas'],
+      poliza: ['operación', 'Detalle de póliza'],
+      renovar: ['operación', 'Renovación'],
+      modificar: ['operación', 'Modificación'],
+      cancelar: ['operación', 'Cancelación'],
+      resultado: ['operación', 'Resultado'],
+      siniestros: ['operación', 'Siniestros'],
+      siniestro: ['operación', 'Detalle del siniestro'],
+      auditoria: ['cumplimiento', 'Auditoría'],
+      reportes: ['cumplimiento', 'Reporte regulatorio'],
+      reaseguro: ['cumplimiento', 'Reporte para reaseguradoras'],
+    };
+    const t = titulos[v] || ['', ''];
+    const secDe = { poliza: 'cartera', renovar: 'cartera', modificar: 'cartera', cancelar: 'cartera', resultado: 'cartera', siniestro: 'siniestros', reaseguro: 'reportes' };
+
+    /* ---- póliza seleccionada y sus reglas ---- */
+    const pol = P[this.state.polIdx] || {};
+    const regla = (D.reglasEstado || {})[pol.estado] || {};
+    const puedeRenovar = regla.renovar === true || (regla.renovar === 'ventana' && pol.enVentana);
+    const puedeModificar = !!regla.modificar;
+    const puedeCancelar = !!regla.cancelar;
+    const motivos = [];
+    if (!puedeRenovar) motivos.push(pol.motivoBloqueo || pol.motivoRenovar || 'Esta póliza no se puede renovar en su estado actual.');
+    if (!puedeModificar && !pol.motivoBloqueo) motivos.push(pol.motivoModificar || 'Esta póliza no permite modificaciones.');
+
+    const maxima = this.state.nuevaMaxima === null ? (pol.maxima || '') : this.state.nuevaMaxima;
+    const deducible = this.state.nuevoDeducible === null ? (pol.deducible || '') : this.state.nuevoDeducible;
+    const diffs = [];
+    if (maxima !== pol.maxima) diffs.push({ label: 'cobertura máxima', antes: pol.maxima, despues: maxima });
+    if (deducible !== pol.deducible) diffs.push({ label: 'deducible', antes: pol.deducible, despues: deducible });
+
+    const valsRenovar = (puedeRenovar ? D.validacionesRenovar : D.validacionesRenovarFallo) || [];
+    const renovable = valsRenovar.every((x) => x.cumple);
+
+    /* ---- cartera ---- */
+    const q = this.state.busqueda.toLowerCase();
+    const carteraFiltrada = P.filter((p) =>
+      (this.state.filtroPoliza === 'Todos los estados' || p.estado === this.state.filtroPoliza) &&
+      (q === '' || p.id.toLowerCase().indexOf(q) !== -1 || (D.cliente || {}).nombre.toLowerCase().indexOf(q) !== -1 || p.ramo.toLowerCase().indexOf(q) !== -1));
+
+    /* ---- siniestros ---- */
+    const fe = this.state.filtroEstado, fc = this.state.filtroCanal;
+    const visibles = S.filter((s) =>
+      (fe === 'Todos los estados' || s.estado === fe) &&
+      (fc === 'Todos los canales' || s.canal === fc));
+    const sin = S[this.state.sinIdx] || {};
+    const pendiente = sin.estado === 'En evaluación';
+
+    /* ---- auditoría ---- */
+    const A = O.auditoria || [];
+    const audit = A.filter((a) =>
+      (this.state.filtroTipo === 'Todos los tipos' || a.tipo === this.state.filtroTipo) &&
+      (this.state.filtroUsuario === 'Todos los usuarios' || a.usuario === this.state.filtroUsuario) &&
+      (this.state.filtroPolizaAud === 'Todas las pólizas' || a.poliza === this.state.filtroPolizaAud));
+
+    /* ---- resultado ---- */
+    const res = this.state.resultado;
+    const acc = this.state.accion;
+    const nombreAccion = { renovar: 'renovación', modificar: 'modificación', cancelar: 'cancelación' }[acc] || '';
+    const resOk = res === 'ok';
+
+    const rep = this.state.reporte;
+
+    return {
+      seccion: secDe[v] || v,
+      topKicker: t[0], topTitle: t[1],
+      analista: O.analista,
+      hoy: D.hoy,
+      cero: '0',
+      correoCliente: (D.cliente || {}).correo,
+      topActions: React.createElement(DS.Button, { variant: 'ghost', size: 'sm' }, 'Salir'),
+      navItems: [
+        { value: 'resumen', label: 'Resumen' },
+        { value: 'cartera', label: 'Cartera', count: P.length },
+        { value: 'siniestros', label: 'Siniestros', count: S.length },
+        { value: 'reportes', label: 'Reportes' },
+        { value: 'auditoria', label: 'Auditoría' },
+      ],
+      setSeccion: (s) => this.ir(s),
+
+      vResumen: v === 'resumen', vCartera: v === 'cartera', vPoliza: v === 'poliza',
+      vRenovar: v === 'renovar', vModificar: v === 'modificar', vCancelar: v === 'cancelar',
+      vResultado: v === 'resultado', vSiniestros: v === 'siniestros', vSiniestro: v === 'siniestro',
+      vAuditoria: v === 'auditoria', vReportes: v === 'reportes', vReaseguro: v === 'reaseguro',
+
+      indicadores: (O.indicadores || []).map((k) => ({ label: k.label, value: k.value, meta: k.meta, tone: k.tone || 'default' })),
+      colsPendientes: [
+        { key: 'id', header: 'Siniestro', mono: true },
+        { key: 'tipo', header: 'Tipo' },
+        { key: 'titular', header: 'Titular' },
+        { key: 'estimado', header: 'Estimado', mono: true, align: 'right' },
+        { key: 'dias', header: 'SLA', mono: true, muted: true },
+      ],
+      filasPendientes: S.filter((s) => s.estado === 'En evaluación'),
+
+      conteoCartera: carteraFiltrada.length + ' de ' + P.length + ' pólizas',
+      filtrosPoliza: ['Todos los estados', 'Vigente', 'Por renovar', 'En revisión', 'Vencida', 'Cancelada'],
+      filtroPoliza: this.state.filtroPoliza,
+      setFiltroPoliza: (e) => this.setState({ filtroPoliza: this.val(e) }),
+      busqueda: this.state.busqueda,
+      setBusqueda: (e) => this.setState({ busqueda: this.val(e) }),
+      limpiarFiltros: () => this.setState({ filtroPoliza: 'Todos los estados', busqueda: '' }),
+      carteraVacia: carteraFiltrada.length === 0,
+      carteraConDatos: carteraFiltrada.length > 0,
+      colsCartera: [
+        { key: 'id', header: 'Póliza', mono: true },
+        { key: 'ramo', header: 'Ramo' },
+        { key: 'titular', header: 'Titular' },
+        { key: 'prima', header: 'Prima', mono: true, align: 'right' },
+        { key: 'vigencia', header: 'Vigencia', muted: true },
+        { key: 'estado', header: 'Estado' },
+      ],
+      filasCartera: carteraFiltrada.map((p) => ({ id: p.id, ramo: p.ramo, titular: (D.cliente || {}).nombre, prima: p.prima, vigencia: p.vigencia, estado: p.estado })),
+      abrirPoliza: (row) => {
+        const i = P.findIndex((p) => p.id === row.id);
+        this.setState({ vista: 'poliza', polIdx: i === -1 ? 0 : i, nuevaMaxima: null, nuevoDeducible: null, motivoCambio: '', causal: '' });
+      },
+
+      polId: pol.id, polRamo: pol.ramo, polEstado: pol.estado, polTono: pol.tono || 'neutral',
+      polBloqueada: !!pol.motivoBloqueo,
+      polMotivoBloqueo: pol.motivoBloqueo,
+      polItems: [
+        { label: 'Titular', value: (D.cliente || {}).nombre },
+        { label: 'Prima mensual', value: pol.prima, mono: true },
+        { label: 'Vigencia', value: pol.desde + ' – ' + pol.hasta, mono: true },
+        { label: 'Deducible', value: pol.deducible, mono: true },
+        { label: 'Cobertura máxima', value: pol.maxima, mono: true },
+        { label: 'Cobertura', value: pol.cobertura },
+        { label: 'Pago paramétrico', value: pol.parametrico ? 'Activo — se paga solo' : 'No aplica' },
+      ],
+      noRenovar: !puedeRenovar, noModificar: !puedeModificar, noCancelar: !puedeCancelar,
+      motivosBloqueo: motivos,
+      colsHistorial: [
+        { key: 'fecha', header: 'Fecha y hora', mono: true, muted: true },
+        { key: 'origen', header: 'Usuario o sistema' },
+        { key: 'tipo', header: 'Evento' },
+        { key: 'detalle', header: 'Detalle' },
+        { key: 'resultado', header: 'Resultado' },
+      ],
+      filasHistorial: D.historial || [],
+
+      renovarItems: [
+        { label: 'Vigencia actual', value: pol.desde + ' – ' + pol.hasta, mono: true },
+        { label: 'Nueva vigencia', value: '12 oct 2026 – 12 oct 2027', mono: true },
+        { label: 'Prima actual', value: pol.prima, mono: true },
+        { label: 'Prima recalculada', value: '$124.300 COP', mono: true },
+      ],
+      validaciones: valsRenovar.map((x) => ({
+        regla: x.regla, detalle: x.cumple ? '' : (x.detalle || 'No se cumple'),
+        glifo: x.cumple ? '✓' : '×',
+        bg: x.cumple ? 'var(--status-active-bg)' : 'var(--status-rejected-bg)',
+        fg: x.cumple ? 'var(--status-active-ink)' : 'var(--status-rejected-ink)',
+        borde: x.cumple ? 'var(--status-active-ink)' : 'var(--status-rejected-ink)',
+      })),
+      noPuedeRenovar: !renovable,
+      autoRenovar: this.state.autoRenovar,
+      setAutoRenovar: (c) => this.setState({ autoRenovar: c }),
+      confirmarRenovar: () => this.setState({ vista: 'resultado', resultado: 'ok', accion: 'renovar' }),
+      simularFalloRenovar: () => this.setState({ vista: 'resultado', resultado: 'error', accion: 'renovar' }),
+
+      nuevaMaxima: maxima,
+      setNuevaMaxima: (e) => this.setState({ nuevaMaxima: this.val(e) }),
+      nuevoDeducible: deducible,
+      setNuevoDeducible: (e) => this.setState({ nuevoDeducible: this.val(e) }),
+      bloqueados: [
+        { label: 'Prima mensual', valor: pol.prima, motivo: 'La prima solo cambia al renovar o al modificar coberturas tarifadas.' },
+        { label: 'Vigencia', valor: pol.desde + ' – ' + pol.hasta, motivo: 'La vigencia solo cambia en una renovación.' },
+        { label: 'Canal de venta', valor: 'Web', motivo: 'El canal queda fijo desde la emisión.' },
+      ],
+      motivoCambio: this.state.motivoCambio,
+      setMotivoCambio: (e) => this.setState({ motivoCambio: this.val(e) }),
+      sinMotivo: this.state.motivoCambio.trim() === '' && diffs.length > 0,
+      diffs,
+      sinCambios: diffs.length === 0,
+      noPuedeModificar: diffs.length === 0 || this.state.motivoCambio.trim() === '',
+      confirmarModificar: () => this.setState({ vista: 'resultado', resultado: 'ok', accion: 'modificar' }),
+      simularFalloModificar: () => this.setState({ vista: 'resultado', resultado: 'error', accion: 'modificar' }),
+
+      causales: [
+        { value: 'Solicitud del cliente', label: 'Solicitud del cliente' },
+        { value: 'Falta de pago', label: 'Falta de pago' },
+        { value: 'Fraude detectado', label: 'Fraude detectado' },
+      ],
+      causal: this.state.causal,
+      setCausal: (c) => this.setState({ causal: c }),
+      sinCausal: this.state.causal === '',
+      cancelarItems: [
+        { label: 'Fecha de efecto', value: D.hoy, mono: true },
+        { label: 'Prima no consumida', value: '$34.600 COP', mono: true },
+        { label: 'Devolución a', value: (D.cliente || {}).cuentaPago },
+      ],
+      dialogoAbierto: this.state.dialogo,
+      abrirDialogo: () => this.setState({ dialogo: true }),
+      cerrarDialogo: () => this.setState({ dialogo: false }),
+      pieDialogo: React.createElement(React.Fragment, null,
+        React.createElement(DS.Button, { variant: 'ghost', onClick: () => this.setState({ dialogo: false }) }, 'No cancelar'),
+        React.createElement(DS.Button, { variant: 'danger', onClick: () => this.setState({ dialogo: false, vista: 'resultado', resultado: 'ok', accion: 'cancelar' }) }, 'Sí, cancelar')),
+      simularFalloCancelar: () => this.setState({ vista: 'resultado', resultado: 'error', accion: 'cancelar' }),
+
+      resOk,
+      resIcono: resOk ? 'check' : 'x',
+      resBg: resOk ? 'var(--status-active-bg)' : 'var(--status-rejected-bg)',
+      resFg: resOk ? 'var(--status-active-ink)' : 'var(--status-rejected-ink)',
+      resTitulo: resOk ? 'Guardamos la ' + nombreAccion : 'No pudimos completar la ' + nombreAccion,
+      resTexto: resOk
+        ? 'El cambio quedó registrado en el historial de la póliza y en la auditoría.'
+        : 'El sistema de pólizas no respondió. La póliza no cambió: sigue como estaba. Intenta de nuevo en unos minutos.',
+      resItems: resOk
+        ? [
+            { label: 'Póliza', value: pol.id, mono: true },
+            { label: 'Acción', value: nombreAccion },
+            { label: acc === 'cancelar' ? 'Estado' : 'Nueva vigencia', value: acc === 'cancelar' ? 'Cancelada' : '12 oct 2026 – 12 oct 2027', mono: acc !== 'cancelar' },
+            { label: acc === 'cancelar' ? 'Fecha de efecto' : 'Prima', value: acc === 'cancelar' ? D.hoy : '$124.300 COP', mono: true },
+          ]
+        : [
+            { label: 'Póliza', value: pol.id, mono: true },
+            { label: 'Estado', value: pol.estado + ' — sin cambios' },
+            { label: 'Código del error', value: 'ERR-POL-503', mono: true },
+          ],
+
+      conteoSiniestros: visibles.length + ' de ' + S.length + ' siniestros',
+      filtrosEstado: ['Todos los estados', 'En evaluación', 'Pagado', 'Rechazado'],
+      filtroEstado: fe,
+      setFiltroEstado: (e) => this.setState({ filtroEstado: this.val(e) }),
+      filtrosCanal: ['Todos los canales', 'App', 'Web', 'Automático'],
+      filtroCanal: fc,
+      setFiltroCanal: (e) => this.setState({ filtroCanal: this.val(e) }),
+      colsSiniestros: [
+        { key: 'id', header: 'Siniestro', mono: true },
+        { key: 'poliza', header: 'Póliza', mono: true },
+        { key: 'ramo', header: 'Ramo' },
+        { key: 'titular', header: 'Titular' },
+        { key: 'reportado', header: 'Reportado', mono: true, muted: true },
+        { key: 'tipo', header: 'Tipo de evento' },
+        { key: 'estimado', header: 'Estimado', mono: true, align: 'right' },
+        { key: 'pagado', header: 'Pagado', mono: true, align: 'right' },
+        { key: 'estado', header: 'Estado' },
+        { key: 'canal', header: 'Canal', muted: true },
+        { key: 'dias', header: 'SLA', mono: true, muted: true },
+      ],
+      filasSiniestros: visibles,
+      abrirSiniestro: (row) => {
+        const i = S.findIndex((s) => s.id === row.id);
+        this.setState({ vista: 'siniestro', sinIdx: i === -1 ? 0 : i });
+      },
+      sinId: sin.id, sinTipo: sin.tipo, sinEstado: sin.estado, sinTono: sin.tono || 'neutral',
+      sinEstimado: sin.estimado, sinDecidido: !pendiente, sinPendiente: pendiente,
+      sinResuelto: sin.estado === 'Pagado'
+        ? 'Resuelto. Se pagaron ' + sin.pagado + ' al titular.'
+        : 'Rechazado. El cliente vio el motivo en la app el mismo día.',
+      sinItems: [
+        { label: 'Póliza', value: sin.poliza, mono: true },
+        { label: 'Ramo', value: sin.ramo },
+        { label: 'Titular', value: sin.titular },
+        { label: 'Reportado', value: sin.reportado, mono: true },
+        { label: 'Canal', value: sin.canal },
+        { label: 'Evidencia', value: sin.evidencia },
+        { label: 'Asistencia', value: sin.asistencia },
+        { label: 'SLA', value: sin.dias + ' días hábiles', mono: true },
+      ],
+      sinEventos: [
+        { title: 'Reportado', detail: 'Canal: ' + (sin.canal || ''), time: sin.reportado, tone: 'done' },
+        { title: 'Evidencia recibida', detail: sin.evidencia, time: sin.reportado, tone: 'done' },
+        { title: pendiente ? 'En evaluación' : sin.estado, detail: pendiente ? 'Asignado a ' + (O.analista || '') : 'Cerrado', time: pendiente ? 'ahora' : sin.reportado, tone: pendiente ? 'pending' : 'done' },
+      ],
+      aprobar: () => this.setState({ vista: 'siniestros', toast: 'Aprobamos el siniestro y enviamos el pago. El cliente ya lo ve en la app.' }),
+      rechazar: () => this.setState({ vista: 'siniestros', toast: 'Rechazamos el siniestro con el motivo que escribiste.' }),
+      pedirEvidencia: () => this.setState({ vista: 'siniestros', toast: 'Le pedimos más evidencia al cliente. El SLA queda en pausa.' }),
+
+      conteoAuditoria: audit.length + ' de ' + A.length + ' registros',
+      tiposAuditoria: ['Todos los tipos', 'Consentimiento', 'Cotización', 'Evento de póliza'],
+      filtroTipo: this.state.filtroTipo,
+      setFiltroTipo: (e) => this.setState({ filtroTipo: this.val(e) }),
+      usuariosAuditoria: ['Todos los usuarios'].concat(A.map((a) => a.usuario).filter((u, i, arr) => arr.indexOf(u) === i)),
+      filtroUsuario: this.state.filtroUsuario,
+      setFiltroUsuario: (e) => this.setState({ filtroUsuario: this.val(e) }),
+      polizasAuditoria: ['Todas las pólizas'].concat(A.map((a) => a.poliza).filter((p, i, arr) => p !== '—' && arr.indexOf(p) === i)),
+      filtroPolizaAud: this.state.filtroPolizaAud,
+      setFiltroPolizaAud: (e) => this.setState({ filtroPolizaAud: this.val(e) }),
+      periodos: ['Últimos 7 días', 'Últimos 30 días', 'Este año'],
+      filtroPeriodo: this.state.filtroPeriodo,
+      setFiltroPeriodo: (e) => this.setState({ filtroPeriodo: this.val(e) }),
+      limpiarAuditoria: () => this.setState({ filtroTipo: 'Todos los tipos', filtroUsuario: 'Todos los usuarios', filtroPolizaAud: 'Todas las pólizas' }),
+      auditVacia: audit.length === 0,
+      auditConDatos: audit.length > 0,
+      colsAuditoria: [
+        { key: 'fecha', header: 'Fecha y hora', mono: true, muted: true },
+        { key: 'usuario', header: 'Usuario' },
+        { key: 'poliza', header: 'Póliza', mono: true },
+        { key: 'tipo', header: 'Tipo' },
+        { key: 'detalle', header: 'Qué pasó' },
+        { key: 'resultado', header: 'Resultado' },
+      ],
+      filasAuditoria: audit,
+      abrirDesdeAuditoria: (row) => {
+        const i = P.findIndex((p) => p.id === row.poliza);
+        if (i !== -1) this.setState({ vista: 'poliza', polIdx: i });
+      },
+
+      desde: this.state.desde,
+      setDesde: (e) => this.setState({ desde: this.val(e), reporte: null }),
+      hasta: this.state.hasta,
+      setHasta: (e) => this.setState({ hasta: this.val(e), reporte: null }),
+      generarReporte: () => this.setState({ reporte: this.state.desde.indexOf('2027') !== -1 ? 'vacio' : 'ok' }),
+      reporteVacio: rep === 'vacio',
+      reporteListo: rep === 'ok',
+      iconoDescarga: icon('download'),
+      descargar: () => this.setState({ toast: 'Descargamos el CSV con el resumen que ves en pantalla.' }),
+      resumenReporte: [
+        { label: 'Periodo', value: this.state.desde + ' – ' + this.state.hasta, mono: true },
+        { label: 'Registros', value: '1.204', mono: true },
+        { label: 'Generado', value: D.hoy + ' 9:41 am', mono: true },
+      ],
+      colsReporte: [
+        { key: 'poliza', header: 'Número de póliza', mono: true },
+        { key: 'evento', header: 'Evento' },
+        { key: 'fecha', header: 'Fecha', mono: true, muted: true },
+        { key: 'anterior', header: 'Estado anterior' },
+        { key: 'nuevo', header: 'Estado nuevo' },
+      ],
+      filasReporte: [
+        { poliza: '#SLV-2026-08337', evento: 'Cancelación', fecha: '15 sep 2026', anterior: 'Vigente', nuevo: 'Cancelada' },
+        { poliza: '#SLV-2026-08340', evento: 'Cambio de estado', fecha: '12 sep 2026', anterior: 'Vigente', nuevo: 'Por renovar' },
+        { poliza: '#SLV-2026-08338', evento: 'Cambio de estado', fecha: '20 sep 2026', anterior: 'Vigente', nuevo: 'En revisión' },
+        { poliza: '#SLV-2026-08341', evento: 'Emisión', fecha: '12 mar 2026', anterior: '—', nuevo: 'Vigente' },
+      ],
+      colsHistReportes: [
+        { key: 'usuario', header: 'Usuario' },
+        { key: 'periodo', header: 'Periodo' },
+        { key: 'generado', header: 'Fecha y hora', mono: true, muted: true },
+        { key: 'registros', header: 'Registros', mono: true, align: 'right' },
+      ],
+      filasHistReportes: O.reportesGenerados || [],
+
+      reaseguradoras: O.reaseguradoras || [],
+      reaseguradora: this.state.reaseguradora,
+      setReaseguradora: (e) => this.setState({ reaseguradora: this.val(e), marcado: false }),
+      periodosReaseguro: ['1 – 31 ago 2026', '1 – 30 sep 2026', '3.º trimestre 2026'],
+      periodoReaseguro: this.state.periodoReaseguro,
+      setPeriodoReaseguro: (e) => this.setState({ periodoReaseguro: this.val(e), marcado: false }),
+      generarReaseguro: () => this.setState({ marcado: false, toast: 'Generamos el reporte para ' + this.state.reaseguradora + '.' }),
+      reaseguroListo: true,
+      resumenReaseguro: O.resumenReaseguro || [],
+      marcado: this.state.marcado,
+      marcarEnviado: () => this.setState({ marcado: true }),
+      textoMarcado: 'Enviado a ' + this.state.reaseguradora + ' el ' + D.hoy + ' a las 9:41 am por Mariana Ocampo.',
+      colsHistReaseguro: [
+        { key: 'usuario', header: 'Usuario' },
+        { key: 'reaseguradora', header: 'Reaseguradora' },
+        { key: 'periodo', header: 'Periodo' },
+        { key: 'generado', header: 'Fecha y hora', mono: true, muted: true },
+        { key: 'estado', header: 'Estado' },
+      ],
+      filasHistReaseguro: O.reportesReaseguro || [],
+
+      toastAbierto: !!this.state.toast,
+      toastTexto: this.state.toast,
+      cerrarToast: () => this.setState({ toast: null }),
+
+      irSiniestros: () => this.ir('siniestros'),
+      irCartera: () => this.ir('cartera'),
+      irPoliza: () => this.ir('poliza'),
+      irRenovar: () => this.ir('renovar'),
+      irModificar: () => this.ir('modificar'),
+      irCancelar: () => this.ir('cancelar'),
+
+      atajos: [
+        { label: 'Resumen', onClick: () => this.ir('resumen') },
+        { label: 'Cartera', onClick: () => this.ir('cartera') },
+        { label: 'Detalle de póliza', onClick: () => this.ir('poliza') },
+        { label: 'Renovar', onClick: () => this.ir('renovar') },
+        { label: 'Modificar', onClick: () => this.ir('modificar') },
+        { label: 'Cancelar', onClick: () => this.ir('cancelar') },
+        { label: 'Resultado exitoso', onClick: () => this.setState({ vista: 'resultado', resultado: 'ok', accion: 'renovar' }) },
+        { label: 'Resultado con error', onClick: () => this.setState({ vista: 'resultado', resultado: 'error', accion: 'renovar' }) },
+        { label: 'Siniestros', onClick: () => this.ir('siniestros') },
+        { label: 'Evaluación del perito', onClick: () => this.setState({ vista: 'siniestro', sinIdx: 0 }) },
+        { label: 'Auditoría', onClick: () => this.ir('auditoria') },
+        { label: 'Reporte regulatorio', onClick: () => this.ir('reportes') },
+        { label: 'Reaseguradoras', onClick: () => this.ir('reaseguro') },
+      ],
+      atajosPoliza: P.map((p, i) => ({
+        label: p.estado + ' · ' + p.ramo,
+        onClick: () => this.setState({ vista: 'poliza', polIdx: i, nuevaMaxima: null, nuevoDeducible: null, motivoCambio: '', causal: '' }),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

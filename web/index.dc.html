@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-base)}
+a{color:var(--text-primary);text-decoration:none}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="max-width:920px; margin:0 auto; padding:56px 24px 80px; display:grid; gap:var(--space-10);">
+
+  <div style="display:grid; gap:var(--space-4);">
+    <a href="../index.dc.html" style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-55); display:inline-flex; align-items:center; gap:6px;"><i data-lucide="arrow-left"></i> Solventa</a>
+    <div style="font:var(--text-style-kicker); color:var(--text-primary);">canal web · gestión completa</div>
+    <h1 style="font-family:var(--font-display); font-weight:600; font-size:40px; line-height:1.06; letter-spacing:-0.01em; margin:0;">Consola y portal web</h1>
+    <p style="font-size:17px; line-height:1.55; color:var(--ink-72); max-width:56ch; margin:0; text-wrap:pretty;">Mapa de pantallas del canal web, según el diagrama de flujo del grupo. Acceso con usuario y contraseña; el OTP queda solo como confirmación de correo en el registro.</p>
+  </div>
+
+  <sc-for list="{{ grupos }}" as="g" hint-placeholder-count="4">
+    <div style="display:grid; gap:var(--space-6);">
+      <div style="display:flex; align-items:baseline; justify-content:space-between; border-bottom:var(--border); padding-bottom:var(--space-4); gap:var(--space-5);">
+        <div style="font-family:var(--font-display); font-weight:600; font-size:19px;">{{ g.titulo }}</div>
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ g.meta }}</div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:var(--space-5);">
+        <sc-for list="{{ g.pantallas }}" as="s" hint-placeholder-count="4">
+          <sc-if value="{{ s.listo }}" hint-placeholder-val="{{ true }}">
+            <a href="{{ s.href }}" style="border:var(--border); background:var(--surface-card); padding:var(--space-7); display:grid; gap:var(--space-3); align-content:start;" style-hover="border-color:var(--ink-28)">
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ s.codigo }}</div>
+              <div style="font-weight:500; font-size:var(--size-body-sm);">{{ s.nombre }}</div>
+              <div style="font-size:13px; line-height:1.5; color:var(--ink-62);">{{ s.nota }}</div>
+            </a>
+          </sc-if>
+          <sc-if value="{{ s.pendiente }}" hint-placeholder-val="{{ false }}">
+            <div style="border:var(--border); border-style:dashed; padding:var(--space-7); display:grid; gap:var(--space-3); align-content:start; color:var(--ink-50);">
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm);">{{ s.codigo }}</div>
+              <div style="font-weight:500; font-size:var(--size-body-sm); color:var(--ink-80);">{{ s.nombre }}</div>
+              <div style="font-size:13px; line-height:1.5;">{{ s.nota }}</div>
+            </div>
+          </sc-if>
+        </sc-for>
+      </div>
+    </div>
+  </sc-for>
+
+  <div style="border:var(--border); background:var(--surface-sunken); padding:var(--space-8); display:grid; gap:var(--space-4);">
+    <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">estado</div>
+    <p style="margin:0; font-size:var(--size-body-sm); line-height:1.55; color:var(--ink-72); max-width:56ch;">Todas las pantallas están navegables: el portal del cliente en <a href="./cliente.dc.html">cliente.dc.html</a> y el back-office en <a href="./operador.dc.html">operador.dc.html</a>. Las dos leen los datos de <code style="font-family:var(--font-mono); font-size:13px;">../datos.js</code>.</p>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 16, height: 16, 'stroke-width': 1.75 } }); }
+  renderVals() {
+    const marcar = (grupos) => grupos.map((g) => Object.assign({}, g, {
+      pantallas: g.pantallas.map((s) => Object.assign({}, s, {
+        listo: !!s.hash,
+        pendiente: !s.hash,
+        href: s.hash ? './' + (s.archivo || 'cliente') + '.dc.html#' + s.hash : '',
+      })),
+    }));
+    return {
+      grupos: marcar([
+        {
+          titulo: 'Acceso y registro',
+          meta: 'f1.1 · cliente',
+          pantallas: [
+            { codigo: '01', nombre: 'Inicio de sesión', nota: 'Usuario y contraseña. Enlace a recuperación.', hash: 'login' },
+            { codigo: '02', nombre: 'Registro · datos personales', nota: 'Nombre, documento, contacto. Enlace a la política de datos.', hash: 'registro-datos' },
+            { codigo: '03', nombre: 'Registro · credenciales', nota: 'Contraseña y confirmación, con requisitos visibles.', hash: 'registro-credenciales' },
+            { codigo: '04', nombre: 'Confirmación de correo', nota: 'Código de un solo uso. Aquí sí hay OTP.', hash: 'registro-correo' },
+            { codigo: '05', nombre: 'Política de tratamiento de datos', nota: 'Versionada. Reutilizada por móvil y por Perfil.', hash: 'politica' },
+            { codigo: '06', nombre: 'Recuperar contraseña', nota: 'Enlace por correo y nueva contraseña.', hash: 'recuperar' },
+          ],
+        },
+        {
+          titulo: 'Adquisición de pólizas',
+          meta: 'f1.2 · cliente',
+          pantallas: [
+            { codigo: '01', nombre: 'Catálogo de productos', nota: 'Ramos disponibles y qué cubre cada uno.', hash: 'catalogo' },
+            { codigo: '02', nombre: 'Formulario de cotización', nota: 'Datos del riesgo, más edad y género para tarificar.', hash: 'cotizar' },
+            { codigo: '03', nombre: 'Resultado de la cotización', nota: 'Prima calculada y botón para adquirir.', hash: 'cotizacion' },
+            { codigo: '04', nombre: 'Pago y emisión', nota: 'Fuente de la póliza canónica en datos.js.', hash: 'pago' },
+            { codigo: '05', nombre: 'Póliza emitida', nota: 'Descarga de condiciones y salto a la app móvil.', hash: 'emitida' },
+          ],
+        },
+        {
+          titulo: 'Mis pólizas',
+          meta: 'f1.3 · cliente y analista',
+          pantallas: [
+            { codigo: '01', nombre: 'Listado de pólizas', nota: 'Tabla con estado, vigencia y prima.', hash: 'polizas' },
+            { codigo: '02', nombre: 'Detalle de póliza', nota: 'Coberturas, historial y documentos.', hash: 'poliza' },
+            { codigo: '03', nombre: 'Renovar', nota: 'Acción de analista. Confirmación y nueva vigencia.', hash: 'renovar' },
+            { codigo: '04', nombre: 'Modificar', nota: 'Cambio de coberturas con recálculo de prima.', hash: 'modificar' },
+            { codigo: '05', nombre: 'Cancelar', nota: 'Motivo, efecto en la vigencia y devolución.', hash: 'cancelar' },
+          ],
+        },
+        {
+          titulo: 'Siniestros en web',
+          meta: 'f4 · equivalente del canal móvil',
+          pantallas: [
+            { codigo: '01', nombre: 'Mis siniestros (cliente)', nota: 'Solo lectura. El cliente sigue el estado de sus casos.', hash: 'siniestros' },
+            { codigo: '02', nombre: 'Listado de siniestros (operador)', nota: 'Once columnas, filtros por estado y canal, SLA de 5 días.', hash: 'siniestros', archivo: 'operador' },
+            { codigo: '03', nombre: 'Detalle y evaluación del perito', nota: 'Aprobar, rechazar o pedir más evidencia, con nota interna.', hash: 'siniestro', archivo: 'operador' },
+          ],
+        },
+        {
+          titulo: 'Operador',
+          meta: 'back-office',
+          pantallas: [
+            { codigo: '01', nombre: 'Resumen', nota: 'Pólizas activas, siniestros abiertos, siniestralidad y tiempo medio.', hash: 'resumen', archivo: 'operador' },
+            { codigo: '02', nombre: 'Cartera de pólizas', nota: 'Faltaba en el menú del diagrama. Agregada.', hash: 'cartera', archivo: 'operador' },
+            { codigo: '03', nombre: 'Detalle de póliza', nota: 'Acciones habilitadas según el estado, con historial completo.', hash: 'poliza', archivo: 'operador' },
+            { codigo: '04', nombre: 'Renovar', nota: 'Resumen previo, lista de validación y resultado.', hash: 'renovar', archivo: 'operador' },
+            { codigo: '05', nombre: 'Modificar', nota: 'Campos bloqueados, motivo obligatorio y antes/después.', hash: 'modificar', archivo: 'operador' },
+            { codigo: '06', nombre: 'Cancelar', nota: 'Causal obligatoria y diálogo de irreversible.', hash: 'cancelar', archivo: 'operador' },
+            { codigo: '07', nombre: 'Resultado de la acción', nota: 'Éxito con aviso al cliente, o error sin cambios.', hash: 'resultado', archivo: 'operador' },
+          ],
+        },
+        {
+          titulo: 'Cumplimiento',
+          meta: 'hu5.1.5 a hu5.1.7 · #110, #111, #112',
+          pantallas: [
+            { codigo: '01', nombre: 'Auditoría', nota: 'Filtros por tipo, usuario, póliza y periodo. Cada fila abre la póliza.', hash: 'auditoria', archivo: 'operador' },
+            { codigo: '02', nombre: 'Reporte regulatorio', nota: 'Periodo, resumen previo, CSV e historial de reportes.', hash: 'reportes', archivo: 'operador' },
+            { codigo: '03', nombre: 'Reporte para reaseguradoras', nota: 'Resumen por tipo, CSV y marcar como enviado.', hash: 'reaseguro', archivo: 'operador' },
+          ],
+        },
+      ]),
+    };
+  }
+}
+</script>
+</body>
+</html>

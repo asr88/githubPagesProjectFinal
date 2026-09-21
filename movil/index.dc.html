@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-base)}
+a{color:var(--text-primary);text-decoration:none}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="max-width:920px; margin:0 auto; padding:56px 24px 80px; display:grid; gap:var(--space-10);">
+
+  <div style="display:grid; gap:var(--space-4);">
+    <a href="../index.dc.html" style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-55); display:inline-flex; align-items:center; gap:6px;"><i data-lucide="arrow-left"></i> Solventa</a>
+    <div style="font:var(--text-style-kicker); color:var(--text-primary);">canal móvil · momentos de verdad</div>
+    <h1 style="font-family:var(--font-display); font-weight:600; font-size:40px; line-height:1.06; letter-spacing:-0.01em; margin:0;">App Solventa</h1>
+    <p style="font-size:17px; line-height:1.55; color:var(--ink-72); max-width:56ch; margin:0; text-wrap:pretty;">La app del asegurado, de la activación del teléfono al pago de un siniestro. Cada bloque tiene sus estados de error y de vacío, no solo el camino feliz.</p>
+  </div>
+
+  <sc-for list="{{ grupos }}" as="g" hint-placeholder-count="5">
+    <div style="display:grid; gap:var(--space-6);">
+      <div style="display:flex; align-items:baseline; justify-content:space-between; border-bottom:var(--border); padding-bottom:var(--space-4); gap:var(--space-5);">
+        <div style="font-family:var(--font-display); font-weight:600; font-size:19px;">{{ g.titulo }}</div>
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ g.meta }}</div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:var(--space-5);">
+        <sc-for list="{{ g.pantallas }}" as="s" hint-placeholder-count="4">
+          <a href="{{ s.href }}" style="border:var(--border); background:var(--surface-card); padding:var(--space-7); display:grid; gap:var(--space-3); align-content:start;" style-hover="border-color:var(--ink-28)">
+            <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ s.codigo }}</div>
+            <div style="font-weight:500; font-size:var(--size-body-sm);">{{ s.nombre }}</div>
+            <div style="font-size:13px; line-height:1.5; color:var(--ink-62);">{{ s.nota }}</div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </sc-for>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 16, height: 16, 'stroke-width': 1.75 } }); }
+  renderVals() {
+    const g = (titulo, meta, archivo, pantallas) => ({
+      titulo, meta,
+      pantallas: pantallas.map((p, i) => ({
+        codigo: p[2] || (i + 1 < 10 ? '0' + (i + 1) : '' + (i + 1)),
+        nombre: p[0], nota: p[1], href: './' + archivo + '.dc.html#' + p[3],
+      })),
+    });
+    return {
+      grupos: [
+        g('Activación del teléfono', 'hu3.1.1 y hu3.1.3 · #87, #89', 'onboarding', [
+          ['Inicia sesión', 'Correo y contraseña de la cuenta web.', '01', 'login'],
+          ['No encontramos tu cuenta', 'El registro se hace en el canal web.', '02', 'no-cuenta'],
+          ['Consentimiento', 'Biométricos y ubicación separados, con versión y retención.', '03', 'consentimiento'],
+          ['No podemos continuar', 'Qué pasa si no acepta el consentimiento.', '04', 'no-continuar'],
+          ['Foto de la cédula', 'Paso 2 de 3.', '05', 'cedula'],
+          ['Permiso de cámara', 'Para qué se usa y que la selfie no se guarda.', '06', 'permiso'],
+          ['Prueba de vida', 'Cámara frontal, dos gestos posibles.', '07', 'liveness'],
+          ['Falla de red', 'No cuenta como intento fallido.', '08', 'error-red'],
+          ['Verificado', 'El dispositivo queda vinculado, con folio y fecha.', '09', 'verificado'],
+          ['No verificado', 'Con el número de intento.', '10', 'no-verificado'],
+          ['Intentos agotados', 'Solo queda hablar con soporte.', '11', 'agotado'],
+        ]),
+        g('Biometría', 'hu3.1.2 · #88', 'onboarding', [
+          ['Activa huella o rostro', 'Entrar sin escribir la contraseña.', '01', 'biometria'],
+          ['Diálogo del sistema', 'El marco nativo al tocar Activar.', '02', 'dialogo'],
+          ['Sin biometría configurada', 'Cae en contraseña.', '03', 'sin-biometria'],
+          ['Ahora no', 'Contraseña, con aviso de activarlo en Perfil.', '04', 'ahora-no'],
+        ]),
+        g('Acceso recurrente', 'hu3.1.2 · #88', 'acceso', [
+          ['Bloqueo de la app', 'Validación biométrica en primer plano.', '01', 'bloqueo'],
+          ['Biometría fallida', 'Con contador de intentos.', '02', 'fallida'],
+          ['Bloqueo temporal', 'Cinco minutos con cuenta regresiva.', '03', 'bloqueo-temporal'],
+          ['Ingreso con contraseña', 'Con mostrar y ocultar.', '04', 'contrasena'],
+          ['Cambio de biometría', 'Confirmar con contraseña para reactivar.', '05', 'cambio-biometria'],
+        ]),
+        g('Billetera sin conexión', 'hu3.2.1 y hu3.2.2 · #90, #91', 'billetera', [
+          ['Tus pólizas', 'Última sincronización siempre visible.', '01', 'lista'],
+          ['Credencial con coberturas', 'Deducible, cobertura máxima y QR.', '02', 'credencial'],
+          ['Primer uso sin datos', 'Aún no hay pólizas guardadas.', '03', 'vacio'],
+          ['Credencial cancelada', 'Deja de ser válida tras sincronizar.', '04', 'cancelada'],
+        ]),
+        g('Siniestro asistido', 'f4.1 · el cliente reporta', 'app-solventa', [
+          ['Registrar un siniestro', 'Qué pasó, cuándo y de qué tipo.', '01', 'registrar'],
+          ['Adjuntar evidencia', 'Foto del daño con geolocalización.', '02', 'evidencia'],
+          ['Solicitar asistencia en sitio', 'Prestador más cercano, o seguir sin asistencia.', '03', 'asistencia'],
+          ['Estado del siniestro', 'Línea de tiempo del caso.', '04', 'estado'],
+        ]),
+        g('Siniestro paramétrico', 'f4.2 · el cliente no hace nada', 'app-solventa', [
+          ['Notificación push', 'Pantalla de bloqueo. El pago ya ocurrió.', '01', 'push'],
+          ['Pago automático confirmado', 'Monto, cuenta y el porqué de la decisión.', '02', 'pago'],
+        ]),
+        g('Cuenta', 'perfil y datos', 'app-solventa', [
+          ['Perfil y seguridad', 'Switch de biometría y cambio de contraseña.', '01', 'perfil'],
+          ['Tratamiento de datos', 'Política versionada con revocación.', '02', 'politica'],
+        ]),
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="../datos.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-sunken)}
+a{color:var(--text-primary)}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="padding:24px; display:grid; gap:24px; justify-items:start; background:var(--surface-sunken); min-height:100%; box-sizing:border-box;">
+
+  <div style="position:relative; width:1180px; height:820px; background:var(--surface-base); border:var(--border-width) solid var(--line-strong); display:flex; overflow:hidden; flex:0 0 auto;">
+
+    <sc-if value="{{ autenticado }}" hint-placeholder-val="{{ true }}">
+      <x-import component-from-global-scope="SolventaDesignSystem_0139be.SideNav" items="{{ navItems }}" value="{{ seccion }}" onChange="{{ setSeccion }}" brand="Solventa" footer="{{ navFooter }}" hint-size="236px,100%"></x-import>
+    </sc-if>
+
+    <div style="flex:1; display:flex; flex-direction:column; min-width:0;">
+
+      <sc-if value="{{ autenticado }}" hint-placeholder-val="{{ true }}">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.TopBar" kicker="{{ topKicker }}" title="{{ topTitle }}" actions="{{ topActions }}" hint-size="100%,64px"></x-import>
+      </sc-if>
+
+      <div style="flex:1; overflow:auto;">
+
+        <sc-if value="{{ vLogin }}" hint-placeholder-val="{{ false }}">
+          <div style="min-height:100%; display:grid; place-items:center; padding:var(--space-10); box-sizing:border-box;">
+            <div style="width:380px; display:grid; gap:var(--space-7);">
+              <div>
+                <div style="font:var(--text-style-kicker); color:var(--text-primary);">solventa</div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:30px; line-height:1.1; margin-top:var(--space-3);">Entra a tu cuenta</div>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Correo" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" type="email" default-value="{{ correo }}" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Contraseña" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" type="{{ tipoClave }}" default-value="tucontraseña" hint-size="100%,40px"></x-import>
+              </x-import>
+              <div style="display:flex; justify-content:space-between; gap:var(--space-4); margin-top:calc(var(--space-4) * -1);">
+                <button onClick="{{ toggleClave }}" style="background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary);">{{ etiquetaVerClave }}</button>
+                <button onClick="{{ irRecuperar }}" style="background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary);">Olvidé mi contraseña</button>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ entrar }}" hint-size="100%,48px">Entrar</x-import>
+              <div style="border-top:var(--border); padding-top:var(--space-6); display:flex; align-items:center; justify-content:space-between; gap:var(--space-4);">
+                <span style="font-size:13px; color:var(--ink-62);">¿Primera vez en Solventa?</span>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" onClick="{{ irRegistro }}" hint-size="auto,32px">Crear cuenta</x-import>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vRecuperar }}" hint-placeholder-val="{{ false }}">
+          <div style="min-height:100%; display:grid; place-items:center; padding:var(--space-10); box-sizing:border-box;">
+            <div style="width:380px; display:grid; gap:var(--space-7);">
+              <div>
+                <div style="font:var(--text-style-kicker); color:var(--text-primary);">recuperar acceso</div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1; margin-top:var(--space-3);">Restablece tu contraseña</div>
+                <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Te enviamos un enlace al correo de tu cuenta. Vence en 30 minutos.</p>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Correo" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" type="email" default-value="{{ correo }}" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ irLogin }}" hint-size="100%,48px">Enviar el enlace</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="ghost" onClick="{{ irLogin }}" hint-size="100%,40px">Volver a entrar</x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vRegDatos }}" hint-placeholder-val="{{ false }}">
+          <div style="min-height:100%; display:grid; place-items:center; padding:var(--space-10); box-sizing:border-box;">
+            <div style="width:520px; display:grid; gap:var(--space-7);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasosRegistro }}" current="{{ 0 }}" hint-size="100%,40px"></x-import>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Cuéntanos quién eres</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-6);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Nombres" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" default-value="Camila" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Apellidos" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" default-value="Rojas Peña" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Tipo de documento" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" options="{{ tiposDoc }}" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Número de documento" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="1.018.442.117" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Fecha de nacimiento" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="{{ fechaNacimiento }}" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Género" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" options="{{ generos }}" default-value="{{ genero }}" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Celular" hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="+57 310 442 1177" hint-size="100%,40px"></x-import>
+                </x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Correo" hint="Aquí confirmamos tu cuenta." hint-size="100%,84px">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" type="email" default-value="{{ correo }}" hint-size="100%,40px"></x-import>
+                </x-import>
+              </div>
+              <div style="border:var(--border); background:var(--surface-card); padding:var(--space-7);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Checkbox" label="Autorizo el tratamiento de mis datos" description="{{ consentimientoDesc }}" checked="{{ consentimiento }}" onChange="{{ setConsentimiento }}" hint-size="100%,56px"></x-import>
+                <div style="margin-top:var(--space-5);">
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" onClick="{{ verPolitica }}" hint-size="auto,32px">Leer la política</x-import>
+                </div>
+              </div>
+              <div style="display:flex; gap:var(--space-4);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" disabled="{{ sinConsentimiento }}" onClick="{{ irRegCredenciales }}" hint-size="auto,48px">Continuar</x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irLogin }}" hint-size="auto,48px">Cancelar</x-import>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vRegCredenciales }}" hint-placeholder-val="{{ false }}">
+          <div style="min-height:100%; display:grid; place-items:center; padding:var(--space-10); box-sizing:border-box;">
+            <div style="width:420px; display:grid; gap:var(--space-7);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasosRegistro }}" current="{{ 1 }}" hint-size="100%,40px"></x-import>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Crea tu contraseña</div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Contraseña" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" type="{{ tipoClave }}" default-value="tucontraseña" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Confirma tu contraseña" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" type="{{ tipoClave }}" default-value="tucontraseña" hint-size="100%,40px"></x-import>
+              </x-import>
+              <button onClick="{{ toggleClave }}" style="justify-self:start; background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary);">{{ etiquetaVerClave }}</button>
+              <div style="border:var(--border); background:var(--surface-sunken); padding:var(--space-7); display:grid; gap:var(--space-3);">
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">requisitos</div>
+                <sc-for list="{{ requisitos }}" as="r" hint-placeholder-count="3">
+                  <div style="display:flex; align-items:center; gap:var(--space-4); font-size:13px; color:var(--ink-72);">
+                    <span style="width:14px; height:14px; border:var(--border-width) solid var(--status-active-ink); background:var(--status-active-bg); display:inline-block; flex:0 0 auto;"></span>{{ r }}
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex; gap:var(--space-4);">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" onClick="{{ irRegCorreo }}" hint-size="auto,48px">Continuar</x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irRegistro }}" hint-size="auto,48px">Volver</x-import>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vRegCorreo }}" hint-placeholder-val="{{ false }}">
+          <div style="min-height:100%; display:grid; place-items:center; padding:var(--space-10); box-sizing:border-box;">
+            <div style="width:420px; display:grid; gap:var(--space-7);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasosRegistro }}" current="{{ 2 }}" hint-size="100%,40px"></x-import>
+              <div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Confirma tu correo</div>
+                <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">{{ textoOtp }}</p>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Código de 6 dígitos" hint="Vence en 10 minutos." hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" mono="{{ true }}" default-value="204 118" hint-size="100%,48px"></x-import>
+              </x-import>
+              <div style="display:flex; gap:var(--space-4); align-items:center;">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" onClick="{{ crearCuenta }}" hint-size="auto,48px">Confirmar y crear cuenta</x-import>
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" hint-size="auto,48px">Reenviar código</x-import>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="por qué pedimos un código" hint-size="100%,88px">Es la única vez que usamos un código de un solo uso. Para entrar después basta tu correo y tu contraseña.</x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vPolitica }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:720px; padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start;">
+            <div>
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">{{ politicaVersion }}</div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:30px; line-height:1.1; margin-top:var(--space-3);">Tratamiento de datos personales</div>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ politicaMeta }}" hint-size="100%,120px"></x-import>
+            <div style="display:grid; gap:var(--space-5);">
+              <div style="font:var(--text-style-kicker); color:var(--text-primary);">para qué usamos tus datos</div>
+              <sc-for list="{{ finalidades }}" as="f" hint-placeholder-count="4">
+                <div style="border:var(--border); background:var(--surface-card); padding:var(--space-7); display:flex; justify-content:space-between; gap:var(--space-6); align-items:flex-start;">
+                  <div style="display:grid; gap:var(--space-3);">
+                    <div style="font-size:var(--size-body-sm); font-weight:500;">{{ f.titulo }}</div>
+                    <div style="font-size:13px; color:var(--ink-62); line-height:1.5; max-width:52ch;">{{ f.detalle }}</div>
+                  </div>
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Tag" hint-size="auto,22px">{{ f.etiqueta }}</x-import>
+                </div>
+              </sc-for>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="cuánto tiempo los guardamos" hint-size="100%,88px">{{ politicaRetencion }}</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" onClick="{{ volverDePolitica }}" hint-size="auto,40px">Volver</x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vCatalogo }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-8); align-content:start;">
+            <div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Qué quieres proteger</div>
+              <p style="font-size:var(--size-body-sm); color:var(--ink-72); margin:var(--space-4) 0 0; max-width:56ch; line-height:1.55;">Cotizas en un paso y la póliza queda emitida el mismo día.</p>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-6);">
+              <sc-for list="{{ productos }}" as="p" hint-placeholder-count="3">
+                <div style="border:var(--border); background:var(--surface-card); padding:var(--space-8); display:grid; gap:var(--space-5); align-content:start;">
+                  <div style="font-family:var(--font-display); font-weight:600; font-size:19px;">{{ p.ramo }}</div>
+                  <div style="font-size:13px; color:var(--ink-62); line-height:1.5;">{{ p.cobertura }}</div>
+                  <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ p.desde }}</div>
+                  <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" onClick="{{ p.onClick }}" hint-size="100%,40px">Cotizar</x-import>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vCotizar }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:640px;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasosCompra }}" current="{{ 0 }}" hint-size="100%,40px"></x-import>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Datos del riesgo</div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Destino del viaje" hint-size="100%,84px">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" options="{{ destinos }}" hint-size="100%,40px"></x-import>
+            </x-import>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-6);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Salida" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="14/10/2026" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Regreso" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="28/10/2026" hint-size="100%,40px"></x-import>
+              </x-import>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Viajeros" hint-size="100%,84px">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.RadioGroup" options="{{ viajeros }}" default-value="1" direction="row" hint-size="100%,32px"></x-import>
+            </x-import>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-6);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Fecha de nacimiento" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="{{ fechaNacimiento }}" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Género" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Select" options="{{ generos }}" default-value="{{ genero }}" hint-size="100%,40px"></x-import>
+              </x-import>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="por qué te preguntamos esto" hint-size="100%,96px">La edad cambia el costo de la cobertura médica en viaje. El género lo usamos solo para estadística demográfica: no afecta lo que pagas.</x-import>
+            <div style="display:flex; gap:var(--space-4);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" onClick="{{ irCotizacion }}" hint-size="auto,48px">Cotizar ahora</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irCatalogo }}" hint-size="auto,48px">Volver</x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vCotizacion }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:640px;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasosCompra }}" current="{{ 1 }}" hint-size="100%,40px"></x-import>
+            <div style="background:var(--surface-inverse); color:var(--text-on-inverse); padding:var(--space-9); display:grid; gap:var(--space-4);">
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--paper-72);">prima mensual</div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:54px; line-height:1; color:#fff;">$52.000</div>
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--paper-72);">COP · seguro de viaje · 14 días</div>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ desglose }}" hint-size="100%,160px"></x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="auto" title="cómo calculamos esta prima" hint-size="100%,96px">El destino y la duración son los dos factores que más pesan. Puedes ver el detalle del cálculo antes de pagar.</x-import>
+            <div style="display:flex; gap:var(--space-4);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" onClick="{{ irPago }}" hint-size="auto,48px">Adquirir esta póliza</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irCotizar }}" hint-size="auto,48px">Cambiar los datos</x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vPago }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:640px;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasosCompra }}" current="{{ 2 }}" hint-size="100%,40px"></x-import>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Paga y emitimos al instante</div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Medio de pago" hint-size="100%,84px">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.RadioGroup" options="{{ mediosPago }}" default-value="tarjeta" hint-size="100%,96px"></x-import>
+            </x-import>
+            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:var(--space-6);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Número de tarjeta" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="4111 1111 1111 4471" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Vence" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" default-value="09/29" hint-size="100%,40px"></x-import>
+              </x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="CVV" hint-size="100%,84px">
+                <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" mono="{{ true }}" type="password" default-value="123" hint-size="100%,40px"></x-import>
+              </x-import>
+            </div>
+            <div style="border:var(--border); background:var(--surface-sunken); padding:var(--space-7); display:flex; justify-content:space-between; align-items:baseline;">
+              <span style="font-size:var(--size-body-sm); color:var(--ink-72);">Total a pagar hoy</span>
+              <span style="font-family:var(--font-display); font-weight:600; font-size:24px;">$52.000 COP</span>
+            </div>
+            <div style="display:flex; gap:var(--space-4);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" onClick="{{ irEmitida }}" hint-size="auto,48px">Pagar y emitir</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="ghost" onClick="{{ irCotizacion }}" hint-size="auto,48px">Volver</x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vEmitida }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:640px;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasosCompra }}" current="{{ 3 }}" hint-size="100%,40px"></x-import>
+            <div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="active" hint-size="auto,24px">Póliza activa</x-import>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:30px; line-height:1.1; margin-top:var(--space-5);">Tu seguro de viaje ya está vigente</div>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ emitidaItems }}" hint-size="100%,160px"></x-import>
+            <div style="display:flex; gap:var(--space-4);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" hint-size="auto,48px">Descargar condiciones</x-import>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" size="lg" variant="secondary" onClick="{{ irPolizas }}" hint-size="auto,48px">Ver mis pólizas</x-import>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="también en tu celular" hint-size="100%,110px">La póliza ya está en la app, disponible sin conexión. Desde ahí reportas siniestros y sigues su estado.</x-import>
+            <a href="../movil/app-solventa.dc.html#billetera" style="font-size:13px; font-weight:500; display:inline-flex; align-items:center; gap:6px; justify-self:start;">Abrir la app móvil <i data-lucide="arrow-right"></i></a>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vSiniestros }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start;">
+            <div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Tus siniestros</div>
+              <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50); margin-top:6px;">{{ conteoSiniestros }}</div>
+            </div>
+            <div style="border:var(--border); background:var(--surface-card);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsSiniestros }}" rows="{{ filasSiniestros }}" hint-size="100%,140px"></x-import>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="quién decide" hint-size="100%,96px">Aquí sigues el estado de tus casos. La evaluación la hace un perito en la consola de Solventa; te avisamos en la app cuando cambia algo.</x-import>
+            <a href="../movil/app-solventa.dc.html#estado" style="font-size:13px; font-weight:500; display:inline-flex; align-items:center; gap:6px; justify-self:start;">Ver la línea de tiempo en la app <i data-lucide="arrow-right"></i></a>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vPolizas }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:var(--space-6);">
+              <div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Pólizas de {{ nombreCliente }}</div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50); margin-top:6px;">{{ conteoPolizas }}</div>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" onClick="{{ irCatalogo }}" hint-size="auto,40px">Adquirir otra</x-import>
+            </div>
+            <div style="border:var(--border); background:var(--surface-card);">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.DataTable" columns="{{ colsPolizas }}" rows="{{ filasPolizas }}" onRowClick="{{ abrirPoliza }}" hint-size="100%,220px"></x-import>
+            </div>
+            <div style="font-size:13px; color:var(--ink-55);">Haz clic en una fila para ver el detalle y las acciones de ciclo de vida.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vPoliza }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:var(--space-10); display:grid; gap:var(--space-7); align-content:start; max-width:760px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--space-6);">
+              <div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">{{ polizaRamo }}</div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono); color:var(--ink-50); margin-top:6px;">{{ polizaId }}</div>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="{{ polizaTono }}" hint-size="auto,24px">{{ polizaEstado }}</x-import>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ polizaItems }}" hint-size="100%,180px"></x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Card" kicker="historial" title="Eventos de la póliza" padding="var(--space-8)" hint-size="100%,220px">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Timeline" events="{{ polizaEventos }}" hint-size="100%,160px"></x-import>
+            </x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="cómo pedir un cambio" hint-size="100%,96px">Para renovar, modificar o cancelar, escríbenos o llámanos. Un analista hace el cambio y te lo confirmamos por correo.</x-import>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+
+    <sc-if value="{{ toastAbierto }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; right:var(--space-8); bottom:var(--space-8); max-width:380px;">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Toast" tone="success" message="{{ toastTexto }}" onClose="{{ cerrarToast }}" hint-size="340px,64px"></x-import>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <div style="width:1180px; display:grid; gap:var(--space-6);">
+    <div style="border-top:var(--border); padding-top:var(--space-6); display:flex; align-items:baseline; justify-content:space-between;">
+      <div style="font-family:var(--font-display); font-weight:600; font-size:19px;">Ir a cualquier pantalla</div>
+      <a href="./index.dc.html" style="font-family:var(--font-mono); font-size:var(--size-mono-sm);">mapa del canal web</a>
+    </div>
+    <sc-for list="{{ gruposAtajos }}" as="g" hint-placeholder-count="3">
+      <div style="display:grid; gap:var(--space-4);">
+        <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">{{ g.titulo }}</div>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-4);">
+          <sc-for list="{{ g.items }}" as="a" hint-placeholder-count="5">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" onClick="{{ a.onClick }}" hint-size="auto,32px">{{ a.label }}</x-import>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:1200}}">
+class Component extends DCLogic {
+  state = {
+    vista: 'login', verClave: false, consentimiento: true, autoRenovar: true,
+    polizaIdx: 0, extras: { medicos: true, equipaje: true, cancelacion: false, deportes: false },
+    toast: null, volverA: 'polizas', sesion: false,
+  };
+
+  componentDidMount() {
+    const h = (location.hash || '').replace('#', '');
+    const validas = ['login', 'recuperar', 'registro-datos', 'registro-credenciales', 'registro-correo', 'politica', 'catalogo', 'cotizar', 'cotizacion', 'pago', 'emitida', 'polizas', 'poliza', 'siniestros'];
+    const publicas = ['login', 'recuperar', 'registro-datos', 'registro-credenciales', 'registro-correo'];
+    if (validas.indexOf(h) !== -1) this.setState({ vista: h, sesion: publicas.indexOf(h) === -1 });
+    this.icons();
+  }
+  componentDidUpdate() { this.icons(); }
+  icons() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 16, height: 16, 'stroke-width': 1.75 } }); }
+
+  datos() { return window.SOLVENTA_DATOS || { cliente: {}, polizas: [], politica: {} }; }
+  ir(v) {
+    const publicas = ['login', 'recuperar', 'registro-datos', 'registro-credenciales', 'registro-correo'];
+    const patch = { vista: v, sesion: publicas.indexOf(v) === -1 };
+    if (v === 'politica') patch.volverA = 'polizas';
+    this.setState(patch);
+  }
+
+  renderVals() {
+    const D = this.datos();
+    const C = D.cliente;
+    const v = this.state.vista;
+    const publicas = ['login', 'recuperar', 'registro-datos', 'registro-credenciales', 'registro-correo'];
+    const autenticado = publicas.indexOf(v) === -1 && this.state.sesion;
+
+    const seccionDe = {
+      catalogo: 'adquirir', cotizar: 'adquirir', cotizacion: 'adquirir', pago: 'adquirir', emitida: 'adquirir',
+      polizas: 'polizas', poliza: 'polizas', renovar: 'polizas', modificar: 'polizas', cancelar: 'polizas',
+      politica: 'perfil', siniestros: 'siniestros',
+    };
+    const titulos = {
+      catalogo: ['adquirir', 'Catálogo'],
+      cotizar: ['adquirir', 'Cotización'],
+      cotizacion: ['adquirir', 'Resultado'],
+      pago: ['adquirir', 'Pago'],
+      emitida: ['adquirir', 'Póliza emitida'],
+      polizas: ['cartera', 'Mis pólizas'],
+      poliza: ['cartera', 'Detalle de póliza'],
+      renovar: ['cartera', 'Renovación'],
+      modificar: ['cartera', 'Modificación'],
+      cancelar: ['cartera', 'Cancelación'],
+      politica: ['perfil', 'Tratamiento de datos'],
+      siniestros: ['cartera', 'Siniestros'],
+    };
+    const t = titulos[v] || ['', ''];
+
+    const DS = window.SolventaDesignSystem_0139be || {};
+    const icon = (n) => React.createElement('i', { 'data-lucide': n });
+    const pol = (D.polizas || [])[this.state.polizaIdx] || {};
+    const ex = this.state.extras;
+    const base = 52000;
+    const extraCosto = (ex.cancelacion ? 9800 : 0) + (ex.deportes ? 14200 : 0);
+    const prima = (base + extraCosto).toLocaleString('es-CO');
+
+    const cobertura = (key, label, description, disabled) => ({
+      label, description, disabled: !!disabled, checked: disabled ? true : ex[key],
+      onChange: (c) => this.setState({ extras: Object.assign({}, this.state.extras, { [key]: c }) }),
+    });
+
+    const atajo = (label, vista) => ({ label, onClick: () => this.ir(vista) });
+
+    return {
+      autenticado,
+      seccion: seccionDe[v] || 'polizas',
+      topKicker: t[0], topTitle: t[1],
+      topActions: React.createElement(DS.Button, { variant: 'ghost', size: 'sm', onClick: () => this.ir('login') }, 'Salir'),
+      navItems: [
+        { value: 'polizas', label: 'Mis pólizas', count: (D.polizas || []).length },
+        { value: 'siniestros', label: 'Siniestros' },
+        { value: 'adquirir', label: 'Adquirir' },
+        { value: 'perfil', label: 'Perfil' },
+      ],
+      navFooter: C.nombre,
+      setSeccion: (s) => this.ir(s === 'adquirir' ? 'catalogo' : s === 'perfil' ? 'politica' : s === 'siniestros' ? 'siniestros' : 'polizas'),
+
+      vLogin: v === 'login',
+      vRecuperar: v === 'recuperar',
+      vRegDatos: v === 'registro-datos',
+      vRegCredenciales: v === 'registro-credenciales',
+      vRegCorreo: v === 'registro-correo',
+      vPolitica: v === 'politica',
+      vCatalogo: v === 'catalogo',
+      vCotizar: v === 'cotizar',
+      vCotizacion: v === 'cotizacion',
+      vPago: v === 'pago',
+      vEmitida: v === 'emitida',
+      vPolizas: v === 'polizas',
+      vSiniestros: v === 'siniestros',
+      vPoliza: v === 'poliza',
+      vRenovar: v === 'renovar',
+      vModificar: v === 'modificar',
+      vCancelar: v === 'cancelar',
+
+      correo: C.correo,
+      nombreCliente: C.nombre,
+      tipoClave: this.state.verClave ? 'text' : 'password',
+      etiquetaVerClave: this.state.verClave ? 'Ocultar contraseña' : 'Ver contraseña',
+      toggleClave: () => this.setState({ verClave: !this.state.verClave }),
+
+      pasosRegistro: ['Tus datos', 'Contraseña', 'Correo'],
+      pasosCompra: ['Datos', 'Prima', 'Pago', 'Emitida'],
+      tiposDoc: ['Cédula de ciudadanía', 'Cédula de extranjería', 'Pasaporte'],
+      consentimiento: this.state.consentimiento,
+      sinConsentimiento: !this.state.consentimiento,
+      consentimientoDesc: 'Versión ' + (D.politica.version || '') + ', vigente desde el ' + (D.politica.vigenteDesde || '') + '. Puedes revocar lo opcional cuando quieras.',
+      setConsentimiento: (c) => this.setState({ consentimiento: c }),
+      requisitos: ['Mínimo 10 caracteres', 'Una mayúscula y un número', 'No puede ser tu documento ni tu correo'],
+      textoOtp: 'Enviamos un código a ' + (C.correo || '') + '. Es el único momento del registro en que lo usamos.',
+
+      politicaVersion: D.politica.version,
+      politicaRetencion: 'Conservamos tus datos ' + (D.politica.retencion || '') + '. Después los eliminamos o los anonimizamos.',
+      politicaMeta: [
+        { label: 'Versión', value: D.politica.version, mono: true },
+        { label: 'Vigente desde', value: D.politica.vigenteDesde, mono: true },
+        { label: 'La aceptaste el', value: D.politica.aceptadaEl, mono: true },
+      ],
+      finalidades: (D.politica.finalidades || []).map((f) => ({
+        titulo: f.titulo, detalle: f.detalle, etiqueta: f.obligatoria ? 'necesaria' : 'opcional',
+      })),
+      verPolitica: () => this.setState({ vista: 'politica', volverA: 'registro-datos', sesion: false }),
+      volverDePolitica: () => this.ir(this.state.volverA),
+
+      productos: (D.polizas || []).map((p) => ({
+        ramo: p.ramo, cobertura: p.cobertura, desde: 'desde ' + p.prima + ' al mes',
+        onClick: () => this.ir('cotizar'),
+      })),
+      destinos: ['Europa (Schengen)', 'Norteamérica', 'Suramérica', 'Asia'],
+      fechaNacimiento: C.fechaNacimiento,
+      genero: C.genero,
+      generos: ['Femenino', 'Masculino', 'No binario', 'Prefiero no decirlo'],
+      viajeros: [{ value: '1', label: '1' }, { value: '2', label: '2' }, { value: '3', label: '3 o más' }],
+      desglose: [
+        { label: 'Cobertura médica en viaje', value: '$34.000 COP', mono: true },
+        { label: 'Equipaje', value: '$9.500 COP', mono: true },
+        { label: 'Retraso de vuelo (paramétrico)', value: '$8.500 COP', mono: true },
+        { label: 'Total mensual', value: '$52.000 COP', mono: true },
+      ],
+      mediosPago: [
+        { value: 'tarjeta', label: 'Tarjeta de crédito o débito', description: 'Cobro mensual automático.' },
+        { value: 'pse', label: 'PSE', description: 'Débito desde tu banco.' },
+      ],
+      emitidaItems: [
+        { label: 'Póliza', value: '#SLV-2026-08342', mono: true },
+        { label: 'Titular', value: C.nombre },
+        { label: 'Vigencia', value: '14 oct 2026 – 28 oct 2026', mono: true },
+        { label: 'Prima', value: '$52.000 COP', mono: true },
+      ],
+
+      conteoSiniestros: (D.siniestros || []).filter((s) => s.propio).length + ' casos · el paramétrico se cerró solo',
+      colsSiniestros: [
+        { key: 'id', header: 'Siniestro', mono: true },
+        { key: 'tipo', header: 'Qué pasó' },
+        { key: 'poliza', header: 'Póliza', mono: true },
+        { key: 'reportado', header: 'Reportado', mono: true, muted: true },
+        { key: 'pagado', header: 'Pagado', mono: true, align: 'right' },
+        { key: 'estado', header: 'Estado' },
+      ],
+      filasSiniestros: (D.siniestros || []).filter((s) => s.propio),
+      conteoPolizas: (D.polizas || []).length + ' pólizas activas · ninguna vencida',
+      colsPolizas: [
+        { key: 'id', header: 'Póliza', mono: true },
+        { key: 'ramo', header: 'Ramo' },
+        { key: 'prima', header: 'Prima', mono: true, align: 'right' },
+        { key: 'vigencia', header: 'Vigencia', muted: true },
+        { key: 'estado', header: 'Estado' },
+      ],
+      filasPolizas: (D.polizas || []).map((p) => ({ id: p.id, ramo: p.ramo, prima: p.prima, vigencia: p.vigencia, estado: p.estado })),
+      abrirPoliza: (row, i) => this.setState({ vista: 'poliza', polizaIdx: i }),
+
+      polizaRamo: pol.ramo,
+      polizaId: pol.id,
+      polizaEstado: pol.estado,
+      polizaTono: pol.tono || 'neutral',
+      polizaItems: [
+        { label: 'Titular', value: C.nombre },
+        { label: 'Prima mensual', value: pol.prima, mono: true },
+        { label: 'Vigencia', value: pol.desde + ' – ' + pol.hasta, mono: true },
+        { label: 'Deducible', value: pol.deducible, mono: true },
+        { label: 'Cobertura máxima', value: pol.maxima, mono: true },
+        { label: 'Cobertura', value: pol.cobertura },
+        { label: 'Pago paramétrico', value: pol.parametrico ? 'Activo — se paga solo' : 'No aplica' },
+      ],
+      polizaEventos: (D.historial || []).map((h) => ({
+        title: h.tipo, detail: h.detalle + ' · ' + h.origen, time: h.fecha,
+        tone: h.resultado === 'Fallido' ? 'rejected' : 'done',
+      })),
+
+      renovarItems: [
+        { label: 'Vigencia actual', value: pol.vigencia },
+        { label: 'Nueva vigencia', value: '12 mar 2027 – 12 mar 2028', mono: true },
+        { label: 'Prima actual', value: pol.prima, mono: true },
+        { label: 'Prima renovada', value: '$55.100 COP', mono: true },
+      ],
+      autoRenovar: this.state.autoRenovar,
+      setAutoRenovar: (c) => this.setState({ autoRenovar: c }),
+
+      coberturas: [
+        cobertura('medicos', 'Gastos médicos', 'Obligatoria en este ramo.', true),
+        cobertura('equipaje', 'Equipaje', 'Pérdida o demora de más de 12 horas.'),
+        cobertura('cancelacion', 'Cancelación de viaje', '+$9.800 al mes.'),
+        cobertura('deportes', 'Deportes de riesgo', '+$14.200 al mes.'),
+      ],
+      primaRecalculada: '$' + prima + ' COP',
+
+      motivos: [
+        { value: 'cliente', label: 'El cliente lo solicitó' },
+        { value: 'impago', label: 'Falta de pago' },
+        { value: 'riesgo', label: 'Cambio en el riesgo asegurado' },
+      ],
+
+      toastAbierto: !!this.state.toast,
+      toastTexto: this.state.toast,
+      cerrarToast: () => this.setState({ toast: null }),
+      confirmar: () => this.setState({ vista: 'poliza', toast: 'Guardamos el cambio y te enviamos el soporte por correo.' }),
+
+      irLogin: () => this.ir('login'),
+      irRecuperar: () => this.ir('recuperar'),
+      irRegistro: () => this.ir('registro-datos'),
+      irRegCredenciales: () => this.ir('registro-credenciales'),
+      irRegCorreo: () => this.ir('registro-correo'),
+      crearCuenta: () => this.ir('catalogo'),
+      entrar: () => this.ir('polizas'),
+      irCatalogo: () => this.ir('catalogo'),
+      irCotizar: () => this.ir('cotizar'),
+      irCotizacion: () => this.ir('cotizacion'),
+      irPago: () => this.ir('pago'),
+      irEmitida: () => this.ir('emitida'),
+      irPolizas: () => this.ir('polizas'),
+      irPoliza: () => this.ir('poliza'),
+      irRenovar: () => this.ir('renovar'),
+      irModificar: () => this.ir('modificar'),
+      irCancelar: () => this.ir('cancelar'),
+
+      gruposAtajos: [
+        { titulo: 'acceso y registro · f1.1', items: [atajo('Inicio de sesión', 'login'), atajo('Registro · datos', 'registro-datos'), atajo('Registro · contraseña', 'registro-credenciales'), atajo('Confirmar correo', 'registro-correo'), atajo('Política de datos', 'politica'), atajo('Recuperar contraseña', 'recuperar')] },
+        { titulo: 'adquisición · f1.2', items: [atajo('Catálogo', 'catalogo'), atajo('Cotizar', 'cotizar'), atajo('Resultado', 'cotizacion'), atajo('Pago', 'pago'), atajo('Póliza emitida', 'emitida')] },
+        { titulo: 'mis pólizas y siniestros · f1.3', items: [atajo('Listado', 'polizas'), atajo('Detalle', 'poliza'), atajo('Mis siniestros', 'siniestros')] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="../datos.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-sunken)}
+a{color:var(--text-primary)}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="display:flex; gap:32px; align-items:flex-start; justify-content:center; padding:24px; flex-wrap:wrap; background:var(--surface-sunken); min-height:100%; box-sizing:border-box;">
+
+  <div style="position:relative; width:390px; height:712px; background:var(--surface-base); border:var(--border-width) solid var(--line-strong); display:flex; flex-direction:column; overflow:hidden; flex:0 0 auto;">
+
+    <div style="display:flex; justify-content:space-between; padding:8px 16px; font-family:var(--font-mono); font-size:11px; color:var(--ink-55); background:var(--surface-raised);">
+      <span>9:41</span><span>{{ barraEstado }}</span>
+    </div>
+
+    <x-import component-from-global-scope="SolventaDesignSystem_0139be.TopBar" dense="{{ true }}" kicker="{{ topKicker }}" title="{{ topTitle }}" back="{{ backNode }}" hint-size="100%,56px"></x-import>
+
+    <sc-if value="{{ bannerVisible }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; align-items:center; gap:var(--space-4); padding:var(--space-5) var(--space-9); background:{{ bannerBg }}; color:{{ bannerFg }}; border-bottom:var(--border-width) solid var(--line-hairline);">
+        <i data-lucide="{{ bannerIcono }}"></i>
+        <div style="font-size:13px; line-height:1.45;">{{ bannerTexto }}</div>
+      </div>
+    </sc-if>
+
+    <div style="flex:1; overflow:auto;">
+
+      <sc-if value="{{ vLista }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-6);">
+          <div>
+            <div style="font:var(--text-style-kicker); color:var(--text-primary);">hola, {{ saludo }}</div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.1; margin-top:2px;">Tus pólizas</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:var(--space-3); color:var(--ink-55); font-family:var(--font-mono); font-size:var(--size-mono-sm);">
+            <i data-lucide="{{ iconoConexion }}"></i> {{ textoSync }}
+          </div>
+          <sc-for list="{{ polizas }}" as="p" hint-placeholder-count="4">
+            <div onClick="{{ p.onClick }}" style="cursor:pointer;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.PolicyCard" ramo="{{ p.ramo }}" number="{{ p.id }}" premium="{{ p.prima }}" status="{{ p.estado }}" status-tone="{{ p.tono }}" footer="{{ p.vigencia }}" hint-size="100%,120px"></x-import>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vVacio }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:500px; justify-items:center; text-align:center; box-sizing:border-box;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--surface-sunken); color:var(--ink-80); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="wifi-off"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:24px; line-height:1.12;">Aún no hay pólizas guardadas</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0; max-width:32ch;">Conéctate para descargarlas. Después las verás aquí incluso sin señal.</p>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ conectar }}" hint-size="100%,48px">Reintentar</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vCredencial }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:start;">
+          <sc-if value="{{ credCancelada }}" hint-placeholder-val="{{ false }}">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="alert" title="credencial no válida" hint-size="100%,96px">{{ textoCancelada }}</x-import>
+          </sc-if>
+
+          <div style="background:{{ credBg }}; color:{{ credFg }}; padding:var(--space-9); display:grid; gap:var(--space-6);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:var(--space-5);">
+              <div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:{{ credMuted }};">{{ credId }}</div>
+                <div style="font-family:var(--font-display); font-weight:600; font-size:22px; line-height:1.15; margin-top:4px;">{{ credRamo }}</div>
+              </div>
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="{{ credTono }}" hint-size="auto,24px">{{ credEstado }}</x-import>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-5);">
+              <div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:{{ credMuted }};">deducible</div>
+                <div style="font-family:var(--font-mono); font-size:15px; margin-top:2px;">{{ credDeducible }}</div>
+              </div>
+              <div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:{{ credMuted }};">cobertura máxima</div>
+                <div style="font-family:var(--font-mono); font-size:15px; margin-top:2px;">{{ credMaxima }}</div>
+              </div>
+              <div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:{{ credMuted }};">titular</div>
+                <div style="font-size:14px; margin-top:2px;">{{ credTitular }}</div>
+              </div>
+              <div>
+                <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:{{ credMuted }};">vigencia</div>
+                <div style="font-family:var(--font-mono); font-size:14px; margin-top:2px;">{{ credVigencia }}</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:var(--space-6); border-top:var(--border-width) solid {{ credLinea }}; padding-top:var(--space-6);">
+              <div style="width:76px; height:76px; border:var(--border-width) solid {{ credLinea }}; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:10px; color:{{ credMuted }}; text-align:center; flex:0 0 auto;">código QR</div>
+              <div style="font-size:13px; line-height:1.5; color:{{ credMuted }};">Muéstralo en el prestador. Funciona sin conexión.</div>
+            </div>
+          </div>
+
+          <div style="display:grid; gap:var(--space-5);">
+            <div style="font:var(--text-style-kicker); color:var(--text-primary);">qué cubre</div>
+            <div style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55;">{{ credCobertura }}</div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:var(--space-3); color:var(--ink-55); font-family:var(--font-mono); font-size:var(--size-mono-sm);">
+            <i data-lucide="{{ iconoConexion }}"></i> {{ textoSync }}
+          </div>
+
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ irLista }}" hint-size="100%,48px">Volver a tus pólizas</x-import>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <x-import component-from-global-scope="SolventaDesignSystem_0139be.TabBar" items="{{ tabItems }}" value="wallet" onChange="{{ cambiarTab }}" hint-size="100%,64px"></x-import>
+  </div>
+
+  <div style="width:320px; padding-top:8px; display:grid; gap:var(--space-6); align-content:start;">
+    <div>
+      <div style="font:var(--text-style-kicker); color:var(--text-primary);">recorrido</div>
+      <div style="font-family:var(--font-display); font-weight:600; font-size:22px; margin-top:4px; line-height:1.15;">Billetera sin conexión</div>
+      <p style="font-size:var(--size-body-sm); color:var(--ink-72); max-width:40ch; line-height:1.55;">La lista y las credenciales nunca se ocultan: la sincronización se avisa en un banner sobre la lista, y la barra de pestañas se queda.</p>
+    </div>
+    <div style="display:grid; gap:var(--space-4);">
+      <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">conexión</div>
+      <x-import component-from-global-scope="SolventaDesignSystem_0139be.RadioGroup" options="{{ conexiones }}" value="{{ conexion }}" onChange="{{ setConexion }}" hint-size="100%,110px"></x-import>
+    </div>
+    <div style="display:grid; gap:var(--space-4); border-top:var(--border); padding-top:var(--space-6);">
+      <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">desenlace de la sincronización</div>
+      <x-import component-from-global-scope="SolventaDesignSystem_0139be.RadioGroup" options="{{ desenlaces }}" value="{{ desenlace }}" onChange="{{ setDesenlace }}" hint-size="100%,110px"></x-import>
+      <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="accent" size="sm" onClick="{{ sincronizar }}" hint-size="100%,32px">Simular reconexión</x-import>
+    </div>
+    <div style="display:grid; gap:var(--space-4); border-top:var(--border); padding-top:var(--space-6);">
+      <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">pantallas</div>
+      <sc-for list="{{ atajos }}" as="a" hint-placeholder-count="4">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" size="sm" onClick="{{ a.onClick }}" hint-size="100%,32px">{{ a.label }}</x-import>
+      </sc-for>
+    </div>
+    <div style="border-top:var(--border); padding-top:var(--space-6); font-size:var(--size-body-sm);">
+      <a href="./index.dc.html" style="display:inline-flex; align-items:center; gap:6px;"><i data-lucide="arrow-left"></i> Mapa de navegación móvil</a>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:800,&quot;height&quot;:790}}">
+class Component extends DCLogic {
+  state = {
+    vista: 'lista', polIdx: 0,
+    conexion: 'En línea', desenlace: 'Con cambios',
+    fase: 'reposo', sync: '20 sep 2026, 9:41 am',
+  };
+
+  componentDidMount() {
+    const h = (location.hash || '').replace('#', '');
+    if (h === 'vacio') this.setState({ vista: 'vacio', conexion: 'Primer uso sin conexión' });
+    else if (h === 'credencial') this.setState({ vista: 'credencial' });
+    else if (h === 'cancelada') this.setState({ vista: 'credencial', polIdx: 3 });
+    this.icons();
+  }
+  componentWillUnmount() { clearTimeout(this.t1); clearTimeout(this.t2); }
+  componentDidUpdate() { this.icons(); }
+  icons() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 16, height: 16, 'stroke-width': 1.75 } }); }
+
+  datos() { return window.SOLVENTA_DATOS || { cliente: {}, polizas: [] }; }
+
+  sincronizar() {
+    clearTimeout(this.t1); clearTimeout(this.t2);
+    this.setState({ fase: 'sincronizando', conexion: 'En línea' });
+    this.t1 = setTimeout(() => {
+      const d = this.state.desenlace;
+      if (d === 'Falla') return this.setState({ fase: 'falla' });
+      this.setState({ fase: d === 'Con cambios' ? 'cambios' : 'ok', sync: '20 sep 2026, 9:47 am' });
+      this.t2 = setTimeout(() => this.setState({ fase: 'reposo' }), 6000);
+    }, 1800);
+  }
+
+  renderVals() {
+    const D = this.datos();
+    const C = D.cliente || {};
+    const P = D.polizas || [];
+    const v = this.state.vista;
+    const DS = window.SolventaDesignSystem_0139be || {};
+    const icon = (n) => React.createElement('i', { 'data-lucide': n });
+    const offline = this.state.conexion !== 'En línea';
+    const primerUso = this.state.conexion === 'Primer uso sin conexión';
+    const fase = this.state.fase;
+    const pol = P[this.state.polIdx] || {};
+    const cancelada = pol.estado === 'Cancelada';
+
+    const banners = {
+      sincronizando: { texto: 'Sincronizando cambios…', icono: 'refresh-cw', bg: 'var(--surface-sunken)', fg: 'var(--ink-80)' },
+      ok: { texto: 'Actualizado el ' + this.state.sync + '. Sin cambios.', icono: 'check', bg: 'var(--status-active-bg)', fg: 'var(--status-active-ink)' },
+      cambios: { texto: 'Actualizado el ' + this.state.sync + '. 1 póliza actualizada: el seguro de auto quedó cancelado.', icono: 'check', bg: 'var(--status-active-bg)', fg: 'var(--status-active-ink)' },
+      falla: { texto: 'No pudimos actualizar. Estás viendo la versión del ' + this.state.sync + '. Reintentaremos automáticamente.', icono: 'alert-triangle', bg: 'var(--status-rejected-bg)', fg: 'var(--status-rejected-ink)' },
+    };
+    const b = banners[fase];
+
+    return {
+      barraEstado: offline ? 'sin señal · 100%' : '5G · 100%',
+      topKicker: v === 'credencial' ? 'credencial' : 'billetera',
+      topTitle: v === 'credencial' ? 'Tu póliza' : 'Solventa',
+      backNode: v === 'credencial'
+        ? React.createElement(DS.IconButton, { label: 'Volver', onClick: () => this.setState({ vista: 'lista' }) }, icon('arrow-left'))
+        : null,
+
+      vLista: v === 'lista',
+      vVacio: v === 'vacio',
+      vCredencial: v === 'credencial',
+
+      bannerVisible: !!b,
+      bannerTexto: b ? b.texto : '',
+      bannerIcono: b ? b.icono : 'check',
+      bannerBg: b ? b.bg : 'transparent',
+      bannerFg: b ? b.fg : 'inherit',
+
+      saludo: C.saludo,
+      iconoConexion: offline ? 'wifi-off' : 'wifi',
+      textoSync: (offline ? 'sin conexión · ' : '') + 'última sincronización: ' + this.state.sync,
+
+      polizas: P.map((p, i) => ({
+        ramo: p.ramo, id: p.id, prima: p.prima, estado: p.estado, tono: p.tono, vigencia: p.vigencia,
+        onClick: () => this.setState({ vista: 'credencial', polIdx: i }),
+      })),
+
+      credId: pol.id, credRamo: pol.ramo, credEstado: cancelada ? 'Cancelada' : pol.estado,
+      credTono: pol.tono || 'neutral',
+      credDeducible: pol.deducible, credMaxima: pol.maxima,
+      credTitular: C.nombre, credVigencia: pol.desde + ' – ' + pol.hasta,
+      credCobertura: pol.cobertura,
+      credCancelada: cancelada,
+      textoCancelada: 'Esta póliza fue cancelada el ' + (pol.efecto || pol.hasta) + '. La credencial ya no sirve para presentarla en un prestador.',
+      credBg: cancelada ? 'var(--surface-sunken)' : 'var(--surface-inverse)',
+      credFg: cancelada ? 'var(--ink-55)' : 'var(--text-on-inverse)',
+      credMuted: cancelada ? 'var(--ink-50)' : 'var(--paper-72)',
+      credLinea: cancelada ? 'var(--line-hairline)' : 'var(--paper-20)',
+
+      conexiones: ['En línea', 'Sin conexión', 'Primer uso sin conexión'],
+      conexion: this.state.conexion,
+      setConexion: (c) => this.setState({
+        conexion: c, fase: 'reposo',
+        vista: c === 'Primer uso sin conexión' ? 'vacio' : (v === 'vacio' ? 'lista' : v),
+      }),
+      desenlaces: ['Sin cambios', 'Con cambios', 'Falla'],
+      desenlace: this.state.desenlace,
+      setDesenlace: (d) => this.setState({ desenlace: d }),
+      sincronizar: () => this.sincronizar(),
+
+      tabItems: [
+        { value: 'wallet', label: 'Pólizas', icon: icon('wallet') },
+        { value: 'claims', label: 'Siniestros', icon: icon('file-text') },
+        { value: 'perfil', label: 'Perfil', icon: icon('user') },
+      ],
+      cambiarTab: (t) => {
+        if (t !== 'wallet') window.location.href = './app-solventa.dc.html#' + (t === 'claims' ? 'estado' : 'perfil');
+      },
+
+      irLista: () => this.setState({ vista: 'lista' }),
+      conectar: () => this.setState({ conexion: 'En línea', vista: 'lista', fase: 'reposo' }),
+
+      atajos: [
+        { label: 'Tus pólizas', onClick: () => this.setState({ vista: 'lista', conexion: 'En línea', fase: 'reposo' }) },
+        { label: 'Sin conexión', onClick: () => this.setState({ vista: 'lista', conexion: 'Sin conexión', fase: 'reposo' }) },
+        { label: 'Primer uso sin datos', onClick: () => this.setState({ vista: 'vacio', conexion: 'Primer uso sin conexión', fase: 'reposo' }) },
+        { label: 'Credencial con coberturas', onClick: () => this.setState({ vista: 'credencial', polIdx: 0 }) },
+        { label: 'Credencial cancelada', onClick: () => this.setState({ vista: 'credencial', polIdx: 3 }) },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/colors.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/typography.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/spacing.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/borders.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/tokens/motion.css">
+<link rel="stylesheet" href="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/styles.css">
+<script src="../_ds/solventa-design-system-0139be36-ed30-411d-9b84-052f881b66df/_ds_bundle.js"></script>
+<script src="../datos.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<style>
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font-body);color:var(--text-body);background:var(--surface-sunken)}
+a{color:var(--text-primary)}
+a:hover{color:var(--action-primary-hover)}
+</style>
+</helmet>
+<div style="display:flex; gap:32px; align-items:flex-start; justify-content:center; padding:24px; flex-wrap:wrap; background:var(--surface-sunken); min-height:100%; box-sizing:border-box;">
+
+  <div style="position:relative; width:390px; height:712px; background:var(--surface-base); border:var(--border-width) solid var(--line-strong); display:flex; flex-direction:column; overflow:hidden; flex:0 0 auto;">
+
+    <div style="display:flex; justify-content:space-between; padding:8px 16px; font-family:var(--font-mono); font-size:11px; color:var(--ink-55); background:var(--surface-raised);">
+      <span>9:41</span><span>5G · 100%</span>
+    </div>
+
+    <x-import component-from-global-scope="SolventaDesignSystem_0139be.TopBar" dense="{{ true }}" kicker="{{ topKicker }}" title="{{ topTitle }}" hint-size="100%,56px"></x-import>
+
+    <div style="flex:1; overflow:auto;">
+
+      <sc-if value="{{ vLogin }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div>
+            <div style="font:var(--text-style-kicker); color:var(--text-primary);">solventa</div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:30px; line-height:1.1; margin-top:var(--space-3);">Inicia sesión</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Usa el mismo correo y contraseña del canal web.</p>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Correo" hint-size="100%,88px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" mono="{{ true }}" type="email" value="{{ correoEscrito }}" onChange="{{ setCorreo }}" hint-size="100%,48px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Contraseña" hint-size="100%,88px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" type="{{ tipoClave }}" default-value="tucontraseña" hint-size="100%,48px"></x-import>
+          </x-import>
+          <button onClick="{{ toggleClave }}" style="justify-self:start; background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary); margin-top:calc(var(--space-5) * -1);">{{ etiquetaVerClave }}</button>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ entrar }}" hint-size="100%,48px">Entrar</x-import>
+          <div style="font-size:13px; color:var(--ink-55); line-height:1.5;">Escribe otro correo para ver el estado de cuenta no encontrada.</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vNoCuenta }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--status-rejected-bg); color:var(--status-rejected-ink); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="user-x"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">No encontramos tu cuenta</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Primero regístrate en el canal web. Después activas este teléfono con tu correo y tu contraseña.</p>
+          </div>
+          <div style="display:grid; gap:var(--space-4);">
+            <a href="../web/cliente.dc.html#registro-datos" style="text-decoration:none;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Registrarme en el canal web</x-import>
+            </a>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ irLogin }}" hint-size="100%,48px">Volver</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vConsentimiento }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:start;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasos }}" current="{{ 0 }}" hint-size="100%,40px"></x-import>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12;">Antes de empezar</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Para activar este teléfono necesitamos verificar que eres tú.</p>
+          </div>
+
+          <div style="border:var(--border); background:var(--surface-card); padding:var(--space-7); display:grid; gap:var(--space-5);">
+            <div style="font:var(--text-style-kicker); color:var(--text-primary);">datos biométricos</div>
+            <div style="display:grid; gap:var(--space-4);">
+              <div style="display:flex; gap:var(--space-4); align-items:flex-start;">
+                <i data-lucide="credit-card"></i>
+                <div style="font-size:13px; color:var(--ink-72); line-height:1.5;">Foto de tu cédula, por ambas caras.</div>
+              </div>
+              <div style="display:flex; gap:var(--space-4); align-items:flex-start;">
+                <i data-lucide="scan-face"></i>
+                <div style="font-size:13px; color:var(--ink-72); line-height:1.5;">Una selfie con prueba de vida, para compararla con la cédula.</div>
+              </div>
+            </div>
+            <div style="border-top:var(--border); padding-top:var(--space-5); display:grid; gap:var(--space-3); font-size:13px; color:var(--ink-62); line-height:1.5;">
+              <div>{{ textoRetencion }}</div>
+              <div>{{ textoProteccion }}</div>
+              <div>Puedes retirar tu consentimiento desde Perfil.</div>
+            </div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Checkbox" label="Autorizo el tratamiento de mis datos biométricos" checked="{{ aceptaBio }}" onChange="{{ setAceptaBio }}" hint-size="100%,40px"></x-import>
+          </div>
+
+          <div style="border:var(--border); background:var(--surface-sunken); padding:var(--space-7); display:grid; gap:var(--space-4);">
+            <div style="font:var(--text-style-kicker); color:var(--text-primary);">ubicación</div>
+            <div style="font-size:13px; color:var(--ink-72); line-height:1.5;">Usamos tu ubicación solo cuando reportas un siniestro, para adjuntar dónde ocurrió. Es aparte del consentimiento biométrico y puedes negarla sin afectar el registro.</div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Checkbox" label="Permitir ubicación al reportar siniestros" description="Opcional" checked="{{ aceptaUbicacion }}" onChange="{{ setAceptaUbicacion }}" hint-size="100%,52px"></x-import>
+          </div>
+
+          <div style="display:grid; gap:var(--space-4);">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" disabled="{{ sinAceptar }}" onClick="{{ irCedula }}" hint-size="100%,48px">Aceptar y continuar</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ irNoContinuar }}" hint-size="100%,48px">No acepto</x-import>
+          </div>
+
+          <div style="border-top:var(--border); padding-top:var(--space-5); display:flex; justify-content:space-between; align-items:center; gap:var(--space-4);">
+            <a href="./app-solventa.dc.html#politica" style="font-size:13px; font-weight:500;">Leer política de tratamiento de datos</a>
+            <span style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">Versión {{ versionPolitica }}</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vNoContinuar }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--status-rejected-bg); color:var(--status-rejected-ink); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="hand"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">No podemos continuar</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Sin tu autorización para tratar los datos biométricos no podemos verificar tu identidad, y sin eso no podemos activar la app en este teléfono.</p>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Puedes seguir usando Solventa desde el canal web.</p>
+          </div>
+          <div style="display:grid; gap:var(--space-4);">
+            <a href="../web/cliente.dc.html#login" style="text-decoration:none;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Continuar en el canal web</x-import>
+            </a>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" hint-size="100%,48px">Hablar con soporte</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="ghost" onClick="{{ irConsentimiento }}" hint-size="100%,48px">Volver</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vCedula }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:start;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasos }}" current="{{ 1 }}" hint-size="100%,40px"></x-import>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12;">Foto de tu cédula</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Ponla sobre una superficie plana, sin reflejos.</p>
+          </div>
+          <div style="position:relative; background:var(--surface-sunken); border:var(--border); min-height:200px; display:flex; align-items:center; justify-content:center; color:var(--ink-50); font-family:var(--font-mono); font-size:var(--size-mono-sm);">
+            cara frontal
+            <div style="position:absolute; top:12px; left:12px; width:20px; height:20px; border-top:2px solid var(--ink-50); border-left:2px solid var(--ink-50);"></div>
+            <div style="position:absolute; bottom:12px; right:12px; width:20px; height:20px; border-bottom:2px solid var(--ink-50); border-right:2px solid var(--ink-50);"></div>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ irPermiso }}" hint-size="100%,48px">Tomar la foto</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vPermiso }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--surface-sunken); color:var(--ink-80); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="camera"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12;">Necesitamos tu cámara</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">La usamos una sola vez, para grabar la prueba de vida y compararla con tu cédula. No grabamos video ni audio fuera de ese momento.</p>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="cámara frontal" hint-size="100%,88px">Vas a usar la cámara frontal. Tu selfie no se guarda en tu teléfono.</x-import>
+          <div style="display:grid; gap:var(--space-4);">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ irLiveness }}" hint-size="100%,48px">Permitir</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ irNoContinuar }}" hint-size="100%,48px">Ahora no</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vLiveness }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:start;">
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.ProgressSteps" steps="{{ pasos }}" current="{{ 2 }}" hint-size="100%,40px"></x-import>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12;">{{ gestoTitulo }}</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Cámara frontal. Mantén el rostro dentro del marco.</p>
+          </div>
+          <div style="position:relative; background:var(--surface-sunken); border:var(--border); min-height:260px; display:flex; align-items:center; justify-content:center;">
+            <div style="width:170px; height:220px; border:2px solid var(--ink-50); border-radius:50% / 42%;"></div>
+            <div style="position:absolute; bottom:10px; left:10px; background:var(--surface-inverse); color:var(--text-on-inverse); font-family:var(--font-mono); font-size:var(--size-mono-sm); padding:3px 7px;">cámara frontal</div>
+          </div>
+          <div style="display:flex; gap:var(--space-4); flex-wrap:wrap;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="secondary" size="sm" onClick="{{ otroGesto }}" hint-size="auto,32px">Probar otro gesto</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" variant="ghost" size="sm" onClick="{{ irErrorRed }}" hint-size="auto,32px">Simular falla de red</x-import>
+          </div>
+          <div style="font-size:13px; color:var(--ink-55); line-height:1.5;">Tu selfie no se guarda en tu teléfono.</div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ resolver }}" hint-size="100%,48px">Listo</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vErrorRed }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--surface-sunken); color:var(--ink-80); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="wifi-off"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12;">No pudimos verificarte ahora</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Revisa tu conexión e inténtalo de nuevo.</p>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="no cuenta como intento" hint-size="100%,88px">Sigues con {{ intentosRestantes }} intentos de verificación disponibles.</x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ irLiveness }}" hint-size="100%,48px">Intentar de nuevo</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vVerificado }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--status-active-bg); color:var(--status-active-ink); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="check"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Este dispositivo quedó vinculado a tu cuenta</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Ya puedes ver tus pólizas y reportar siniestros desde aquí.</p>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.KeyValue" items="{{ itemsVinculacion }}" hint-size="100%,120px"></x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ irBiometria }}" hint-size="100%,48px">Continuar</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vNoVerificado }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--status-rejected-bg); color:var(--status-rejected-ink); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="x"></i>
+          </div>
+          <div>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Badge" tone="rejected" hint-size="auto,24px">{{ etiquetaIntento }}</x-import>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1; margin-top:var(--space-5);">No pudimos confirmar que eres tú</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">La selfie no coincidió con la foto de tu cédula. Busca un lugar con más luz y mira de frente a la cámara.</p>
+          </div>
+          <div style="display:grid; gap:var(--space-4);">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ irLiveness }}" hint-size="100%,48px">Intentar de nuevo</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" hint-size="100%,48px">Hablar con soporte</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vAgotado }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--status-rejected-bg); color:var(--status-rejected-ink); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="lock"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Se acabaron los intentos</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Usaste los 3 intentos de verificación. Para activar este teléfono necesitamos validar tu identidad con una persona del equipo.</p>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Hablar con soporte</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vBiometria }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--surface-sunken); color:var(--ink-80); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="fingerprint"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">{{ tituloBiometria }}</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Así entras a la app sin escribir tu contraseña cada vez.</p>
+          </div>
+          <div style="display:grid; gap:var(--space-4);">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" onClick="{{ irDialogo }}" hint-size="100%,48px">Activar</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="secondary" onClick="{{ irAhoraNo }}" hint-size="100%,48px">Ahora no</x-import>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="ghost" onClick="{{ irSinBiometria }}" hint-size="100%,40px">Simular teléfono sin biometría</x-import>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vSinBiometria }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div style="width:44px; height:44px; border-radius:50%; background:var(--surface-sunken); color:var(--ink-80); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="fingerprint"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12;">Tu teléfono no tiene huella o rostro configurados</div>
+            <p style="font-size:var(--size-body-sm); color:var(--ink-72); line-height:1.55; margin:var(--space-4) 0 0;">Puedes configurarlos en los ajustes del teléfono y activarlo después desde Perfil.</p>
+          </div>
+          <a href="./acceso.dc.html#contrasena" style="text-decoration:none;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Usar contraseña</x-import>
+          </a>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vAhoraNo }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:var(--space-9); display:grid; gap:var(--space-7); align-content:center; min-height:560px;">
+          <div>
+            <div style="font-family:var(--font-display); font-weight:600; font-size:28px; line-height:1.1;">Entra con tu contraseña</div>
+          </div>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Callout" tone="info" title="lo activas cuando quieras" hint-size="100%,88px">Puedes activarlo después en Perfil, en la sección Seguridad.</x-import>
+          <x-import component-from-global-scope="SolventaDesignSystem_0139be.Field" label="Contraseña" hint-size="100%,88px">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Input" size="lg" type="{{ tipoClave }}" default-value="tucontraseña" hint-size="100%,48px"></x-import>
+          </x-import>
+          <button onClick="{{ toggleClave }}" style="justify-self:start; background:none; border:0; padding:0; cursor:pointer; font-family:var(--font-body); font-size:13px; color:var(--text-primary); margin-top:calc(var(--space-5) * -1);">{{ etiquetaVerClave }}</button>
+          <a href="./app-solventa.dc.html#billetera" style="text-decoration:none;">
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Entrar</x-import>
+          </a>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <sc-if value="{{ vDialogo }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; inset:0; background:rgba(16,27,45,0.55); display:flex; align-items:flex-end;">
+        <div style="width:100%; background:var(--surface-base); border-top:var(--border-width) solid var(--line-strong); padding:var(--space-9); display:grid; gap:var(--space-6); justify-items:center; text-align:center;">
+          <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">diálogo del sistema</div>
+          <i data-lucide="fingerprint" style="width:32px; height:32px;"></i>
+          <div style="font-size:17px; font-weight:500;">Solventa quiere usar tu huella</div>
+          <div style="font-size:13px; color:var(--ink-62); line-height:1.5; max-width:34ch;">Pon el dedo en el sensor para confirmar.</div>
+          <div style="display:grid; gap:var(--space-4); width:100%;">
+            <a href="./app-solventa.dc.html#billetera" style="text-decoration:none;">
+              <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" hint-size="100%,48px">Confirmar</x-import>
+            </a>
+            <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" size="lg" variant="ghost" onClick="{{ irBiometria }}" hint-size="100%,48px">Cancelar</x-import>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <div style="width:320px; padding-top:8px; display:grid; gap:var(--space-6); align-content:start;">
+    <div>
+      <div style="font:var(--text-style-kicker); color:var(--text-primary);">recorrido</div>
+      <div style="font-family:var(--font-display); font-weight:600; font-size:22px; margin-top:4px; line-height:1.15;">Activación del teléfono</div>
+      <p style="font-size:var(--size-body-sm); color:var(--ink-72); max-width:40ch; line-height:1.55;">Inicio de sesión, consentimiento, cédula y prueba de vida. El resultado depende del desenlace que elijas abajo.</p>
+    </div>
+    <div style="display:grid; gap:var(--space-4);">
+      <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">desenlace de la verificación</div>
+      <x-import component-from-global-scope="SolventaDesignSystem_0139be.RadioGroup" options="{{ desenlaces }}" value="{{ desenlace }}" onChange="{{ setDesenlace }}" hint-size="100%,110px"></x-import>
+    </div>
+    <div style="display:grid; gap:var(--space-4); border-top:var(--border); padding-top:var(--space-6);">
+      <div style="font-family:var(--font-mono); font-size:var(--size-mono-sm); color:var(--ink-50);">pantallas</div>
+      <sc-for list="{{ atajos }}" as="a" hint-placeholder-count="12">
+        <x-import component-from-global-scope="SolventaDesignSystem_0139be.Button" full="{{ true }}" variant="secondary" size="sm" onClick="{{ a.onClick }}" hint-size="100%,32px">{{ a.label }}</x-import>
+      </sc-for>
+    </div>
+    <div style="border-top:var(--border); padding-top:var(--space-6); display:grid; gap:var(--space-3); font-size:var(--size-body-sm);">
+      <a href="./index.dc.html" style="display:inline-flex; align-items:center; gap:6px;"><i data-lucide="arrow-left"></i> Mapa de navegación móvil</a>
+      <a href="./acceso.dc.html" style="display:inline-flex; align-items:center; gap:6px;">Acceso recurrente <i data-lucide="arrow-right"></i></a>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:800,&quot;height&quot;:790}}">
+class Component extends DCLogic {
+  state = {
+    vista: 'login', correo: null, verClave: false,
+    aceptaBio: false, aceptaUbicacion: true,
+    gesto: 0, intento: 1, desenlace: 'Verificado',
+  };
+
+  componentDidMount() {
+    const h = (location.hash || '').replace('#', '');
+    const validas = ['login', 'no-cuenta', 'consentimiento', 'no-continuar', 'cedula', 'permiso', 'liveness', 'error-red', 'verificado', 'no-verificado', 'agotado', 'biometria', 'sin-biometria', 'ahora-no', 'dialogo'];
+    if (validas.indexOf(h) !== -1) this.setState({ vista: h });
+    this.icons();
+  }
+  componentDidUpdate() { this.icons(); }
+  icons() { if (window.lucide) window.lucide.createIcons({ attrs: { width: 18, height: 18, 'stroke-width': 1.75 } }); }
+
+  datos() { return window.SOLVENTA_DATOS || { cliente: {}, politica: {}, onboarding: {} }; }
+  ir(v) { this.setState({ vista: v }); }
+
+  renderVals() {
+    const D = this.datos();
+    const C = D.cliente || {};
+    const ON = D.onboarding || {};
+    const v = this.state.vista;
+    const correo = this.state.correo === null ? (C.correo || '') : this.state.correo;
+    const conocido = correo === C.correo;
+    const gestos = ['Parpadea ahora', 'Gira despacio la cabeza a la derecha'];
+
+    const titulos = {
+      login: ['acceso', 'Inicia sesión'],
+      'no-cuenta': ['acceso', 'Sin cuenta'],
+      consentimiento: ['activación', 'Paso 1 de 3'],
+      'no-continuar': ['activación', 'Sin consentimiento'],
+      cedula: ['activación', 'Paso 2 de 3'],
+      permiso: ['activación', 'Permiso de cámara'],
+      liveness: ['activación', 'Paso 3 de 3'],
+      'error-red': ['activación', 'Sin conexión'],
+      verificado: ['activación', 'Verificado'],
+      'no-verificado': ['activación', 'No verificado'],
+      agotado: ['activación', 'Intentos agotados'],
+      biometria: ['seguridad', 'Biometría'],
+      'sin-biometria': ['seguridad', 'Biometría'],
+      'ahora-no': ['seguridad', 'Contraseña'],
+      dialogo: ['seguridad', 'Biometría'],
+    };
+    const t = titulos[v] || ['', ''];
+
+    const atajo = (label, vista) => ({ label, onClick: () => this.ir(vista) });
+
+    return {
+      topKicker: t[0], topTitle: t[1],
+      vLogin: v === 'login',
+      vNoCuenta: v === 'no-cuenta',
+      vConsentimiento: v === 'consentimiento',
+      vNoContinuar: v === 'no-continuar',
+      vCedula: v === 'cedula',
+      vPermiso: v === 'permiso',
+      vLiveness: v === 'liveness',
+      vErrorRed: v === 'error-red',
+      vVerificado: v === 'verificado',
+      vNoVerificado: v === 'no-verificado',
+      vAgotado: v === 'agotado',
+      vBiometria: v === 'biometria' || v === 'dialogo',
+      vSinBiometria: v === 'sin-biometria',
+      vAhoraNo: v === 'ahora-no',
+      vDialogo: v === 'dialogo',
+
+      pasos: ['Permisos', 'Cédula', 'Selfie'],
+      correoEscrito: correo,
+      setCorreo: (e) => this.setState({ correo: e.target ? e.target.value : e }),
+      tipoClave: this.state.verClave ? 'text' : 'password',
+      etiquetaVerClave: this.state.verClave ? 'Ocultar contraseña' : 'Ver contraseña',
+      toggleClave: () => this.setState({ verClave: !this.state.verClave }),
+      entrar: () => this.ir(conocido ? 'consentimiento' : 'no-cuenta'),
+
+      versionPolitica: (D.politica || {}).version,
+      textoRetencion: 'Guardamos estos datos ' + ((D.politica || {}).retencion || '') + '.',
+      textoProteccion: (D.politica || {}).proteccion,
+      aceptaBio: this.state.aceptaBio,
+      setAceptaBio: (c) => this.setState({ aceptaBio: c }),
+      aceptaUbicacion: this.state.aceptaUbicacion,
+      setAceptaUbicacion: (c) => this.setState({ aceptaUbicacion: c }),
+      sinAceptar: !this.state.aceptaBio,
+
+      gestoTitulo: gestos[this.state.gesto],
+      otroGesto: () => this.setState({ gesto: this.state.gesto === 0 ? 1 : 0 }),
+      intentosRestantes: (ON.maxIntentos || 3) - this.state.intento + 1,
+      etiquetaIntento: 'Intento ' + this.state.intento + ' de ' + (ON.maxIntentos || 3),
+
+      itemsVinculacion: [
+        { label: 'Folio', value: ON.folio, mono: true },
+        { label: 'Fecha', value: ON.fechaVinculacion, mono: true },
+        { label: 'Dispositivo', value: ON.dispositivo },
+      ],
+
+      tituloBiometria: 'Activa huella o rostro',
+      desenlaces: ['Verificado', 'No verificado', 'Intentos agotados'],
+      desenlace: this.state.desenlace,
+      setDesenlace: (d) => this.setState({ desenlace: d, intento: d === 'Intentos agotados' ? 3 : 1 }),
+      resolver: () => {
+        const d = this.state.desenlace;
+        if (d === 'Verificado') return this.ir('verificado');
+        if (d === 'Intentos agotados') return this.setState({ vista: 'agotado', intento: 3 });
+        return this.setState({ vista: 'no-verificado', intento: Math.min(this.state.intento, 3) });
+      },
+
+      irLogin: () => this.ir('login'),
+      irConsentimiento: () => this.ir('consentimiento'),
+      irNoContinuar: () => this.ir('no-continuar'),
+      irCedula: () => this.ir('cedula'),
+      irPermiso: () => this.ir('permiso'),
+      irLiveness: () => this.ir('liveness'),
+      irErrorRed: () => this.ir('error-red'),
+      irBiometria: () => this.ir('biometria'),
+      irDialogo: () => this.ir('dialogo'),
+      irSinBiometria: () => this.ir('sin-biometria'),
+      irAhoraNo: () => this.ir('ahora-no'),
+
+      atajos: [
+        atajo('1 · Inicia sesión', 'login'),
+        atajo('No encontramos tu cuenta', 'no-cuenta'),
+        atajo('2 · Consentimiento', 'consentimiento'),
+        atajo('No podemos continuar', 'no-continuar'),
+        atajo('3 · Cédula', 'cedula'),
+        atajo('4 · Permiso de cámara', 'permiso'),
+        atajo('5 · Prueba de vida', 'liveness'),
+        atajo('Falla de red', 'error-red'),
+        atajo('Verificado', 'verificado'),
+        atajo('No verificado', 'no-verificado'),
+        atajo('Intentos agotados', 'agotado'),
+        atajo('6 · Activar biometría', 'biometria'),
+        atajo('Diálogo del sistema', 'dialogo'),
+        atajo('Sin biometría en el teléfono', 'sin-biometria'),
+        atajo('Ahora no · contraseña', 'ahora-no'),
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
